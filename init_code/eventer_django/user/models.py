@@ -7,9 +7,6 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 import uuid
 
-
-default_user_path = 'media/user/'
-
 def user_dictory(instance, filename):
     filename  = 'media/user/' + '{}.png'.format(uuid.uuid4())
     print(filename)
@@ -28,4 +25,4 @@ class User(models.Model):
     
     # default UTC time in settings.py
     create_time = models.DateTimeField(auto_now_add = True)
-    picture = ProcessedImageField(upload_to = user_dictory, default = default_user_path + 'default.png', processors = [ResizeToFill(100, 100)])
+    picture = ProcessedImageField(upload_to = user_dictory, default = 'media/user/default.png', processors = [ResizeToFill(100, 100)])

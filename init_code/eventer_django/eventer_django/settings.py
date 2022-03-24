@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'user',
+    'activity',
     # for picture
-    'imagekit'
+    'imagekit',
+    
+    # fro richtext
+    'ckeditor'
     
 ]
 
