@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     
     'user',
     'activity',
+    'comment_activity',
+    
     # for picture
     'imagekit',
     
