@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'post',
-
+    'comment_post',
     'user',
     'activity',
     'comment_activity',
