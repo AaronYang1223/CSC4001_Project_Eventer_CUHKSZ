@@ -15,5 +15,5 @@ class Post(models.Model):
     post_content = RichTextField()
     comment_number = models.IntegerField(default = 0)
     #cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'media/activicity/default.png', processors = [ResizeToFill(1920, 960)])
-    create_time = models.DateTimeField(auto_now = True)
+    create_time = models.DateTimeField(auto_now_add = True)
     is_delete = models.BooleanField(default=False)
