@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'rest_framework',
+
+    'post',
+
     'user',
     'activity',
     'comment_activity',
@@ -46,7 +49,7 @@ INSTALLED_APPS = [
     'imagekit',
     
     # fro richtext
-    'ckeditor'
+    'ckeditor',
     
 ]
 
