@@ -13,8 +13,9 @@ def cover_dictory(instance, filename):
 class Activity(models.Model):
         
     tag = models.CharField(max_length = 32)
-    start_time = models.DateTimeField(auto_now = True)
-    end_time = models.DateTimeField(auto_now = True)
+    # start_time = models.DateTimeField(auto_now = True, editable = True)
+    start_time = models.DateTimeField(editable = True)
+    end_time = models.DateTimeField(editable = True)
     title = models.CharField(max_length = 256)
     content = RichTextField()
     comment_number = models.IntegerField(default = 0)

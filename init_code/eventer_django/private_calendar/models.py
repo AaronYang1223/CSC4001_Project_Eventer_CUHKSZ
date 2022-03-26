@@ -9,5 +9,6 @@ class Private_calendar(models.Model):
     # show calendar
     activity_title = models.CharField(max_length = 256, default = 'None')
     
-    activity_date = models.DateField(auto_now = True)
+    activity_start_date = models.DateTimeField(editable = True)
+    activity_end_date = models.DateTimeField(editable = True)
     is_detele = models.BooleanField(default = False)
