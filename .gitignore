@@ -104,7 +104,9 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
-
+eventer_env/
+eventer_env_lyy/
+env_lyy/
 # mkdocs documentation 
 /site 
 
@@ -127,6 +129,12 @@ Control.ca-list
 Control.ca-bundle 
 Control.system-ca-bundle 
 GitHub.sublime-settings 
+
+
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
 
 # Visual Studio Code # 
 .vscode/* 
