@@ -8,7 +8,7 @@ from imagekit.processors import ResizeToFill
 import uuid
 
 def user_dictory(instance, filename):
-    filename  = 'media/user/' + '{}.png'.format(uuid.uuid4())
+    filename  = 'user/' + '{}.png'.format(uuid.uuid4())
     print(filename)
     return filename
 
@@ -18,6 +18,7 @@ class User(models.Model):
     # django default 
     # id = models.AutoField(primary_key = True)
     email = models.EmailField()
+    password = models.CharField(max_length = 1024, default = '123456')
     first_name = models.CharField(max_length = 256)
     last_name = models.CharField(max_length = 256)
     nick_name = models.CharField(max_length = 256)
@@ -25,4 +26,4 @@ class User(models.Model):
     
     # default UTC time in settings.py
     create_time = models.DateTimeField(auto_now_add = True)
-    picture = ProcessedImageField(upload_to = user_dictory, default = 'media/user/default.png', processors = [ResizeToFill(100, 100)])
+    picture = ProcessedImageField(upload_to = user_dictory, default = 'user/default.png', processors = [ResizeToFill(100, 100)])
