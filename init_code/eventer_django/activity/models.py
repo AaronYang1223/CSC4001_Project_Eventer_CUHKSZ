@@ -21,5 +21,7 @@ class Activity(models.Model):
     cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'media/activicity/default.png', processors = [ResizeToFill(1920, 960)])
     participant_num = models.IntegerField(default = 0)
     max_participant_num = models.IntegerField(default = 0)
-    create_time = models.DateTimeField(auto_now = True)
+    create_time = models.DateTimeField(auto_now_add = True)
     is_public = models.BooleanField(default = False)
+    is_delete = models.BooleanField(default = False)
+    is_outdate = models.BooleanField(default = False)

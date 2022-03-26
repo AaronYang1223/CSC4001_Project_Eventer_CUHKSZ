@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'score_activity',
     'post',
     'post_comment',
+    'private_calendar',
+    'public_calendar',
+    
     
     'ckeditor',
     'imagekit',
@@ -117,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
