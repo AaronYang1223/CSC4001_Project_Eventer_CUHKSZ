@@ -16,4 +16,41 @@ def profile(request, pk):
     if (request.method == 'GET'):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
+
+@csrf_exempt
+def profile_change(request, pk):
     
+    try:
+        user = User.objects.get(pk = pk)
+    except:
+        return HttpResponse(status = 404)
+    
+    # do not limit is_organization
+    if (request.method == 'PUT'):
+        data = JSONParser().parse(request)
+        
+        # may need change status code
+        if (data['is_orginazation'] != user.is_orginazation):
+            return HttpResponse(status = 400)
+            
+        serializers = User_profile_serializer(user, data = data)
+        if (serializers.is_valid()):
+            serializers.save()
+            return JsonResponse(serializers.data, status = 201)
+        return JsonResponse(serializers.errors, status = 400)
+
+@csrf_exempt
+def profile_add(request):
+
+    if (request.method == 'POST'):
+        data = JSONParser().parse(request)
+        if (data['is_orginazation'] != True):
+            check_organization(data)
+        serializers = User_profile_serializer(data = data)
+        if (serializers.is_valid()):
+            serializers.save()
+            return JsonResponse(serializers.data, status = 201)
+        return JsonResponse(serializers.errors, status = 400)
+
+def check_organization(request):
+    pass
