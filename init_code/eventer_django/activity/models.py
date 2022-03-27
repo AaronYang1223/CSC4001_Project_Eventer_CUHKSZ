@@ -14,6 +14,7 @@ def cover_dictory(instance, filename):
 class Activity(models.Model):
         
     tag = models.CharField(max_length = 32)
+    organizer_id = models.ForeignKey('user.User', on_delete = models.CASCADE, related_name = 'originizer_id', default = 1)
     # start_time = models.DateTimeField(auto_now = True, editable = True)
     start_time = models.DateTimeField(editable = True)
     end_time = models.DateTimeField(editable = True)
