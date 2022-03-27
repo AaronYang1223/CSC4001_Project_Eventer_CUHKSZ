@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
-from .serializers import Activity_comment_serializer, Comment_activity_list_serializer
-from .models import Activity_comment, Like_activity_comment, Comment_activity_list, Comment_activity_list
+from .serializers import Activity_comment_serializer
+from .models import Activity_comment, Like_activity_comment
 
 @csrf_exempt
 def activity_comment(request, activity_id):

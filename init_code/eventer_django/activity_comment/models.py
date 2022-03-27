@@ -7,7 +7,7 @@ from ckeditor.fields import RichTextField
 class Activity_comment(models.Model):
     
     user_id = models.ForeignKey('user.User', on_delete = models.CASCADE)
-    
+    activity_id = models.ForeignKey('activity.Activity', on_delete = models.CASCADE, default = 1)
     content = RichTextField()
     like_num = models.IntegerField(default = 0)
     dislike_num = models.IntegerField(default = 0)
@@ -32,9 +32,4 @@ class Like_activity_comment(models.Model):
     is_like = models.CharField(max_length = 1, choices = LIKE_STATE, default = CANCEL)
     is_delete = models.BooleanField(default = False)
 
-class Comment_activity_list(models.Model):
-    
-    activity_id = models.ForeignKey('activity.Activity', on_delete = models.CASCADE)
-    comment_id = models.ForeignKey(Activity_comment, on_delete = models.CASCADE)
-    is_delete = models.BooleanField(default = False)
 
