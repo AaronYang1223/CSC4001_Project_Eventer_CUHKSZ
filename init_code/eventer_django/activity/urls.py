@@ -12,4 +12,5 @@ urlpatterns = [
     # which should be xxxx-xx-xx
     path('activity/order/start_date/<int:num>', views.activity_order_start_date),
     path('activity/order/create_date/<int:num>', views.activity_order_create_date),
+    path('activity/order/comment_number/<int:numn>', views.activity_order_comment_number),
 ]
