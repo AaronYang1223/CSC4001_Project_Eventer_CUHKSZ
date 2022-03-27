@@ -8,16 +8,11 @@ from post.models import Post
 class Post_comment(models.Model):
     
     user_id = models.ForeignKey(User, on_delete = models.CASCADE)
-    #post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment', default = 1)
     content = RichTextField()
     like_num = models.IntegerField(default = 0)
     dislike_num = models.IntegerField(default = 0)
     create_time = models.DateTimeField(auto_now_add = True)
-    is_delete = models.BooleanField(default = False)
-
-class Comment_post_list(models.Model):
-    post_id = models.ForeignKey(Post, on_delete = models.CASCADE)
-    comment_id = models.ForeignKey(Post_comment, on_delete = models.CASCADE)
     is_delete = models.BooleanField(default = False)
 
 class Like_post_comment(models.Model):

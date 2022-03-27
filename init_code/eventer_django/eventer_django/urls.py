@@ -31,5 +31,6 @@ urlpatterns = [
     path('api/', include('activity.urls')),
     path('api/', include('activity_comment.urls')),
     path('api/', include('score_activity.urls')),
-    path('api/', include('post.urls'),)
+    path('api/', include('post.urls')),
+    path('api/', include('post_comment.urls')),
 ]

@@ -16,3 +16,4 @@ def profile(request, pk):
     if (request.method == 'GET'):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
+    
