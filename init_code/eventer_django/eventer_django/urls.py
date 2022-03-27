@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/', include('private_calendar.urls')),
     path('api/', include('public_calendar.urls')),
     path('api/', include('activity.urls')),
+    path('api/', include('activity_comment.urls')),
 ]
