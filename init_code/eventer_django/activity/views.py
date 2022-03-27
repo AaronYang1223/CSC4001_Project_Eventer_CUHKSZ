@@ -58,6 +58,21 @@ def activity_order_part_max(request, num):
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
 @csrf_exempt
+def activity_order_score(request, num):
+    
+    if (num <= 0):
+        return HttpResponse(status = 404)
+    
+    try:
+        activities = Activity.objects.filter(is_outdate = True).order_by('-score_avg')[:num]
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+@csrf_exempt
 def activity_order_start_date(request, num):
     
     if (num <= 0):

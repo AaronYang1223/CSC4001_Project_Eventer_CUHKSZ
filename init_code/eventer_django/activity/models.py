@@ -1,3 +1,5 @@
+from pyexpat import model
+from wsgiref.validate import validator
 from django.db import models
 from ckeditor.fields import RichTextField
 from imagekit.models import ProcessedImageField
@@ -32,6 +34,12 @@ class Activity(models.Model):
                                             MaxValueValidator(1.0),
                                         ])
     create_time = models.DateTimeField(auto_now_add = True)
+    score_avg = models.FloatField(default = 0.0,
+                                    validators = [
+                                        MinValueValidator(0.0),
+                                        MaxValueValidator(10.0),
+                                    ])
+    score_num = models.IntegerField(default = 0)
     is_public = models.BooleanField(default = False)
     is_delete = models.BooleanField(default = False)
     is_outdate = models.BooleanField(default = False)
