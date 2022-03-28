@@ -2,6 +2,7 @@
 *.log
 *.pot
 *.pyc
+*.cpython-38.pyc
 __pycache__
 db.sqlite3
 media
@@ -104,8 +105,8 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
-eventer_env/
-eventer_env_lyy/
+init_code/eventer_env/
+init_code/eventer_env_lyy/
 env_lyy/
 # mkdocs documentation 
 /site 
