@@ -145,3 +145,8 @@ db.sqlite3-journal
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+*.pyc
+*.pyc
+*.pyc
+init_code/eventer_django/score_activity/__pycache__/admin.cpython-38.pyc
+init_code/eventer_django/score_activity/__pycache__/apps.cpython-38.pyc
