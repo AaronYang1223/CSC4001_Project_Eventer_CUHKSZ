@@ -3,7 +3,8 @@
 *.pot
 *.pyc
 *.cpython-38.pyc
-__pycache__
+init_code/eventer_django/activity_comment/__pycache__/
+init_code/eventer_django/activity_comment/__pycache__/__init__.cpython-38.pyc
 db.sqlite3
 media
 
@@ -150,3 +151,7 @@ db.sqlite3-journal
 *.pyc
 init_code/eventer_django/score_activity/__pycache__/admin.cpython-38.pyc
 init_code/eventer_django/score_activity/__pycache__/apps.cpython-38.pyc
+init_code/eventer_django/activity_comment/__pycache__/__init__.cpython-38.pyc
+*.pyc
+init_code/eventer_django/activity_comment/__pycache__/__init__.cpython-38.pyc
+init_code/eventer_django/activity_comment/__pycache__/apps.cpython-38.pyc
