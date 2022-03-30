@@ -35,10 +35,10 @@
                   <CalendarCom />
                 </v-card>
                 <v-card v-if="i == 2" flat>
-                  <v-card-text>Posts</v-card-text>
+                  <PostsCom />
                 </v-card>
                 <v-card v-if="i == 3" flat>
-                  <v-card-text>Events</v-card-text>
+                  <EventsCom />
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -46,15 +46,18 @@
           </v-card>
         </v-col>
 
+        <!-- 确定这个part的手机端适配方式：隐藏？ -->
         <v-col 
           cols="12" xs="12" sm="4" md="4"
+          
         >
           <v-card
             class="pa-2 mx-1 mt-2"
             outlined
             tile
           >
-            .col-6<br>Subsequent columns continue along the new line.
+            <WeatherCom />
+            <NewsCom />
           </v-card>
         </v-col>
       </v-row>
@@ -64,10 +67,14 @@
 
 <script>
 import CalendarCom from '@/components/CalendarCom'
+import PostsCom from '@/components/PostsCom'
+import EventsCom from '@/components/EventsCom'
+import WeatherCom from '@/components/WeatherCom'
+import NewsCom from '@/components/NewsCom'
 
 export default {
   name: 'HomepageView',
-  components: { CalendarCom },
+  components: { CalendarCom, PostsCom, EventsCom, WeatherCom, NewsCom},
   data () {
     return {
       tab: null,

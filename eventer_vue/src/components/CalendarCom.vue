@@ -1,3 +1,5 @@
+// TODO:在功能上考虑和event的结合程度
+
 <template>
   <v-row class="fill-height">
     <v-col>
