@@ -17,6 +17,7 @@ def profile(request, pk):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
 
+# for put method, need to include all fields without default values
 @csrf_exempt
 def profile_change(request, pk):
     
@@ -30,8 +31,12 @@ def profile_change(request, pk):
         data = JSONParser().parse(request)
         
         # may need change status code
-        if (data['is_orginazation'] != user.is_orginazation):
+        if ('is_orginazation' in data and data['is_orginazation'] != user.is_orginazation):
             return HttpResponse(status = 400)
+
+        if ('email' in data and data['email'] != user.email):
+            return HttpResponse(status = 400)
+        
             
         serializers = User_profile_serializer(user, data = data)
         if (serializers.is_valid()):

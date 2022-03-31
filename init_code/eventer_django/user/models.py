@@ -10,7 +10,6 @@ import uuid
 
 def user_dictory(instance, filename):
     filename  = 'user/' + '{}.png'.format(uuid.uuid4())
-    print(filename)
     return filename
 
 # Create your models here.
