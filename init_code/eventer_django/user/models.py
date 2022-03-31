@@ -2,6 +2,7 @@ from distutils.command.upload import upload
 from statistics import mode
 from time import timezone
 from xml.sax import default_parser_list
+from datetime import datetime
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -27,3 +28,10 @@ class User(models.Model):
     # default UTC time in settings.py
     create_time = models.DateTimeField(auto_now_add = True)
     picture = ProcessedImageField(upload_to = user_dictory, default = 'user/default.png', processors = [ResizeToFill(100, 100)])
+
+class Email_check_new(models.Model):
+    code = models.CharField(max_length=20, verbose_name='Verification Code')
+    email = models.EmailField(max_length=50, verbose_name='User Email')
+    send_time = models.DateTimeField(default=datetime.now, verbose_name='Send Time', null=True, blank=True)
+    exprie_time = models.DateTimeField(null=True)
+    email_type = models.CharField(choices=(('register', 'Registration'), ('forget', 'Retrieve Password')), max_length=10)
