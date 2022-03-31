@@ -24,6 +24,8 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+
+    path('captcha/', include('captcha.urls')),
     
     path('api/', include('user.urls')),
     path('api/', include('private_calendar.urls')),

@@ -44,7 +44,7 @@ def profile_add(request):
 
     if (request.method == 'POST'):
         data = JSONParser().parse(request)
-        if (data['is_orginazation'] != True):
+        if (data['is_orginazation'] == True):
             check_organization(data)
         serializers = User_profile_serializer(data = data)
         if (serializers.is_valid()):
