@@ -35,12 +35,12 @@ def profile_change(request, pk):
     if (request.method == 'PUT'):
         data = JSONParser().parse(request)
         
-        # may need change status code
-        if ('is_orginazation' in data and data['is_orginazation'] != user.is_orginazation):
-            return HttpResponse(status = 400)
+        # # may need change status code
+        # if ('is_orginazation' in data and data['is_orginazation'] != user.is_orginazation):
+        #     return HttpResponse(status = 404)
 
-        if ('email' in data and data['email'] != user.email):
-            return HttpResponse(status = 400)
+        # if ('email' in data and data['email'] != user.email):
+        #     return HttpResponse(status = 404)
         
         serializers = User_profile_serializer(user, data = data)
         if (serializers.is_valid()):

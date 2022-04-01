@@ -9,13 +9,33 @@ from .models import Post
 import datetime
 
 @csrf_exempt
-def create_activity_comment(request):
-    if(request.method=='POST'):
-        serializer=Post_serializer(data=request.data)
-        if serializer.is_valid():
+def post_create(request):
+    if (request.method == 'POST'):
+        serializer = Post_serializer(data=request.data)
+        if (serializer.is_valid()):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# user_id = models.ForeignKey(User, related_name = "post", on_delete = models.CASCADE)
+# post_tag = models.CharField(max_length = 32)
+# post_title = models.CharField(max_length = 256)
+# post_content = RichTextField()
+# comment_number = models.IntegerField(default = 0)
+    
+@csrf_exempt
+def post_change(request, pk):
+    try:
+        post = Post.objects.get(pk = pk)
+    except:
+        return HttpResponse(status = 404)
+    if (request.method == 'PUT'):
+        data = JSONParser().parse(request)
+        serializer = Post_serializer(post, data = data)
+        if (serializer.is_valid()):
+            serializer.save()
+            return JsonResponse(serializer.data, status = 201)
+        return JsonResponse(serializer.errors, status = 400)
+
 
 @csrf_exempt
 def post_pk(request, pk):

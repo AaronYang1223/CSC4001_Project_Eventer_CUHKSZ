@@ -8,7 +8,7 @@ import uuid
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 def cover_dictory(instance, filename):
-    filename  = 'media/activity/' + '{}.png'.format(uuid.uuid4())
+    filename  = 'activity/' + '{}.png'.format(uuid.uuid4())
     print(filename)
     return filename
 
@@ -23,7 +23,7 @@ class Activity(models.Model):
     title = models.CharField(max_length = 256)
     content = RichTextField()
     comment_number = models.IntegerField(default = 0)
-    cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'media/activicity/default.png', processors = [ResizeToFill(1920, 960)])
+    cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'activicity/default.png', processors = [ResizeToFill(1920, 1080)])
     participant_num = models.IntegerField(default = 0)
     max_participant_num = models.IntegerField(default = 1, 
                                                 validators = [

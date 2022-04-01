@@ -16,6 +16,7 @@ def create_activity_comment(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @csrf_exempt
 def activity_comment(request, activity_id):
     

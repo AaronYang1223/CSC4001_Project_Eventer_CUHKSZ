@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -8,6 +9,9 @@ from django.http import HttpResponse, JsonResponse
 from .serializers import Activity_serializer
 from .models import Activity
 import datetime
+from django.core.files.storage import FileSystemStorage
+
+# TODO: Change post function for uploading a cover page when create an activity
 
 @api_view(['GET'])
 def activity_list(request):
@@ -19,7 +23,7 @@ def activity_list(request):
 @api_view(['POST'])
 def create_activity(request):
     if request.method == 'POST':
-        serializer = Activity_serializer(data==request.data)
+        serializer = Activity_serializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -36,6 +40,40 @@ def activity_pk(request, pk):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activity)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+# for put method, need to include all fields without default values
+@csrf_exempt
+def activity_change_pk(request, pk):
+    try:
+        activity = Activity.objects.get(pk = pk)
+    except:
+        return HttpResponse(status = 404)
+    
+    # do not limit is_organization
+    if (request.method == 'PUT'):
+        data = JSONParser().parse(request)
+        
+        serializers = Activity_serializer(activity, data = data)
+        if (serializers.is_valid()):
+            serializers.save()
+            return JsonResponse(serializers.data, status = 201)
+        return JsonResponse(serializers.errors, status = 400)
+
+# TODO: complete this function
+@csrf_exempt
+def activity_upload_cover(request, pk):
+    try:
+        activity = Activity.objects.get(pk = pk)
+    except:
+        return HttpResponse(status = 404)
+    
+    print(request.FILES)
+    if (request.method == 'POST' and request.FILES):
+        activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
+        activity.cover_page.close()
+        return HttpResponse(status = 200)
+    else:
+        return HttpResponse(status = 404)
 
 @csrf_exempt
 def activity_tag(request, tag):
