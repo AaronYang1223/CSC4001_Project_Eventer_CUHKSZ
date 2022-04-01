@@ -42,7 +42,6 @@ def profile_change(request, pk):
         if ('email' in data and data['email'] != user.email):
             return HttpResponse(status = 400)
         
-            
         serializers = User_profile_serializer(user, data = data)
         if (serializers.is_valid()):
             serializers.save()
