@@ -23,6 +23,7 @@ def activity_list(request):
 @api_view(['POST'])
 def create_activity(request):
     if request.method == 'POST':
+        
         serializer = Activity_serializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
