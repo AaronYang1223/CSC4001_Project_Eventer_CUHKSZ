@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
+
+import public_calendar
 from .serializers import Activity_serializer
 from .models import Activity
 import datetime
@@ -13,22 +15,28 @@ from django.core.files.storage import FileSystemStorage
 
 # TODO: Change post function for uploading a cover page when create an activity
 
-@api_view(['GET'])
+@csrf_exempt
 def activity_list(request):
     if request.method == 'GET':
         activities = Activity.objects.all()
         serializer = Activity_serializer(activities, many=True)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data, safe = False)
 
-@api_view(['POST'])
-def create_activity(request):
+@csrf_exempt
+def activity_create(request):
     if request.method == 'POST':
-        
-        serializer = Activity_serializer(data = request.data)
+        data = JSONParser().parse(request)
+        serializer = Activity_serializer(data = data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+            
+            # add public calendar
+            res = public_calendar.views.calendar_add(serializer.data['id'], data['organizer_id'])
+            if (not res):
+                return JsonResponse('Can not add to private calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], data['organizer_id']), status = 400)
+            
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def activity_pk(request, pk):

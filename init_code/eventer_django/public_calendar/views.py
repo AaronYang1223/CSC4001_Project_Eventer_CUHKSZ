@@ -7,16 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from .serializers import Public_calendar_serializer
 from .models import Public_calendar
 import datetime
-
-
-@csrf_exempt
-def create_calendar_event(request):
-    if(request.method=='POST'):
-        serializer=Public_calendar_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from activity.models import Activity
 
 def calendar(request, start_date, end_date):
     
@@ -31,3 +22,21 @@ def calendar(request, start_date, end_date):
     if (request.method == 'GET'):
         serializer = Public_calendar_serializer(activities, many = True)
         return JsonResponse(serializer.data, safe = False)
+    
+    
+def calendar_add(activity_id, user_id) -> bool:
+    
+    activity = Activity.objects.get(id = activity_id)
+    data = {
+        'activity_id': activity_id,
+        'user_id': user_id,
+        'activity_title': activity.title,
+        'activity_start_date': activity.start_time,
+        'activity_end_date': activity.end_time
+    }
+    
+    serializer = Public_calendar_serializer(data = data)
+    if (serializer.is_valid()):
+        serializer.save()
+        return True
+    return False

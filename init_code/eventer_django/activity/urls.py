@@ -3,8 +3,8 @@ from . import views
 
 
 urlpatterns = [
-    path('activity/', views.activity_list),
-    path('activity/create/', views.create_activity),
+    path('activity/list', views.activity_list),
+    path('activity/create', views.activity_create),
     path('activity/<int:pk>', views.activity_pk),
     path('activity/change/<int:pk>', views.activity_change_pk),
     path('activity/upload/<int:pk>', views.activity_upload_cover),

@@ -1,3 +1,4 @@
+from selectors import EpollSelector
 from django.shortcuts import render
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
@@ -29,21 +30,29 @@ def participant_activity_add(request):
     
     if (request.method == 'POST'):
         data = JSONParser().parse(request)
-        
         serializers = Participant_Activity_serializer(data = data)
         if (serializers.is_valid()):
             participant_activity = Participant_Activity.objects.filter(user_id = data['user_id'], activity_id = data['activity_id'])
-            
+            activity = Activity.objects.get(id = data['activity_id'])
+
             if (len(participant_activity) != 0):
                 return JsonResponse('User {} already participant activity {}'.format(data['user_id'], data['activity_id']), status = 404, safe = False)
             
+            if (activity.participant_num >= activity.max_participant_num):
+                return JsonResponse('The number of participant is already full for activity: {}.'.format(data['activity_id']), status = 404, safe = False)
+            else:
+                activity.participant_num += 1
+                activity.part_max_num = activity.participant_num / activity.max_participant_num
+                activity.save()
+                
             serializers.save()
             
             # update calendar
             res = calendar_add(data['activity_id'], data['user_id'])
+            
             # can not add to private calendar
             if (not res):
-                return JsonResponse(serializers.errors, status = 400)
+                return JsonResponse('Can not add to private calendar, activity_id: {}, user_id: {}'.format(data['activity_id'], data['user_id']), status = 400)
             
             return JsonResponse(serializers.data, status = 201)
         return JsonResponse(serializers.errors, status = 400)
