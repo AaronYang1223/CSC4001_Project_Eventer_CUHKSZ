@@ -8,7 +8,7 @@ from rest_framework import status
 from .models import Post_comment, Like_post_comment
 
 @csrf_exempt
-def create_activity_comment(request):
+def post_comment_create(request):
     if (request.method=='POST'):
         data = JSONParser().parse(request)
         serializer = Post_comment_serializer(data = data)
@@ -53,6 +53,14 @@ def post_comment_like_add(request):
         if (serializers.is_valid()):
             serializers.save()
             
+            post_comment = Post_comment.objects.get(id = data['comment_id'])
+            if (serializers.data['is_like'] == '1'):
+                post_comment.like_num += 1
+            elif (serializers.data['is_like'] == '0'):
+                post_comment.dislike_num += 1
+            
+            post_comment.save()
+            
             return JsonResponse(serializers.data, status = 201, safe = False)
         return JsonResponse(serializers.errors, status = 400)
     elif (request.method == 'PUT'):
@@ -62,8 +70,26 @@ def post_comment_like_add(request):
         except:
             return HttpResponse(status = 404)
         
+        # update like number and dislike number
+        post_comment = Post_comment.objects.get(id = data['comment_id'])
+        if (data['is_like'] == '1' and like_post.is_like == '2'):
+            post_comment.like_num += 1
+        elif (data['is_like'] == '1' and like_post.is_like == '0'):
+            post_comment.like_num += 1
+            post_comment.dislike_num -= 1
+        elif (data['is_like'] == '0' and like_post.is_like == '2'):
+            post_comment.dislike_num += 1
+        elif (data['is_like'] == '0' and like_post.is_like == '1'):
+            post_comment.like_num -= 1
+            post_comment.dislike_num += 1
+        elif (data['is_like'] == '2' and like_post.is_like == '0'):
+            post_comment.dislike_num -= 1
+        elif (data['is_like'] == '2' and like_post.is_like == '1'):
+            post_comment.like_num -= 1
+        
         like_post.is_like = data['is_like']
         like_post.save()
+        post_comment.save()
         return JsonResponse('Change like status to {}.'.format(like_post.is_like), status = 201, safe = False)
     
     

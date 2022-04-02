@@ -8,7 +8,7 @@ from .models import Activity_comment, Like_activity_comment
 from rest_framework import status
 
 @csrf_exempt
-def create_activity_comment(request):
+def activity_comment_create(request):
     if(request.method == 'POST'):
         data = JSONParser().parse(request)
         serializer = Activity_comment_serializer(data = data)
@@ -54,6 +54,14 @@ def activity_comment_like_add(request):
         if (serializers.is_valid()):
             serializers.save()
             
+            activity_comment = Activity_comment.objects.get(id = data['comment_id'])
+            if (serializers.data['is_like'] == '1'):
+                activity_comment.like_num += 1
+            elif (serializers.data['is_like'] == '0'):
+                activity_comment.dislike_num += 1
+            
+            activity_comment.save()
+            
             return JsonResponse(serializers.data, status = 201, safe = False)
         return JsonResponse(serializers.errors, status = 400)
     elif (request.method == 'PUT'):
@@ -63,8 +71,28 @@ def activity_comment_like_add(request):
         except:
             return HttpResponse(status = 404)
         
+        # update like number and dislike number
+        activity_comment = Activity_comment.objects.get(id = data['comment_id'])
+        if (data['is_like'] == '1' and like_activity.is_like == '2'):
+            activity_comment.like_num += 1
+        elif (data['is_like'] == '1' and like_activity.is_like == '0'):
+            activity_comment.like_num += 1
+            activity_comment.dislike_num -= 1
+        elif (data['is_like'] == '0' and like_activity.is_like == '2'):
+            activity_comment.dislike_num += 1
+        elif (data['is_like'] == '0' and like_activity.is_like == '1'):
+            activity_comment.like_num -= 1
+            activity_comment.dislike_num += 1
+        elif (data['is_like'] == '2' and like_activity.is_like == '0'):
+            activity_comment.dislike_num -= 1
+        elif (data['is_like'] == '2' and like_activity.is_like == '1'):
+            activity_comment.like_num -= 1
+        
         like_activity.is_like = data['is_like']
         like_activity.save()
+        
+        activity_comment.save()
+
         return JsonResponse('Change like status to {}.'.format(like_activity.is_like), status = 201, safe = False)
     
 # if do not exit, add a default

@@ -8,5 +8,5 @@ urlpatterns = [
     path('post/comment/user/<int:pk>', user.views.profile),
     path('post/comment/like/add_change', views.post_comment_like_add),
     path('post/comment/like/<int:comment>/<int:user>', views.post_comment_like_get),
-    path('post/comment/create', views.create_activity_comment),
+    path('post/comment/create', views.post_comment_create),
 ]
