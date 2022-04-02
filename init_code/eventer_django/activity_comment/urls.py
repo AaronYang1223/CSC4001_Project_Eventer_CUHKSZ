@@ -8,4 +8,5 @@ urlpatterns = [
     path('activity/comment/user/<int:pk>', user.views.profile),
     path('activity/comment/like/add_change', views.activity_comment_like_add),
     path('activity/comment/like/<int:comment>/<int:user>', views.activity_comment_like_get),
+    path('acitvity/comment/create', views.create_activity_comment)
 ]

@@ -9,17 +9,19 @@ from rest_framework import status
 
 @csrf_exempt
 def create_activity_comment(request):
-    if(request.method=='POST'):
-        serializer=Activity_comment_serializer(data=request.data)
+    if(request.method == 'POST'):
+        data = JSONParser().parse(request)
+        serializer = Activity_comment_serializer(data = data)
+        
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+            return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
 def activity_comment(request, activity_id):
-    
     try:
         comment = Activity_comment.objects.filter(activity_id = activity_id, is_delete = False).order_by('-create_time')
     except:
@@ -47,7 +49,6 @@ def activity_comment_like_add(request):
     
     if (request.method == 'POST'):
         data = JSONParser().parse(request)
-        print(data)
         serializers = Like_activity_comment_serializer(data = data)
         
         if (serializers.is_valid()):
