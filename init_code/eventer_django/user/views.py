@@ -1,3 +1,5 @@
+import code
+from http.client import HTTPResponse
 import imp
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
@@ -65,46 +67,64 @@ def check_organization(request):
     pass
 
 
-#send emial
-def index(request):
-    if request.method == 'GET':
-        # 构建form对象, 为了显示验证码
-        form = RegisterForm()
-        return render(request, 'login.html', {'form': form})
-    elif request.method == 'POST':
-        # 验证form提交的数据
-        form = RegisterForm(request.POST)
-        # 判断是否合法
-        if form.is_valid():
-            # 判断密码是否一致
-            email = form.cleaned_data['email']
-            pwd = form.cleaned_data['password']
-            rePwd = form.cleaned_data['rePassword']
-            # 两次密码不一致
-            if pwd != rePwd:
-                # 返回注册页面和错误信息
-                return render(request, 'login.html', {'form': form, 'error': '两次密码不一致!'})
-            # 判断用户是否存在
-            # 根据email查找用户, 如果用户存在, 返回错误信息
-            if User.objects.filter(email=email):
-                # 用户已存在
-                return render(request, 'login.html', {'form': form, 'errMsg': '该用户已存在!'})
-            # 创建用户
-            user = User(email=email, password=make_password(pwd))
-            # 对用户传递过来的密码进行加密, 将加密之后的数据进行保存
-            # 账户状态 未激活
-            user.is_active = 0
-            # 保存为邮箱地址, 可以使用邮箱登录后台
-            user.username = email
-            # 保存用户
-            user.save()
-            # 发送注册邮件
-            if send_email(email, send_type='app'):
-                # 注册邮件发送成功
-                return HttpResponse('恭喜您注册成功, 激活邮件已发送至您的邮箱, 请登录后进行激活操作')
-            else:
-                return HttpResponse('恭喜您注册成功, 激活邮件发送')
+@csrf_exempt
+def email_register_verification(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        user_email = data['email']
+        user_obj = User.objects.filter(email=user_email).first()
+        if user_obj:    
+            return HttpResponse(status=404)
         else:
-            # 返回form表单
-            # 返回注册页面, 信息回填, 显示错误信息
-            return render(request, 'login.html', {'form': form})
+            #发送邮件
+            email_status = send_email(user_email)
+            if email_status:
+                return  HttpResponse(status=200)
+            else:
+                return  HttpResponse(status=404)
+            
+
+
+#send emial
+# def index(request):
+#     if request.method == 'GET':
+#         # 构建form对象, 为了显示验证码
+#         form = RegisterForm()
+#         return render(request, 'login.html', {'form': form})
+#     elif request.method == 'POST':
+#         # 验证form提交的数据
+#         form = RegisterForm(request.POST)
+#         # 判断是否合法
+#         if form.is_valid():
+#             # 判断密码是否一致
+#             email = form.cleaned_data['email']
+#             pwd = form.cleaned_data['password']
+#             rePwd = form.cleaned_data['rePassword']
+#             # 两次密码不一致
+#             if pwd != rePwd:
+#                 # 返回注册页面和错误信息
+#                 return render(request, 'login.html', {'form': form, 'error': '两次密码不一致!'})
+#             # 判断用户是否存在
+#             # 根据email查找用户, 如果用户存在, 返回错误信息
+#             if User.objects.filter(email=email):
+#                 # 用户已存在
+#                 return render(request, 'login.html', {'form': form, 'errMsg': '该用户已存在!'})
+#             # 创建用户
+#             user = User(email=email, password=make_password(pwd))
+#             # 对用户传递过来的密码进行加密, 将加密之后的数据进行保存
+#             # 账户状态 未激活
+#             user.is_active = 0
+#             # 保存为邮箱地址, 可以使用邮箱登录后台
+#             user.username = email
+#             # 保存用户
+#             user.save()
+#             # 发送注册邮件
+#             if send_email(email, send_type='app'):
+#                 # 注册邮件发送成功
+#                 return HttpResponse('恭喜您注册成功, 激活邮件已发送至您的邮箱, 请登录后进行激活操作')
+#             else:
+#                 return HttpResponse('恭喜您注册成功, 激活邮件发送')
+#         else:
+#             # 返回form表单
+#             # 返回注册页面, 信息回填, 显示错误信息
+#             return render(request, 'login.html', {'form': form})

@@ -34,3 +34,7 @@ class Email_check_new(models.Model):
     send_time = models.DateTimeField(default=datetime.now, verbose_name='Send Time', null=True, blank=True)
     exprie_time = models.DateTimeField(null=True)
     email_type = models.CharField(choices=(('register', 'Registration'), ('forget', 'Retrieve Password')), max_length=10)
+
+    def __unicode__(self):
+        return '{0}({1})'.format(self.code, self.email)
+

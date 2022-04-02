@@ -145,4 +145,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace("\\", '/')
 
 #for email verification
-#AUTH_USER_MODEL = 'user.User'
+EMAIL_HOST = "smtp.163.com"     # 服务器
+EMAIL_PORT = 25                 # 一般情况下都为25
+EMAIL_HOST_USER = "lyysunnyrain@163.com"     # 账号
+EMAIL_HOST_PASSWORD = "DNOLVZONKNRXDTGT"          # 密码 (注意：这里的密码指的是授权码)
+EMAIL_USE_TLS = False       # 一般都为False
+EMAIL_FROM = "lyysunnyrain@163.com"
