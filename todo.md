@@ -12,3 +12,5 @@
 9. calendar的自己活动的创建
 10. JsonResponse返回内容的问题
 11. 时间格式统一的问题
+12. 富文本图片的问题
+13. Post cover page的问题
