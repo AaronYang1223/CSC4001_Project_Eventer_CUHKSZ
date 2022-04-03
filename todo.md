@@ -7,7 +7,7 @@
    1. 点赞之后更新comment的信息 post和activity OK
 5. api补全
 6. 评分 OK
-7. 获取数据时候的验证
+7. 获取数据时候的验证，暂时不验证
 8. 返回状态码
 9. calendar的自己活动的创建
 10. calendar加一个隐私活动的创建
