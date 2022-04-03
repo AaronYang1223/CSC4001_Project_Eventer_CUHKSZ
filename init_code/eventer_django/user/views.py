@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import User_profile_serializer
-from .models import User
+from .models import Email_check_new, User
 
 from .forms import RegisterForm
 from django.contrib.auth.hashers import make_password
@@ -36,7 +36,12 @@ def profile_change(request, pk):
     # do not limit is_organization
     if (request.method == 'PUT'):
         data = JSONParser().parse(request)
-        
+        email = data['email']
+        email_status = send_email(email)
+        if email_status:
+            return  HttpResponse(status=200)  # return need modification
+        else:
+            return  HttpResponse(status=404)  # return need modification
         # # may need change status code
         # if ('is_orginazation' in data and data['is_orginazation'] != user.is_orginazation):
         #     return HttpResponse(status = 404)
@@ -57,6 +62,16 @@ def profile_add(request):
         data = JSONParser().parse(request)
         if (data['is_orginazation'] == True):
             check_organization(data)
+        email = data['email']
+        user_obj = User.objects.filter(email=email).first()
+        if user_obj:    
+            return HttpResponse(status=404) # return need modification
+        else:
+            email_status = send_email(email)
+            if email_status:
+                return  HttpResponse(status=200)  # return need modification
+            else:
+                return  HttpResponse(status=404)  # return need modification
         serializers = User_profile_serializer(data = data)
         if (serializers.is_valid()):
             serializers.save()
@@ -68,63 +83,20 @@ def check_organization(request):
 
 
 @csrf_exempt
-def email_register_verification(request):
-    if request.method == 'POST':
-        data = JSONParser().parse(request)
-        user_email = data['email']
-        user_obj = User.objects.filter(email=user_email).first()
-        if user_obj:    
-            return HttpResponse(status=404)
-        else:
-            #发送邮件
-            email_status = send_email(user_email)
-            if email_status:
-                return  HttpResponse(status=200)
-            else:
-                return  HttpResponse(status=404)
-            
+def email_verification(request):
+    data = JSONParser().parse(request)
+    code = data['code']
+    email = data['email']
+    type = data['email_type']
+    user_obj = Email_check_new.objects.filter(email=email, code = code).first()
+    if user_obj:    
+        if request.method=="POST":
+            #新建用户
+            pass
+        if request.method=="PUT":
+            #更改密码
+            user_old = User.objects.filter(email=email).first()
+    else:
+        return HttpResponse(status=404)  # return need modification
+        
 
-
-#send emial
-# def index(request):
-#     if request.method == 'GET':
-#         # 构建form对象, 为了显示验证码
-#         form = RegisterForm()
-#         return render(request, 'login.html', {'form': form})
-#     elif request.method == 'POST':
-#         # 验证form提交的数据
-#         form = RegisterForm(request.POST)
-#         # 判断是否合法
-#         if form.is_valid():
-#             # 判断密码是否一致
-#             email = form.cleaned_data['email']
-#             pwd = form.cleaned_data['password']
-#             rePwd = form.cleaned_data['rePassword']
-#             # 两次密码不一致
-#             if pwd != rePwd:
-#                 # 返回注册页面和错误信息
-#                 return render(request, 'login.html', {'form': form, 'error': '两次密码不一致!'})
-#             # 判断用户是否存在
-#             # 根据email查找用户, 如果用户存在, 返回错误信息
-#             if User.objects.filter(email=email):
-#                 # 用户已存在
-#                 return render(request, 'login.html', {'form': form, 'errMsg': '该用户已存在!'})
-#             # 创建用户
-#             user = User(email=email, password=make_password(pwd))
-#             # 对用户传递过来的密码进行加密, 将加密之后的数据进行保存
-#             # 账户状态 未激活
-#             user.is_active = 0
-#             # 保存为邮箱地址, 可以使用邮箱登录后台
-#             user.username = email
-#             # 保存用户
-#             user.save()
-#             # 发送注册邮件
-#             if send_email(email, send_type='app'):
-#                 # 注册邮件发送成功
-#                 return HttpResponse('恭喜您注册成功, 激活邮件已发送至您的邮箱, 请登录后进行激活操作')
-#             else:
-#                 return HttpResponse('恭喜您注册成功, 激活邮件发送')
-#         else:
-#             # 返回form表单
-#             # 返回注册页面, 信息回填, 显示错误信息
-#             return render(request, 'login.html', {'form': form})

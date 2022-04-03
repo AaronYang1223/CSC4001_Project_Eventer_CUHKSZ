@@ -1,6 +1,6 @@
 from atexit import register
 from django.core.mail import send_mail
-from user.models import Email_check_new
+from user.models import Email_check_new, Email_check_old
 import random
 import datetime
 from eventer_django import settings
@@ -22,8 +22,10 @@ def send_email(to_email, send_type='register'):
     :return: 邮件发送结果
     """
     code = random_codechr()
-
-    email = Email_check_new()
+    if(send_type == "register"):
+        email = Email_check_new()
+    elif(send_type == "retrieve"):
+        email = Email_check_old()
     # 获取验证码
     email.code = code
     # 收件人
