@@ -12,6 +12,9 @@
         <v-icon right>mdi-theme-light-dark</v-icon>
       </v-btn>
       <v-btn icon color="primary">
+        <v-icon right>mdi-login</v-icon>
+      </v-btn>
+      <v-btn icon color="primary">
         <v-icon right>mdi-logout</v-icon>
       </v-btn>
     </v-toolbar>
