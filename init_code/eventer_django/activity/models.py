@@ -43,3 +43,4 @@ class Activity(models.Model):
     is_public = models.BooleanField(default = False)
     is_delete = models.BooleanField(default = False)
     is_outdate = models.BooleanField(default = False)
+    is_private = models.BooleanField(default = False)
