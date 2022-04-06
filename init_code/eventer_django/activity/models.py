@@ -9,7 +9,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 def cover_dictory(instance, filename):
     filename  = 'activity/' + '{}.png'.format(uuid.uuid4())
-    print(filename)
     return filename
 
 

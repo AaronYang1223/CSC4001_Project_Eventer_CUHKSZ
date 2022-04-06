@@ -14,6 +14,8 @@ from .models import Activity
 import datetime
 from django.core.files.storage import FileSystemStorage
 
+from activity import serializers
+
 # TODO: Change post function for uploading a cover page when create an activity
 
 @csrf_exempt
@@ -81,15 +83,16 @@ def activity_upload_cover(request, pk):
     try:
         activity = Activity.objects.get(pk = pk)
     except:
-        return HttpResponse(status = 404)
+        return JsonResponse(status = 404)
     
-    print(request.FILES)
     if (request.method == 'POST' and request.FILES):
         activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
         activity.cover_page.close()
-        return HttpResponse(status = 200)
+        
+        serializers = Activity_serializer(activity)
+        return JsonResponse(serializers.data, status = 200)
     else:
-        return HttpResponse(status = 404)
+        return JsonResponse(status = 404)
 
 @csrf_exempt
 def activity_tag(request, tag):
