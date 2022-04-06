@@ -3,23 +3,54 @@
   <v-card
     class="mx-auto"
   >
-    <!-- TODO:实现搜索功能-->
+    <!-- TODO:热点tag推送功能，见chip的例子 -->
 
     <v-container>
   
-      <v-row dense>
-        <v-col>
+      <v-row dense justify="center">
+        <v-col
+        cols="10"
+        >
           <v-text-field
             v-model="search"
-            append-icon="mdi-magnify"
             label="Search Posts"
             color="primary"
             clearable
-            outlined
             dense
           ></v-text-field>
         </v-col>
 
+        <v-col
+        cols="1"
+        align-end>
+          <v-btn
+            tile
+            icon
+            @click="changeSort"
+          >
+            <v-icon
+            v-if="sort.icon" 
+            v-icon 
+            dark
+            color=blue
+            >
+              mdi-new-box
+            </v-icon>
+            <v-icon 
+            v-if="!sort.icon" 
+            v-icon 
+            dark
+            color=red
+            >
+              mdi-fire
+            </v-icon>
+          </v-btn>
+        </v-col>
+          
+      </v-row>
+
+      <v-row dense>
+      
         <!-- TODO:卡片颜色问题 -->
         <v-col
           v-for="(post, i) in filteredPosts"
@@ -151,6 +182,10 @@
       ],
     search:'',
     isTag : false,
+    sort:{
+      link: '',
+      icon: false,
+    }
     }),
     computed:{
       filteredPosts:function(){
@@ -166,6 +201,12 @@
           return ( post.title.toLowerCase().match(this.search.toLowerCase()) || post.text.toLowerCase().match(this.search.toLowerCase()) || this.isTag )
         })
       }
+    },
+    methods:{
+      changeSort: function(){
+        this.sort.icon = !this.sort.icon
+      }
     }
+
   }
 </script>
