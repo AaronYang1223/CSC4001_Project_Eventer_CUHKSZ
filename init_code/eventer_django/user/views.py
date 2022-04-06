@@ -36,12 +36,12 @@ def profile_change(request, pk):
     # do not limit is_organization
     if (request.method == 'PUT'):
         data = JSONParser().parse(request)
-        email = data['email']
-        email_status = send_email(email)
-        if email_status:
-            return  HttpResponse(status=200)  # return need modification
-        else:
-            return  HttpResponse(status=404)  # return need modification
+        # email = data['email']
+        # email_status = send_email(email)
+        # if email_status:
+        #     return  HttpResponse(status=200)  # return need modification
+        # else:
+        #     return  HttpResponse(status=404)  # return need modification
         # # may need change status code
         # if ('is_orginazation' in data and data['is_orginazation'] != user.is_orginazation):
         #     return HttpResponse(status = 404)
@@ -62,16 +62,16 @@ def profile_add(request):
         data = JSONParser().parse(request)
         if (data['is_orginazation'] == True):
             check_organization(data)
-        email = data['email']
-        user_obj = User.objects.filter(email=email).first()
-        if user_obj:    
-            return HttpResponse(status=404) # return need modification
-        else:
-            email_status = send_email(email)
-            if email_status:
-                return  HttpResponse(status=200)  # return need modification
-            else:
-                return  HttpResponse(status=404)  # return need modification
+        # email = data['email']
+        # user_obj = User.objects.filter(email=email).first()
+        # if user_obj:    
+        #     return HttpResponse(status=404) # return need modification
+        # else:
+        #     email_status = send_email(email)
+        #     if email_status:
+        #         return  HttpResponse(status=200)  # return need modification
+        #     else:
+        #         return  HttpResponse(status=404)  # return need modification
         serializers = User_profile_serializer(data = data)
         if (serializers.is_valid()):
             serializers.save()
@@ -85,6 +85,23 @@ def check_organization(request):
 @csrf_exempt
 def email_verification(request):
     data = JSONParser().parse(request)
+    if request.method == "GET":
+        email = data['email']
+        user_obj = Email_check_new.objects.filter(email=email).first()
+        if user_obj:
+            return JsonResponse(
+                {
+                    'code':'101', # 101 === email exist
+                    'message': 'error: This email is already registered' 
+                }
+            )
+        else:
+            return JsonResponse(
+                {
+                    'code':'001', # 001 === email valid for registration
+                    'message': 'email valid for registration' 
+                }
+            )
     code = data['code']
     email = data['email']
     type = data['email_type']
@@ -99,4 +116,3 @@ def email_verification(request):
     else:
         return HttpResponse(status=404)  # return need modification
         
-

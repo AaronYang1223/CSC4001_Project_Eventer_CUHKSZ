@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -164,7 +166,19 @@ methods: {
       }
       console.log(this.email);
       // 等待服务器返回邮箱存在否
-      this.emailExist = false;
+      axios.get('api/user/send_email',{
+          params:{
+            email:this.email
+          }
+      })
+      .then(function(response){
+        if(response.data['code']=='001')
+          this.emailExist = false;
+        else if(response.data['code']=='101')
+          this.emailExist = true;
+      })
+
+      //this.emailExist = false;
       if (this.emailExist) {
         this.tip = "邮箱已存在";
         return false;
