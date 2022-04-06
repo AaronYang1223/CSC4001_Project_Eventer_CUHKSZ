@@ -5,6 +5,22 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
+// Filters
+Vue.filter('to-uppercase', function(value){
+  return value.toUpperCase()
+});
+
+Vue.filter('snippet', function(value){
+  return value.slice(0,190)
+});
+
+// Custom directives
+Vue.directive('rainbow', {
+  bind(el){
+      el.style.color = "#" + "4B" + Math.random().toString(16).slice(2, 4) + "FF";
+  }
+});
+
 new Vue({
   router,
   vuetify,

@@ -58,34 +58,36 @@
           cols="12"
         >
           <v-card
-            :color="post.color"
-            dark
+            flat
+            outlined
           >
 
             <v-card-title
-              class="text-h5 font-weight-light"
+              class="text-h5 text-h5 font-weight-black "
               v-text="post.title"
+              v-rainbow
             ></v-card-title>
 
             <!-- TODO:限制显示字数上限,利用filter -->
-            <v-card-text class="text-h6 font-weight-bold">
-              "Turns out semicolon-less style is easier and safer in ."
+            <v-card-text 
+            class="text-h6 font-weight-bold"
+            >
+              <p class="black--text">{{post.text | snippet}}</p>
             </v-card-text>
 
             <v-row class="mx-3">
                 <v-chip-group>
                   <v-chip
-                    class="ma-2 font-weight-thin"
-                    color="white"
+                    class="ma-2 font-weight-black"
                     outlined
-                    dark
                     v-for="tag in post.tags"
                     :key="tag"
+                    color="accent"
                   >
                   <v-icon left>
                     mdi-label
                   </v-icon>
-                    {{ tag }}
+                    {{ tag | to-uppercase}}
                   </v-chip>
                 </v-chip-group>
             </v-row>
@@ -149,7 +151,7 @@
         {
           color: '#26c6da',
           title: 'Supermodel',
-          text: "Turns out semicolon-less style is easier and safer in .",
+          text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
           tags: ['Work', 'Home Improvement',] ,
           avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
           is_authenticated: false,
@@ -160,7 +162,7 @@
         {
           color: '#26c6da',
           title: 'Halcyon Days',
-          text: "Turns out semicolon-less style is easier and safer in .",
+          text: "Turns out semicolon-less style is easier and safer in.22 222222222 22222 222222 2222 222 2222 2222 22222 222 2222222222 2222 22 222222 2222222 2222222 2222222 222222 2222 2222222 22222 22222222 222222 222222 2222",
           tags: ['Art', 'Tech', 'Creative Writing',] ,
           avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
           is_authenticated: true,
@@ -171,7 +173,7 @@
           {
           color: '#26c6da',
           title: 'Title',
-          text: "Turns out semicolon-less style is easier and safer in .",
+          text: "Turns out semicolon-less style is easier and safer in .333 3333333 3333 3333333 33 33",
           tags: ['Art', 'Creative Writing',] ,
           avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
           is_authenticated: false,
