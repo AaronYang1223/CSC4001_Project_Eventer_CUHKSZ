@@ -9,6 +9,5 @@
 
 export default {
   name: 'NewPostView',
-
 }
 </script>

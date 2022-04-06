@@ -116,7 +116,6 @@ export default {
         fullName: 'John Doe',
         email: 'john.doe@doe.com',
       },
-
     }
   },
   methods:{
