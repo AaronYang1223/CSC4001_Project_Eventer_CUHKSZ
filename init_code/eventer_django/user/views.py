@@ -1,6 +1,8 @@
 import code
 from http.client import HTTPResponse
 import imp
+import re
+import json
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -84,35 +86,42 @@ def check_organization(request):
 
 @csrf_exempt
 def email_verification(request):
-    data = JSONParser().parse(request)
-    if request.method == "GET":
-        email = data['email']
-        user_obj = Email_check_new.objects.filter(email=email).first()
+    json_data = request.body.decode("utf-8")
+    print(json_data)
+    data = json.loads(json_data)
+    print(data)
+    if request.method == "POST":
+        email =  data.get('email')
+        print(email)
+        user_obj = User.objects.filter(email=email).first()
         if user_obj:
             return JsonResponse(
                 {
+                    'email': str(email),
                     'code':'101', # 101 === email exist
                     'message': 'error: This email is already registered' 
                 }
             )
         else:
+            email_status = send_email(email)
             return JsonResponse(
                 {
+                    'email': str(email),
                     'code':'001', # 001 === email valid for registration
                     'message': 'email valid for registration' 
                 }
             )
-    code = data['code']
-    email = data['email']
-    type = data['email_type']
-    user_obj = Email_check_new.objects.filter(email=email, code = code).first()
-    if user_obj:    
-        if request.method=="POST":
-            #新建用户
-            pass
-        if request.method=="PUT":
-            #更改密码
-            user_old = User.objects.filter(email=email).first()
-    else:
-        return HttpResponse(status=404)  # return need modification
+    #code = data['code']
+    #email = data['email']
+    #type = data['email_type']
+    #user_obj = Email_check_new.objects.filter(email=email, code = code).first()
+    #if user_obj:    
+    #    if request.method=="POST":
+    #        #新建用户
+    #        pass
+    #    if request.method=="PUT":
+    #        #更改密码
+    #        user_old = User.objects.filter(email=email).first()
+    #else:
+    #    return HttpResponse(status=404)  # return need modification
         

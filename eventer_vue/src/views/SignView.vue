@@ -166,17 +166,18 @@ methods: {
       }
       console.log(this.email);
       // 等待服务器返回邮箱存在否
-      axios.get('api/user/send_email',{
-          params:{
-            email:this.email
-          }
+      axios.post('api/profile/send_email',{
+          email:this.email
       })
-      .then(function(response){
-        if(response.data['code']=='001')
+      .then((response)=>{
+        if(response.data['code']=='001'){
           this.emailExist = false;
-        else if(response.data['code']=='101')
+          console.log("false");
+        }
+        else if(response.data['code']=='101'){
           this.emailExist = true;
-      })
+          console.log("true");}
+      });
 
       //this.emailExist = false;
       if (this.emailExist) {
