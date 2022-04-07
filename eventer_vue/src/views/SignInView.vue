@@ -5,6 +5,7 @@
         <v-layout align-center justify-center py-3>
           <!-- <v-flex xs12 sm8 md4> -->
             <v-card class="px-2 pb-3" min-width=600px max-width=700px>
+              
               <v-card-text>
                 <v-layout justify-center pt-2>
                   <v-avatar size="40px" color="pink">

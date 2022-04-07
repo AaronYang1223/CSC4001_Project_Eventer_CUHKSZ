@@ -6,6 +6,9 @@ import SignInView from '../views/SignInView.vue'
 import TestView from '../views/TestView.vue'
 import ForgetPassword from '../views/ForgetPassword.vue'
 import SignView from '../views/SignView.vue'
+import NewSignInView from '../views/NewSignInView.vue'
+import NewLoginView from '../views/NewLoginView.vue'
+import NewForgetView from '../views/NewForgetView.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +50,21 @@ const routes = [
     path: '/test',
     name: 'test',
     component: TestView,
+  },
+  {
+    path: '/t1',
+    name: 't1',
+    component: NewSignInView,
+  },
+  {
+    path: '/t2',
+    name: 't2',
+    component: NewForgetView,
+  },
+  {
+    path: '/t3',
+    name: 't3',
+    component: NewLoginView,
   },
 ]
 
