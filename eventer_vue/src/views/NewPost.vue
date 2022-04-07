@@ -1,0 +1,47 @@
+<template>
+  <div>
+    <v-card>
+      <v-row>
+        <v-text-field
+          type="text" 
+          label="Topic"
+          v-model="topic"
+          id="inputTopic"
+          :rules="[rules.required]"
+        >
+        </v-text-field>
+      </v-row>
+      <v-row>
+        <v-textarea
+          counter
+          type="text" 
+          label="Abstract"
+          v-model="abstract"
+          id="inputAbstract"
+          :rules="[rules.required, rules.max]"
+          :value="value"
+        >
+        </v-textarea>
+      </v-row>
+    </v-card>
+    <v-textarea>
+    </v-textarea>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  methods: {
+    
+  },
+}
+</script>
+
+<style>
+
+</style>
