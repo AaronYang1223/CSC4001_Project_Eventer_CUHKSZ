@@ -1,101 +1,123 @@
 <template>
   <div>
-    <div class="input">
-      <v-layout align-center justify-center>
-        <v-card min-width=600px max-width=700px>
+    <div>
+      <v-layout align-center justify-center py-5>
+        <v-card  class="px-2 pb-3" max-width=900px>
           <v-card-text>
-            <div v-bind:class="{ 'text_email': isActive, 'text_tip': isTip }"><h1 align="center">Sign In</h1></div>
-            <v-text-field
-            type="text" 
-            label="Email Address"
-            v-model="email" 
-            v-bind:class="{ 'input_email0' : hasError }" 
-            v-bind:disabled = "inputLock"
-            v-on:click="cancelError" 
-            id="inputEmail"
-            :rules="[rules.required, rules.emailMatch]"
-            />
-            <v-text-field
-            type="password" 
-            label="Password"
-            v-model="newpassword"
-            v-bind:disabled = "inputLock"
-            id="inputNewPassword"
-            :rules="[rules.required, rules.min]"
-            />
-            <v-text-field
-            type="password" 
-            label="Password Repeat"
-            v-model="newpassword2"
-            v-bind:disabled = "inputLock"
-            id="inputNewPassword2"
-            :rules="[rules.required, rules.min, rules.samepassword]"
-            />
-            <v-row
-            align="center"
-            justify="space-around"
-            >
+            <h1 align="center">
+              <span style="color:blue">F</span>orget <span style="color:blue">P</span>assword
+            </h1>
+            <br/>
+            <v-row>
+              <!-- 输入邮箱 -->
+              <v-text-field
+                type="text" 
+                label="Email Address"
+                v-model="email"
+                v-bind:disabled = "inputLock"
+                id="inputEmail"
+                :rules="[rules.required, rules.emailMatch]"
+              >
+              </v-text-field>
+            </v-row>
+            <v-row>
+              <!-- 输入密码 -->
+              <v-text-field
+                type="password" 
+                label="Password"
+                v-model="newpassword"
+                v-bind:disabled = "inputLock"
+                id="inputNewPassword"
+                :rules="[rules.required, rules.min]"
+              >
+              </v-text-field>
+            </v-row>
+            <v-row>
+              <!-- 再次输入密码 -->
+              <v-text-field
+                type="password" 
+                label="Password Repeat"
+                v-model="newpassword2"
+                v-bind:disabled = "inputLock"
+                id="inputNewPassword2"
+                :rules="[rules.required, rules.min, rules.samepassword]"
+              >
+              </v-text-field>
+            </v-row>
+            <v-row>
               <v-col>
-                <v-text-field v-model="codeIn" type="text" placeholder="输入验证码" class="input_number" />
+                <v-text-field
+                  type="text" 
+                  label="Verification Code"
+                  v-model="codeIn" 
+                  id="inputVerifyCode"
+                >
+                </v-text-field>
               </v-col>
               <v-col>
-                <v-btn depressed class="btn_number" v-bind:class="{gray:wait_timer>0}" @click="getCode(), snackbar = true">
+                <v-btn
+                  v-bind:class="{gray:wait_timer>0}" 
+                  @click="getCode() 
+                  snackbar = true"
+                >
                   <span 
-                  class="num_green" 
-                  v-show="showNum" 
-                  v-bind:class="{num:wait_timer>0}"
-                  >{{this.wait_timer + "s "}}</span>
+                    v-show="showNum" 
+                    v-bind:class="{num:wait_timer>0}"
+                  >
+                  {{this.wait_timer + "s "}}
+                  </span>
                   <span 
-                  class="span_number" 
-                  v-bind:class="{gray_span:wait_timer>0}"
-                  >{{ getCodeText() }}</span>
+                    v-bind:class="{gray_span:wait_timer>0}"
+                  >
+                  {{ getCodeText() }}
+                  </span>
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row
-            align="center"
-            justify="space-around"
-            >
-              <v-btn v-if="submitShow" depressed @click="submitNewPassword()">
-                提 交
+            <v-row>
+              <v-btn
+                v-if="submitShow" 
+                @click="submitNewPassword()"
+              >
+                Submit!
               </v-btn>
             </v-row>
           </v-card-text>
         </v-card>
       </v-layout>
     </div>
-    <v-snackbar v-model="snackbar">
-      {{ tip }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-    <v-snackbar v-model="snackbar2">
-      验证码错误
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar2 = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <div>
+      <v-snackbar v-model="snackbar">
+        {{ tip }}
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="pink"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+      <v-snackbar v-model="snackbar2">
+        验证码错误
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="pink"
+            text
+            v-bind="attrs"
+            @click="snackbar2 = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data() {
     return {
@@ -113,25 +135,27 @@ export default {
       snackbar2: false,
       submitShow: false,
       inputLock: false,
+      codeGet: "123456",
+      codeCorrect: false,
+      codeIn: "",
+      codeTime: true,
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
         samepassword:  value => value == this.newpassword || "Password not same",
         emailMatch: v => /.+@+cuhk|link+.+cuhk+./.test(v) || "E-mail must be valid",
       },
-      codeGet: "123456",
-      codeCorrect: false,
-      codeIn: "",
-      codeTime: true,
+      // All data needed.
     }
-},
-methods: {
+  },
+  methods: {
     cancelError: function() {
       this.hasError = false;
       this.isActive = true;
       this.isTip = false;
       this.tip = "注册账号";
     },
+
     getCode: function() {
       if (this.wait_timer > 0) {
         return false;
@@ -166,22 +190,9 @@ methods: {
       }
       console.log(this.email);
       // 等待服务器返回邮箱存在否
-      axios.post('api/profile/send_email',{
-          email:this.email
-      })
-      .then((response)=>{
-        if(response.data['code']=='001'){
-          this.emailExist = false;
-          console.log("false");
-        }
-        else if(response.data['code']=='101'){
-          this.emailExist = true;
-          console.log("true");}
-      });
-
-      //this.emailExist = false;
-      if (this.emailExist) {
-        this.tip = "邮箱已存在";
+      this.emailExist = true;
+      if (!this.emailExist) {
+        this.tip = "邮箱不存在";
         return false;
       }
 
@@ -204,6 +215,7 @@ methods: {
       }
       //在这里调取你获取验证码的ajax
     },
+
     getCodeText: function() {
       if (this.wait_timer > 0) {
         return "已发送";
@@ -217,6 +229,7 @@ methods: {
         return "发送验证码！";
       }
     },
+
     submitNewPassword: function() {
       console.log(this.codeIn);
       //更改逻辑!!
@@ -227,13 +240,12 @@ methods: {
         return false;
       }
       console.log(this.email, this.newpassword);
-    }
-
-},
-
+    },
+  },
 }
 </script>
 
 <style>
+
 
 </style>

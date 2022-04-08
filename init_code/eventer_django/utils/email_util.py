@@ -1,12 +1,12 @@
 from atexit import register
 from django.core.mail import send_mail
-from user.models import Email_check_new, Email_check_old
+from user.models import Email_check_new
 import random
 import datetime
 from eventer_django import settings
 from datetime import timedelta
 
-def random_codechr(length=16):
+def random_codechr(length=6):
     # 随机大小写组合的验证码
     chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
     codechr = ''
@@ -22,10 +22,10 @@ def send_email(to_email, send_type='register'):
     :return: 邮件发送结果
     """
     code = random_codechr()
-    if(send_type == "register"):
-        email = Email_check_new()
-    elif(send_type == "retrieve"):
-        email = Email_check_old()
+    #if(send_type == "register"):
+    email = Email_check_new()
+    #elif(send_type == "retrieve"):
+    #    email = Email_check_old()
     # 获取验证码
     email.code = code
     # 收件人
@@ -49,7 +49,7 @@ def send_email(to_email, send_type='register'):
             return False
     if send_type == "retrieve":
         email_title = "找回密码"
-        email_body = "您的邮箱注册验证码为：{0}, 该验证码有效时间为7天，请及时进行验证。".format(code)
+        email_body = "您的邮箱验证码为：{0}, 该验证码有效时间为7天，请及时进行验证。".format(code)
         # 发送邮件
         send_status = send_mail(email_title, email_body, settings.EMAIL_FROM, [to_email])
         if not send_status:
