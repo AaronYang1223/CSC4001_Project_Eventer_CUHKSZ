@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import code
 from http.client import HTTPResponse
 import imp
@@ -61,10 +62,15 @@ def profile_add(request):
         #    check_organization(data)
         email = data.get('email')
         code = data.get('code')
-        email_code = Email_check_new.objects.filter(email = email, email_type = 'register').first()
-        if(email_code.__getattribute__('code') == code):
+        email_code = Email_check_new.objects.filter(email = email, email_type = 'register').order_by('-send_time')[:1]
+        if email_code != []:
+            print('exist')
+        if(email_code.values()[0]['code']):
             user_data = JSONParser().parse(request)
-            print(user_data)
+            if(user_data==NULL):
+                print("null")
+            else:
+                print(user_data)
             serializers = User_profile_serializer(data = user_data)
             if (serializers.is_valid()):
                 serializers.save()
