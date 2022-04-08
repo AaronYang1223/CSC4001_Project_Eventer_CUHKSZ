@@ -22,9 +22,21 @@ def calendar(request, user, start_date, end_date):
     if (request.method == 'GET'):
         serializer = Private_calendar_serializer(activities, many = True)
         return JsonResponse(serializer.data, safe = False)
+
+def calendar_get_user(request, user):
+    
+    try:
+        activities = Private_calendar.objects.filter(user_id = user)
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Private_calendar_serializer(activities, many = True)
+        return JsonResponse(serializer.data, safe = False)
     
 def calendar_add(activity_id, user_id) -> bool:
     
+    # user_id is owner of this private calendar
     activity = Activity.objects.get(id = activity_id)
     data = {
         'activity_id': activity_id,

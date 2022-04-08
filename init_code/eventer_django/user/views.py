@@ -1,13 +1,11 @@
-from asyncio.windows_events import NULL
-import code
 from http.client import HTTPResponse
-import imp
-import re
 import json
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
+
+from activity import serializers
 from .serializers import User_profile_serializer
 from .models import Email_check_new, User
 
@@ -26,6 +24,23 @@ def profile(request, pk):
     if (request.method == 'GET'):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
+    
+@csrf_exempt
+def profile_upload_picture(request, pk):
+    try:
+        user = User.objects.get(pk = pk)
+    except:
+        return JsonResponse(status = 404)
+    
+    print(request.FILES)
+    if (request.method == 'POST' and request.FILES):
+        user.picture.save(request.FILES['picture'].name, request.FILES['picture'])
+        user.picture.close()
+        
+        serializers = User_profile_serializer(user)
+        return JsonResponse(serializers.data, status = 200)
+    else:
+        return JsonResponse(status = 404)
 
 # for put method, need to include all fields without default values
 @csrf_exempt
@@ -34,7 +49,7 @@ def profile_change(request, pk):
     try:
         user = User.objects.get(pk = pk)
     except:
-        return HttpResponse(status = 404)
+        return JsonResponse(status = 404)
     
     # do not limit is_organization
     if (request.method == 'PUT'):

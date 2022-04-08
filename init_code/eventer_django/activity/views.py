@@ -8,17 +8,20 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 
 import public_calendar
+import private_calendar
 from .serializers import Activity_serializer
 from .models import Activity
 import datetime
 from django.core.files.storage import FileSystemStorage
+
+from activity import serializers
 
 # TODO: Change post function for uploading a cover page when create an activity
 
 @csrf_exempt
 def activity_list(request):
     if request.method == 'GET':
-        activities = Activity.objects.all()
+        activities = Activity.objects.filter(is_delete = False, is_outdate = False, is_private = False)
         serializer = Activity_serializer(activities, many=True)
         return JsonResponse(serializer.data, safe = False)
 
@@ -31,9 +34,15 @@ def activity_create(request):
             serializer.save()
             
             # add public calendar
-            res = public_calendar.views.calendar_add(serializer.data['id'], data['organizer_id'])
-            if (not res):
-                return JsonResponse('Can not add to private calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], data['organizer_id']), status = 400)
+            if (serializer.data['is_public']):
+                res = public_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
+                if (not res):
+                    return JsonResponse('Can not add to public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
+            elif (serializer.data['is_private']):
+                # the organizer is the owner of this activity
+                res = private_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
+                if (not res):
+                    return JsonResponse('Can not delete from public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
             
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -74,21 +83,22 @@ def activity_upload_cover(request, pk):
     try:
         activity = Activity.objects.get(pk = pk)
     except:
-        return HttpResponse(status = 404)
+        return JsonResponse(status = 404)
     
-    print(request.FILES)
     if (request.method == 'POST' and request.FILES):
         activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
         activity.cover_page.close()
-        return HttpResponse(status = 200)
+        
+        serializers = Activity_serializer(activity)
+        return JsonResponse(serializers.data, status = 200)
     else:
-        return HttpResponse(status = 404)
+        return JsonResponse(status = 404)
 
 @csrf_exempt
 def activity_tag(request, tag):
     
     try:
-        activities = Activity.objects.filter(tag__icontains = tag, is_delete = False)
+        activities = Activity.objects.filter(tag__icontains = tag, is_delete = False, is_private = False)
     except:
         return HttpResponse(status = 404)
     
@@ -100,7 +110,7 @@ def activity_tag(request, tag):
 def activity_title(request, title):
     
     try:
-        activities = Activity.objects.filter(title__icontains = title, is_delete = False)
+        activities = Activity.objects.filter(title__icontains = title, is_delete = False, is_private = False)
     except:
         return HttpResponse(status = 404)
     
@@ -115,7 +125,7 @@ def activity_order_part_max(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False).order_by('-part_max_num')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-part_max_num')[:num]
     except:
         return HttpResponse(status = 404)
     
@@ -130,7 +140,7 @@ def activity_order_score(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_outdate = True, is_delete = False).order_by('-score_avg')[:num]
+        activities = Activity.objects.filter(is_outdate = True, is_delete = False, is_private = False).order_by('-score_avg')[:num]
     except:
         return HttpResponse(status = 404)
     
@@ -145,7 +155,7 @@ def activity_order_start_date(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False).order_by('-start_time')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-start_time')[:num]
     except:
         return HttpResponse(status = 404)
     
@@ -161,7 +171,7 @@ def activity_order_create_date(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False).order_by('-create_time')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-create_time')[:num]
     except:
         return HttpResponse(status = 404)
     
@@ -177,7 +187,7 @@ def activity_order_comment_number(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False).order_by('-comment_number')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-comment_number')[:num]
     except:
         return HttpResponse(status = 404)
     

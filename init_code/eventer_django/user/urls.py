@@ -6,5 +6,5 @@ urlpatterns = [
     path('profile/add', views.profile_add),
     path('profile/change/<int:pk>', views.profile_change),
     path('profile/send_email', views.email_verification),
-    
+    path('profile/upload/<int:pk>', views.profile_upload_picture),
 ]

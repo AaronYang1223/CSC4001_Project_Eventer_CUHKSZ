@@ -47,7 +47,7 @@ def participant_activity_add(request):
                 
             serializers.save()
             
-            # update calendar
+            # update private calendar
             res = calendar_add(data['activity_id'], data['user_id'])
             
             # can not add to private calendar
