@@ -19,9 +19,10 @@
           v-model="abstract"
           id="inputAbstract"
           :rules="[rules.required, rules.max]"
-          :value="value"
         >
         </v-textarea>
+      </v-row>
+      <v-row>
       </v-row>
     </v-card>
     <v-textarea>
