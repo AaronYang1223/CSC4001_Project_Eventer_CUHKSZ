@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from .serializers import Activity_comment_serializer, Like_activity_comment_serializer
 from .models import Activity_comment, Like_activity_comment
 from rest_framework import status
+from activity.models import Activity
 
 @csrf_exempt
 def activity_comment_create(request):
@@ -15,6 +16,11 @@ def activity_comment_create(request):
         
         if serializer.is_valid():
             serializer.save()
+            
+            # update activity comment num
+            activity = Activity.objects.get(id = serializer.data['activity_id'])
+            activity.comment_number += 1
+            activity.save()
             
             return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

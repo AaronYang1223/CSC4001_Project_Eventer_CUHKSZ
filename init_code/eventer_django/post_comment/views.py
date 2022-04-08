@@ -6,6 +6,7 @@ from .serializers import Post_comment_serializer, Like_post_comment_serializer
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Post_comment, Like_post_comment
+from post.models import Post
 
 @csrf_exempt
 def post_comment_create(request):
@@ -14,6 +15,12 @@ def post_comment_create(request):
         serializer = Post_comment_serializer(data = data)
         if serializer.is_valid():
             serializer.save()
+            
+            # update post comment num
+            post = Post.objects.get(id = serializer.data['post_id'])
+            post.comment_number += 1
+            post.save()
+            
             return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

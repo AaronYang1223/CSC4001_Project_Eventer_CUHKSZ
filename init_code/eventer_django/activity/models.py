@@ -14,13 +14,13 @@ def cover_dictory(instance, filename):
 
 class Activity(models.Model):
         
-    tag = models.CharField(max_length = 32)
+    tag = models.CharField(max_length = 1024)
     organizer_id = models.ForeignKey('user.User', on_delete = models.CASCADE, related_name = 'originizer_id', default = 1)
     # start_time = models.DateTimeField(auto_now = True, editable = True)
     start_time = models.DateTimeField(editable = True)
     end_time = models.DateTimeField(editable = True)
     title = models.CharField(max_length = 256)
-    content = RichTextField()
+    content = models.CharField(max_length = 1024)
     comment_number = models.IntegerField(default = 0)
     cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'activicity/default.png', processors = [ResizeToFill(1920, 1080)])
     participant_num = models.IntegerField(default = 0)

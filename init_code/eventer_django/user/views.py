@@ -1,8 +1,4 @@
-from asyncio.windows_events import NULL
-import code
 from http.client import HTTPResponse
-import imp
-import re
 import json
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser

@@ -9,7 +9,7 @@ class Post_comment(models.Model):
     
     user_id = models.ForeignKey(User, on_delete = models.CASCADE)
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment', default = 1)
-    content = RichTextField()
+    content = models.CharField(max_length = 1024)
     like_num = models.IntegerField(default = 0)
     dislike_num = models.IntegerField(default = 0)
     create_time = models.DateTimeField(auto_now_add = True)
