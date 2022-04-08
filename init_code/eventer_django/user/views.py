@@ -13,7 +13,7 @@ from .models import Email_check_new, User
 
 from .forms import RegisterForm
 from django.contrib.auth.hashers import make_password
-from utils.email_util import send_email
+from utils.email_util import send_email, send_check_organization_email
 
 @csrf_exempt
 def profile(request, pk):
@@ -83,10 +83,9 @@ def profile_add(request):
             'message':'create userprofile failed'
         })
 
-def check_organization(request):
-    pass
-
-
+def check_organization(email):
+    send_check_organization_email(email)
+    
 @csrf_exempt
 def email_verification(request):
     json_data = request.body.decode("utf-8")
@@ -114,6 +113,8 @@ def email_verification(request):
         else:
             if email_type == 'register':
                 email_status = send_email(email, send_type = 'register')
+                if(data.get('is_organization') == "true"):
+                    check_organization(email)
                 return JsonResponse({
                     'email': str(email),
                     'code':'001', # 001 === email valid for registration
