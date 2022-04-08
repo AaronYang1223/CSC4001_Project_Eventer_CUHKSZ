@@ -76,6 +76,7 @@
             </v-row>
             <v-row>
               <v-btn
+                block
                 v-if="submitShow" 
                 @click="submitNewPassword()"
               >

@@ -2,6 +2,7 @@
   <div>
     <v-card>
       <v-row>
+        <!-- 标题 -->
         <v-text-field
           type="text" 
           label="Topic"
@@ -12,6 +13,7 @@
         </v-text-field>
       </v-row>
       <v-row>
+        <!-- 摘要 -->
         <v-textarea
           counter
           type="text" 
