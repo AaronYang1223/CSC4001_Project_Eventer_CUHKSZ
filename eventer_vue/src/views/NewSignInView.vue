@@ -193,7 +193,8 @@ export default {
 
       // 等待服务器返回邮箱存在否
       axios.post('api/profile/send_email',{
-          email:this.email
+          email:this.email,
+          email_type:'register'
       })
       .then((response)=>{
         if(response.data['code']=='001'){
