@@ -157,6 +157,7 @@
           nickname: 'Foster the People',
           like_num: 111,
           comment_num: 11,
+        
         },
         {
           title: 'Halcyon Days',
@@ -205,6 +206,7 @@
       changeSort: function(){
         this.sort.icon = !this.sort.icon
       },
+
     }
 
   }
