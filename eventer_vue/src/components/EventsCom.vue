@@ -1,61 +1,172 @@
-// TODO:确定展示方式
-
 <template>
   <v-card
-    flat
-    tile
+    class="mx-auto"
   >
-    <v-toolbar
-      color="primary"
-      dark
-    >
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-toolbar>
+    <v-container> 
 
-    <v-container
-      v-for="type in types"
-      :key="type"
-      class="grey lighten-4"
-      fluid
-    >
-      <v-subheader>{{ type }}</v-subheader>
+      <v-row dense justify="center">
+        <v-col
+        cols="10"
+        >
+          <v-text-field
+            v-model="search"
+            label="Search Events"
+            color="primary"
+            clearable
+            dense
+          ></v-text-field>
+        </v-col>
+
+        <v-col
+        cols="1"
+        align-end>
+          <v-btn
+            tile
+            icon
+            @click="changeSort"
+          >
+            <v-icon
+            v-if="sort.icon" 
+            v-icon 
+            dark
+            color=blue
+            >
+              mdi-new-box
+            </v-icon>
+            <v-icon 
+            v-if="!sort.icon" 
+            v-icon 
+            dark
+            color=red
+            >
+              mdi-fire
+            </v-icon>
+          </v-btn>
+        </v-col>
+        
+      </v-row>
 
       <v-row>
-        <v-spacer></v-spacer>
         <v-col
-          v-for="card in cards"
-          :key="card"
+          v-for="event in filteredEvents"
+          :key="event"
           cols="12"
-          sm="6"
-          md="4"
+          sm="12"
+          md="6"
         >
-          <v-card>
+          <v-card
+            flat
+            outlined
+          >
+
             <v-img
-              :src="`https://picsum.photos/200/300?image=${getImage()}`"
-              height="300px"
+              :src="event.banner"
+              height="200px"
             >
-              <span
-                class="text-h5 white--text pl-4 pt-4 d-inline-block"
-                v-text="card"
-              ></span>
             </v-img>
 
-            <v-card-actions class="white justify-center">
-              <v-btn
-                v-for="(social, i) in socials"
-                :key="i"
-                :color="social.color"
-                class="white--text"
-                fab
-                icon
-                small
+            <v-card-title>
+              {{event.title}}
+            </v-card-title>
+
+            <v-card-subtitle>
+              <!-- 存在显示不全的问题 -->
+              <v-chip-group
               >
-                <v-icon>{{ social.icon }}</v-icon>
+                <v-chip
+                  class="font-weight-light"
+                  outlined
+                  v-for="tag in event.tags"
+                  :key="tag"
+                  color="blue-grey lighten-2"
+                  small
+                >
+                <v-icon left>
+                  mdi-label
+                </v-icon>
+                  {{ tag | to-uppercase}}
+                </v-chip>
+              </v-chip-group>
+            </v-card-subtitle>
+
+            <v-card-actions>
+              <v-btn
+                color="orange lighten-2"
+                text
+              >
+                Register
+              </v-btn>
+
+              <v-spacer></v-spacer>
+
+              <v-btn
+                icon
+                @click="event.show = !event.show"
+              >
+                <v-icon>{{ event.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
               </v-btn>
             </v-card-actions>
+
+            <v-expand-transition>
+              <div v-show="event.show">
+                <v-divider></v-divider>
+
+                <v-list-item class="grow">
+
+                <v-list-item-avatar
+                >
+                  <v-img
+                    class="elevation-6"
+                    :src="event.avatar"
+                  ></v-img>
+                </v-list-item-avatar>
+
+                  <v-badge
+                  v-if="true"
+                  color="accent"
+                  icon="mdi-hexagram"
+                  offset-x="30"
+                  offset-y="25"
+                >
+                </v-badge>      
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{event.nickname}}</v-list-item-title>
+                  </v-list-item-content>
+
+                  <v-row
+                    align="center"
+                    justify="end"
+                  >
+                    <!-- 外观考虑修改 -->
+                    <v-icon class="mr-1">
+                      mdi-account-group
+                    </v-icon>
+                    <span class="subheading mr-2">{{event.attend_num}}</span>
+                    <span class="subheading mr-2">/</span>
+                    <span class="subheading mr-2">{{event.upper_num}}</span>
+                  </v-row>
+                </v-list-item>
+
+                <!-- 只能报名一个且如果时间满了，那这个时间段将不可选中，且报名时要先选择时间段-->
+                <v-card-text>
+                <v-chip-group
+                  v-model="event.selection"
+                  active-class="primary--text text--accent-4"
+                  mandatory
+                >
+                <v-chip
+                  v-for="time in event.available_time"
+                  :key="time"
+                >
+                  {{ time }}
+                </v-chip>
+                </v-chip-group>
+                </v-card-text>
+              </div>
+            </v-expand-transition>
+
           </v-card>
         </v-col>
       </v-row>
@@ -66,31 +177,116 @@
 <script>
   export default {
     data: () => ({
-      types: ['Places to Be', 'Places to See'],
-      cards: ['Good', 'Best', 'Finest'],
-      socials: [
+      events: [
         {
-          icon: 'mdi-facebook',
-          color: 'indigo',
+          banner:'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
+          title: 'Supermodel',
+          tags: ['Work', 'Home Improvement',] ,
+          avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          is_authenticated: false,
+          nickname: 'Foster the People',
+          upper_num: 111,
+          attend_num: 11,
+          available_time:['5:30PM','7:30PM','8:00PM','9:00PM'],
+          selection: 0,
+          show: false,
         },
         {
-          icon: 'mdi-linkedin',
-          color: 'cyan darken-1',
+          banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          title: 'Halcyon Days',
+          tags: ['Art', 'Tech', 'Creative Writing',] ,
+          avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
+          is_authenticated: true,
+          nickname: 'Ellie Goulding',
+          upper_num: 222,
+          attend_num: 22,
+          available_time:['5:30PM','9:00PM'],
+          selection: 0,
+          show: false,
+        },
+          {
+          banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          title: 'Title',
+          tags: ['Art', 'Creative Writing',] ,
+          avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
+          is_authenticated: false,
+          nickname: 'Evan You',
+          upper_num: 333,
+          attend_num: 33,
+          available_time:['8:00PM','9:00PM'],
+          selection: 0,
+          show: false,
         },
         {
-          icon: 'mdi-instagram',
-          color: 'red lighten-3',
+          banner:'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
+          title: 'Supermodel',
+          tags: ['Work', 'Home Improvement',] ,
+          avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          is_authenticated: false,
+          nickname: 'Foster the People',
+          upper_num: 111,
+          attend_num: 11,
+          available_time:['5:30PM','7:30PM','8:00PM','9:00PM'],
+          selection: 0,
+          show: false,
+        },
+        {
+          banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          title: 'Halcyon Days',
+          tags: ['Art', 'Tech', 'Creative Writing',] ,
+          avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
+          is_authenticated: true,
+          nickname: 'Ellie Goulding',
+          upper_num: 222,
+          attend_num: 22,
+          available_time:['5:30PM','9:00PM'],
+          selection: 0,
+          show: false,
+        },
+          {
+          banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+          title: 'Title',
+          tags: ['Art', 'Creative Writing',] ,
+          avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
+          is_authenticated: false,
+          nickname: 'Evan You',
+          upper_num: 333,
+          attend_num: 33,
+          available_time:['8:00PM','9:00PM'],
+          selection: 0,
+          show: false,
         },
       ],
-    }),
 
-    methods: {
-      getImage () {
-        const min = 550
-        const max = 560
+      search:'',
+      isTag : false,
 
-        return Math.floor(Math.random() * (max - min + 1)) + min
+      sort:{
+        link: '',
+        icon: false,
       },
+
+    }),
+    computed:{
+      filteredEvents:function(){
+        if (!this.search) return this.events
+
+        return this.events.filter((event)=>{
+          this.isTag = false;
+          event.tags.forEach(element => {
+            if (element.toLowerCase().match(this.search.toLowerCase())){
+              this.isTag = true;
+            }
+          });
+          return ( event.title.toLowerCase().match(this.search.toLowerCase()) || event.nickname.toLowerCase().match(this.search.toLowerCase()) || this.isTag )
+        })
+      }
+    },
+    // run when anything change
+    methods: {
+      changeSort: function(){
+        this.sort.icon = !this.sort.icon
+      },      
     },
   }
 </script>

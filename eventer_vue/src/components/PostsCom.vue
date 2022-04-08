@@ -1,3 +1,4 @@
+<!-- TODO:增加超链接 -->
 <template>
 
   <v-card
@@ -51,7 +52,6 @@
 
       <v-row dense>
       
-        <!-- TODO:卡片颜色问题 -->
         <v-col
           v-for="(post, i) in filteredPosts"
           :key="i"
@@ -63,17 +63,19 @@
           >
 
             <v-card-title
-              class="text-h5 text-h5 font-weight-black "
+              class="text-h5 font-weight-black "
               v-text="post.title"
               v-rainbow
             ></v-card-title>
 
-            <!-- TODO:限制显示字数上限,利用filter -->
-            <v-card-text 
+          <v-container mx-1>
+            <p
             class="text-h6 font-weight-bold"
             >
-              <p class="black--text">{{post.text | snippet}}</p>
-            </v-card-text>
+              {{post.text | snippet}}
+            </p>
+          </v-container>
+
 
             <v-row class="mx-3">
                 <v-chip-group>
@@ -139,8 +141,6 @@
       </v-row>
     </v-container>
     
-
-
   </v-card>
 </template>
 
@@ -149,7 +149,6 @@
     data: () => ({
       posts: [
         {
-          color: '#26c6da',
           title: 'Supermodel',
           text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
           tags: ['Work', 'Home Improvement',] ,
@@ -160,7 +159,6 @@
           comment_num: 11,
         },
         {
-          color: '#26c6da',
           title: 'Halcyon Days',
           text: "Turns out semicolon-less style is easier and safer in.22 222222222 22222 222222 2222 222 2222 2222 22222 222 2222222222 2222 22 222222 2222222 2222222 2222222 222222 2222 2222222 22222 22222222 222222 222222 2222",
           tags: ['Art', 'Tech', 'Creative Writing',] ,
@@ -171,7 +169,6 @@
           comment_num: 22,
         },
           {
-          color: '#26c6da',
           title: 'Title',
           text: "Turns out semicolon-less style is easier and safer in .333 3333333 3333 3333333 33 33",
           tags: ['Art', 'Creative Writing',] ,
@@ -207,7 +204,7 @@
     methods:{
       changeSort: function(){
         this.sort.icon = !this.sort.icon
-      }
+      },
     }
 
   }

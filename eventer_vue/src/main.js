@@ -11,7 +11,7 @@ Vue.filter('to-uppercase', function(value){
 });
 
 Vue.filter('snippet', function(value){
-  return value.slice(0,190)
+  return value.slice(0,190) + "......"
 });
 
 // Custom directives
