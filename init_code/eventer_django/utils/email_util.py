@@ -6,7 +6,7 @@ import datetime
 from eventer_django import settings
 from datetime import timedelta
 
-def random_codechr(length=16):
+def random_codechr(length=6):
     # 随机大小写组合的验证码
     chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
     codechr = ''

@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -188,9 +189,23 @@ export default {
         this.tip = "密码不一致";
         return false;
       }
-      console.log(this.email);
+      //console.log(this.email);
+
       // 等待服务器返回邮箱存在否
-      this.emailExist = false;
+      axios.post('api/profile/send_email',{
+          email:this.email
+      })
+      .then((response)=>{
+        if(response.data['code']=='001'){
+          this.emailExist = false;
+          console.log("false");
+        }
+        else if(response.data['code']=='101'){
+          this.emailExist = true;
+          console.log("true");}
+      });
+
+      //this.emailExist = false;
       if (this.emailExist) {
         this.tip = "邮箱已存在";
         return false;
