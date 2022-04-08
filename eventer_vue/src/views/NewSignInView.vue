@@ -247,7 +247,7 @@ export default {
     },
 
     submitNewPassword: function() {
-      console.log(this.codeIn);
+      //##发送所有信息（包括验证码）
       //更改逻辑!!
       this.codeCorrect = true;
       //从服务器获得
@@ -256,6 +256,8 @@ export default {
         return false;
       }
       console.log(this.email, this.newpassword);
+
+      
     },
   },
 }
