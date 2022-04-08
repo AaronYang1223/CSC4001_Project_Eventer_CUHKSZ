@@ -28,7 +28,7 @@
                 v-model="newpassword"
                 v-bind:disabled = "inputLock"
                 id="inputNewPassword"
-                :rules="[rules.required, rules.min]"
+                :rules="[rules.required, rules.min, rules.max,]"
               >
               </v-text-field>
             </v-row>
@@ -40,7 +40,7 @@
                 v-model="newpassword2"
                 v-bind:disabled = "inputLock"
                 id="inputNewPassword2"
-                :rules="[rules.required, rules.min, rules.samepassword]"
+                :rules="[rules.required, rules.min, rules.max, rules.samepassword]"
               >
               </v-text-field>
             </v-row>
@@ -142,6 +142,7 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
+        max: v => v.length <= 18 || 'Max 18 characters',
         samepassword:  value => value == this.newpassword || "Password not same",
         emailMatch: v => /.+@+cuhk|link+.+cuhk+./.test(v) || "E-mail must be valid",
       },
@@ -182,6 +183,10 @@ export default {
       }
       if (this.newpassword.length < 8) {
         this.tip = "密码不能少于8位";
+        return false;
+      }
+      if (this.newpassword.length > 18) {
+        this.tip = "密码不能多于18位";
         return false;
       }
       if (this.newpassword != this.newpassword2) {
