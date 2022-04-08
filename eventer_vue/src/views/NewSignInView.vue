@@ -9,40 +9,84 @@
             </h1>
             <br/>
             <v-row>
+              <v-col>
               <!-- 输入邮箱 -->
-              <v-text-field
-                type="text" 
-                label="Email Address"
-                v-model="email"
-                v-bind:disabled = "inputLock"
-                id="inputEmail"
-                :rules="[rules.required, rules.emailMatch]"
-              >
-              </v-text-field>
+                <v-text-field
+                  type="text" 
+                  label="Email Address"
+                  v-model="email"
+                  v-bind:disabled = "inputLock"
+                  id="inputEmail"
+                  :rules="[rules.required, rules.emailMatch]"
+                >
+                </v-text-field>
+              </v-col>
             </v-row>
             <v-row>
+              <v-col>
               <!-- 输入密码 -->
-              <v-text-field
-                type="password" 
-                label="Password"
-                v-model="newpassword"
-                v-bind:disabled = "inputLock"
-                id="inputNewPassword"
-                :rules="[rules.required, rules.min]"
-              >
-              </v-text-field>
+                <v-text-field
+                  type="password" 
+                  label="Password"
+                  v-model="newpassword"
+                  v-bind:disabled = "inputLock"
+                  id="inputNewPassword"
+                  :rules="[rules.required, rules.min, rules.max]"
+                >
+                </v-text-field>
+              </v-col>
             </v-row>
             <v-row>
+              <v-col>
               <!-- 再次输入密码 -->
-              <v-text-field
-                type="password" 
-                label="Password Repeat"
-                v-model="newpassword2"
-                v-bind:disabled = "inputLock"
-                id="inputNewPassword2"
-                :rules="[rules.required, rules.min, rules.samepassword]"
-              >
-              </v-text-field>
+                <v-text-field
+                  type="password" 
+                  label="Password Repeat"
+                  v-model="newpassword2"
+                  v-bind:disabled = "inputLock"
+                  id="inputNewPassword2"
+                  :rules="[rules.required, rules.min, rules.samepassword]"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <!-- 输入First/Last name  -->
+              <v-col>
+                <v-text-field
+                  type="text" 
+                  label="First Name"
+                  v-model="firstname"
+                  v-bind:disabled = "inputLock"
+                  id="inputFirstname"
+                  :rules="[rules.required, rules.max]"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  type="text" 
+                  label="Last Name"
+                  v-model="lastname"
+                  v-bind:disabled = "inputLock"
+                  id="inputLastname"
+                  :rules="[rules.required, rules.max]"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  type="text" 
+                  label="Nick Name"
+                  v-model="nickname"
+                  v-bind:disabled = "inputLock"
+                  id="inputNickname"
+                  :rules="[rules.required, rules.max]"
+                >
+                </v-text-field>
+              </v-col>
             </v-row>
             <v-row>
               <v-col>
@@ -76,6 +120,7 @@
             </v-row>
             <v-row>
               <v-btn
+                block
                 v-if="submitShow" 
                 @click="submitNewPassword()"
               >
@@ -131,6 +176,9 @@ export default {
       emailExist: false,
       newpassword: "",
       newpassword2: "",
+      firstname: "",
+      lastname: "",
+      nickname: "",
       snackbar: false,
       snackbar2: false,
       submitShow: false,
@@ -142,6 +190,7 @@ export default {
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
+        max: v => v.length <= 18 || 'Max 18 characters',
         samepassword:  value => value == this.newpassword || "Password not same",
         emailMatch: v => /.+@+cuhk|link+.+cuhk+./.test(v) || "E-mail must be valid",
       },
@@ -180,8 +229,20 @@ export default {
         this.tip = "密码不能为空";
         return false;
       }
+      if (this.nickname == "" || this.firstname == "" || this.lastname == "") {
+        this.tip = "名称等不能为空";
+        return false;
+      }
       if (this.newpassword.length < 8) {
         this.tip = "密码不能少于8位";
+        return false;
+      }
+      if (this.nickname.length > 18 || this.firstname.length > 18 || this.lastname.length > 18) {
+        this.tip = "名称等不能多于18位";
+        return false;
+      }
+      if (this.newpassword.length > 18) {
+        this.tip = "密码不能多于18位";
         return false;
       }
       if (this.newpassword != this.newpassword2) {
@@ -233,7 +294,7 @@ export default {
     submitNewPassword: function() {
       console.log(this.codeIn);
       //更改逻辑!!
-      this.codeCorrect = true;
+      this.codeCorrect = false;
       //从服务器获得
       if (!this.codeCorrect) {
         this.snackbar2 = true;
