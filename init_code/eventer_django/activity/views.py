@@ -12,9 +12,11 @@ import private_calendar
 from .serializers import Activity_serializer
 from .models import Activity
 import datetime
-from django.core.files.storage import FileSystemStorage
 
 from activity import serializers
+from user.models import User
+from user.serializers import User_profile_serializer
+
 
 # TODO: Change post function for uploading a cover page when create an activity
 
@@ -171,13 +173,26 @@ def activity_order_create_date(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-create_time')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False, is_outdate = False).order_by('-create_time')[:num]
     except:
         return HttpResponse(status = 404)
     
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+@csrf_exempt
+def activity_order_create_date_all(request):
+    
+    try:
+        activities = Activity.objects.filter(is_delete = False, is_private = False, is_outdate = False).order_by('-create_time')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
     
 @csrf_exempt
@@ -187,10 +202,34 @@ def activity_order_comment_number(request, num):
         return HttpResponse(status = 404)
     
     try:
-        activities = Activity.objects.filter(is_delete = False, is_private = False).order_by('-comment_number')[:num]
+        activities = Activity.objects.filter(is_delete = False, is_private = False, is_outdate = False).order_by('-comment_number')[:num]
     except:
         return HttpResponse(status = 404)
     
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+@csrf_exempt
+def activity_order_comment_number_all(request):
+    
+    try:
+        activities = Activity.objects.filter(is_delete = False, is_private = False, is_outdate = False).order_by('-comment_number')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+def activity_add_user_info(serializer):
+    temp_data = serializer.data
+    for i in range(len(temp_data)):
+        user = User.objects.get(pk = temp_data[i]['organizer_id'])
+        temp_user_serializer = User_profile_serializer(user)
+        # is_organization, nick_name, picture
+        temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
+        temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
+        temp_data[i]['picture'] = temp_user_serializer.data['picture']
+    return temp_data
