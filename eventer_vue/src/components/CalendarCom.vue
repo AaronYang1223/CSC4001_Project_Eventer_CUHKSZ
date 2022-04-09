@@ -48,7 +48,6 @@
           >
             <v-icon
             v-if="isPublic" 
-            v-icon 
             dark
             color=primary
             >
@@ -56,7 +55,6 @@
             </v-icon>
             <v-icon 
             v-if="!isPublic" 
-            v-icon 
             dark
             color=primary
             >
