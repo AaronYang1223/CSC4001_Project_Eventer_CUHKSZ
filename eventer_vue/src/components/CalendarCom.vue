@@ -1,4 +1,4 @@
-// TODO:在功能上考虑和event的结合程度
+// TODO:在功能上考虑和event的结合程度，更改适配
 
 <template>
   <v-row class="fill-height">
@@ -59,6 +59,7 @@
               </v-btn>
             </template>
             <v-list>
+              <!-- 适配时隐去一部分 -->
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
@@ -75,6 +76,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
+
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
@@ -94,38 +96,67 @@
           :activator="selectedElement"
           offset-x
         >
+        <!-- 更新显示，增加超链接 -->
           <v-card
-            color="grey lighten-4"
             min-width="350px"
-            flat
           >
-            <v-toolbar
-              :color="selectedEvent.color"
-              dark
-            >
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+
+            <v-card-title>
+              <h2>{{selectedEvent.name}}</h2>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text>
-              <span v-html="selectedEvent.details"></span>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
+              <v-chip
+                class="ma-2"
+                :color="selectedEvent.color"
+                outlined
               >
-                Cancel
-              </v-btn>
+                {{ selectedEvent.DTime }}
+                <v-icon
+                  dark
+                  right
+                >
+                  mdi-clock-time-two
+                </v-icon>
+              </v-chip>              
+            </v-card-title>
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-list-item class="grow">
+
+                <v-list-item-avatar
+                >
+                  <v-img
+                    class="elevation-6"
+                    :src="selectedEvent.avatar"
+                  ></v-img>
+                </v-list-item-avatar>
+
+                <v-badge
+                  v-if="selectedEvent.is_authenticated"
+                  color="accent"
+                  icon="mdi-hexagram"
+                  offset-x="30"
+                  offset-y="25"
+                >
+                </v-badge>      
+
+                <v-list-item-content>
+                  <v-list-item-title>{{selectedEvent.nickname}}</v-list-item-title>
+                </v-list-item-content>
+
+                <v-row
+                  align="center"
+                  justify="end"
+                >
+                  <v-btn
+                    text
+                    color="secondary"
+                  >
+                    Detail
+                  </v-btn>
+                </v-row>
+
+              </v-list-item>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -149,18 +180,45 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      //更改主题色
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan',],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      truth:[true, false],
+      min_1: '',
+      min_2: '',
     }),
+    // 渲染后调用
     mounted () {
       this.$refs.calendar.checkChange()
     },
     methods: {
+      showTime (start, end) {
+        this.min_1 = start.getMinutes()
+        if (this.min_1 == 0){
+          this.min_1 = "00"
+        }else{
+          this.min_1 = start.getMinutes().toString()
+        }
+        
+        this.min_2 = end.getMinutes()
+        if (this.min_2 == 0){
+          this.min_2 = "00"
+        }else{
+          this.min_2 = end.getMinutes().toString()
+        }
+        return start.getUTCHours().toString() + ":" + this.min_1 + "~" + end.getUTCHours().toString() + ":" + this.min_2
+      },
       viewDay ({ date }) {
         this.focus = date
         this.type = 'day'
       },
       getEventColor (event) {
+        if(event.is_personal){
+          return 'grey'
+        }
+        else if(event.is_authenticated){
+          return 'orange'
+        }
         return event.color
       },
       setToday () {
@@ -207,8 +265,15 @@
             name: this.names[this.rnd(0, this.names.length - 1)],
             start: first,
             end: second,
+            DTime: this.showTime(first, second), 
             color: this.colors[this.rnd(0, this.colors.length - 1)],
             timed: !allDay,
+
+            avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+            is_authenticated: this.truth[this.rnd(0, this.truth.length - 1)],
+            nickname: 'Foster the People',
+
+            is_personal: this.truth[this.rnd(0, this.truth.length - 1)],
           })
         }
 
