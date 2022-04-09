@@ -286,7 +286,32 @@
     methods: {
       changeSort: function(){
         this.sort.icon = !this.sort.icon
-      },      
+        this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/activity/order/create_date/all' : 'http://127.0.0.1:8000/api/activity/order/comment_number/all'
+        this.$axios.get(this.sort.link).then(response => {
+          this.events = []
+          console.log(response.data)
+          for (let i = 0; i < response.data.length; i++) {
+            this.events.push(
+              {
+                banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+                title: response.data[i].title,
+                text: response.data[i].content,
+                tags: response.data[i].tag.split(' '),
+                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                is_authenticated: response.data[i].is_organization,
+                nickname: response.data[i].nick_name,
+                upper_num: response.data[i].max_participant_num,
+                attend_num: response.data[i].participant_num,
+                start_time: response.data[i].start_time,
+                end_time: response.data[i].end_time,
+                selection: 0,
+                show: false,
+              }
+            )
+            
+          }
+        })
+      },     
     },
   }
 </script>

@@ -220,7 +220,6 @@
                 comment_num: response.data[i].comment_number,
               }
             )
-            console.log(this.posts[i]['comment_num'])
           }
         })
       },
