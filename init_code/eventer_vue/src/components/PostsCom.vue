@@ -205,16 +205,24 @@
     methods:{
       changeSort: function(){
         this.sort.icon = !this.sort.icon
-      },
-
-      get: function(url){
-        return fetch(url)
-        .then(response => response.json())
-        .then(json => {
-          this.posts = json.posts;
+        this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/post/order/create_date/all' : 'http://127.0.0.1:8000/api/post/order/comment_number/all'
+        this.$axios.get(this.sort.link).then(response => {
+          this.posts = []
+          for (let i = 0; i < response.data.length; i++) {
+            this.posts.push(
+              {
+                title: response.data[i].post_title,
+                text: response.data[i].post_content,
+                tags: response.data[i].post_tag.split(' '),
+                avatar: response.data[i].picture,
+                is_authenticated: response.data[i].is_organization,
+                nickname: response.data[i].nick_name,
+                comment_num: response.data[i].comment_num,
+              }
+            )
+          }
         })
-      }
-
+      },
     }
 
   }
