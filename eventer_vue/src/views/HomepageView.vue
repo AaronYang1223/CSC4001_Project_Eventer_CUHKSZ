@@ -31,8 +31,11 @@
                 :key="i"
                 :value="'tab-' + i"
               >
-                <v-card v-if="i == 1" flat>
-                  <CalendarCom />
+                <v-card v-if="i == 1 && !isPublic" flat>
+                  <CalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></CalendarCom>
+                </v-card>
+                <v-card v-if="i == 1 && isPublic" flat>
+                  <PublicCalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></PublicCalendarCom>
                 </v-card>
                 <v-card v-if="i == 2" flat>
                   <PostsCom />
@@ -71,15 +74,22 @@ import PostsCom from '@/components/PostsCom'
 import EventsCom from '@/components/EventsCom'
 import WeatherCom from '@/components/WeatherCom'
 import NewsCom from '@/components/NewsCom'
+import PublicCalendarCom from '@/components/PublicCalendarCom'
 
 export default {
   name: 'HomepageView',
-  components: { CalendarCom, PostsCom, EventsCom, WeatherCom, NewsCom},
+  components: { CalendarCom, PostsCom, EventsCom, WeatherCom, NewsCom, PublicCalendarCom},
   data () {
     return {
       tab: null,
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      isPublic: false,
+      
     }
   },
+  methods:{
+    updateCalendar: function(updatedCalendar){
+      this.isPublic = updatedCalendar
+    }
+  }
 }
 </script>

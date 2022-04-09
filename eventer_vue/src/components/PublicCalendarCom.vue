@@ -211,7 +211,7 @@
       selectedOpen: false,
       events: [],
       //更改主题色
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan',],
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'orange', 'grey'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       truth:[true, false],
       min_1: '',
@@ -247,12 +247,6 @@
         this.type = 'day'
       },
       getEventColor (event) {
-        if(event.is_personal){
-          return 'grey'
-        }
-        else if(event.is_authenticated){
-          return 'orange'
-        }
         return event.color
       },
       setToday () {
