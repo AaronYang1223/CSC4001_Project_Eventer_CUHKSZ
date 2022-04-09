@@ -55,3 +55,11 @@ def send_email(to_email, send_type='register'):
         if not send_status:
             return False
     return True
+
+def send_check_organization_email(to_email):
+    email_title = "组织者账号验证"
+    email_body = "请回复此封邮件以请求认证成为组织者账号，内容包括你的邮箱与组织名称。"
+    send_status = send_email(email_title, email_body, settings.EMAIL_FROM,[to_email])
+    if(not send_status):
+        return False
+    return True

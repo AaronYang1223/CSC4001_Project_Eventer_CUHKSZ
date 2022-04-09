@@ -11,7 +11,7 @@ from .models import Email_check_new, User
 
 from .forms import RegisterForm
 from django.contrib.auth.hashers import make_password
-from utils.email_util import send_email
+from utils.email_util import send_email, send_check_organization_email
 
 @csrf_exempt
 def profile(request, pk):
@@ -44,12 +44,7 @@ def profile_upload_picture(request, pk):
 
 # for put method, need to include all fields without default values
 @csrf_exempt
-def profile_change(request, pk):
-    
-    try:
-        user = User.objects.get(pk = pk)
-    except:
-        return JsonResponse(status = 404)
+def profile_change(request):
     
     # do not limit is_organization
     if (request.method == 'PUT'):
@@ -57,15 +52,41 @@ def profile_change(request, pk):
         data = json.loads(json_data)
         
         email = data.get('email')
+        oldpassword = data.get('oldpassword')
+        newpassword = data.get('newpassword')
+        try:
+            User.objects.filter(email=email,password=oldpassword).update(password=newpassword)
+            return JsonResponse({
+                'code' : '005',
+                'message':'update password success'
+            })
+        except:
+            return JsonResponse({
+                'code' : '105',
+                'message':'update password failed'
+            })
+
+
+@csrf_exempt
+def profile_retrieve(request):
+    if (request.method == 'PUT'):
+        json_data = request.body.decode("utf-8")
+        data = json.loads(json_data)
+        email = data.get('email')
         code = data.get('code')
-        email_code = Email_check_new.objects.filter(email = email, email_type = 'retrieve').first()
-        if(email_code.__getattribute__('code') == code):
-            user_data = JSONParser().parse(request)
-            serializers = User_profile_serializer(user, data = user_data)
-            if (serializers.is_valid()):
-                serializers.save()
-                return JsonResponse(serializers.data, status = 201)
-        return JsonResponse(serializers.errors, status = 400)
+        newpassword = data.get('newpassword')
+        email_code = Email_check_new.objects.filter(email = email, email_type = 'retrieve').order_by('-send_time')[:1]
+
+        if(email_code.values()[0]['code']==code):
+            User.objects.filter(email = email).update(password = newpassword)
+            return JsonResponse({
+                'code' : '004',
+                'message':'password updated'
+            })
+        return JsonResponse({
+            'code' : '104',
+            'message':'update password failed'
+        })
 
 @csrf_exempt
 def profile_add(request):
@@ -80,12 +101,9 @@ def profile_add(request):
         email_code = Email_check_new.objects.filter(email = email, email_type = 'register').order_by('-send_time')[:1]
         if email_code != []:
             print('exist')
-        if(email_code.values()[0]['code']):
+        if(email_code.values()[0]['code']==code):
             user_data = JSONParser().parse(request)
-            if(user_data==NULL):
-                print("null")
-            else:
-                print(user_data)
+
             serializers = User_profile_serializer(data = user_data)
             if (serializers.is_valid()):
                 serializers.save()
@@ -98,10 +116,9 @@ def profile_add(request):
             'message':'create userprofile failed'
         })
 
-def check_organization(request):
-    pass
-
-
+def check_organization(email):
+    send_check_organization_email(email)
+    
 @csrf_exempt
 def email_verification(request):
     json_data = request.body.decode("utf-8")
@@ -120,7 +137,7 @@ def email_verification(request):
                     'message': 'error: This email is already registered' 
                 })
             if email_type == 'retrieve':
-                email_status = send_email(email, email_type = 'retrieve')
+                email_status = send_email(email, send_type = 'retrieve')
                 return JsonResponse({
                     'email': str(email),
                     'code':'003', # 003 === email exist
@@ -129,6 +146,8 @@ def email_verification(request):
         else:
             if email_type == 'register':
                 email_status = send_email(email, send_type = 'register')
+                if(data.get('is_organization') == "true"):
+                    check_organization(email)
                 return JsonResponse({
                     'email': str(email),
                     'code':'001', # 001 === email valid for registration
