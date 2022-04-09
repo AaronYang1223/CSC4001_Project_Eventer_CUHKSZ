@@ -214,12 +214,13 @@
                 title: response.data[i].post_title,
                 text: response.data[i].post_content,
                 tags: response.data[i].post_tag.split(' '),
-                avatar: response.data[i].picture,
+                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
                 is_authenticated: response.data[i].is_organization,
                 nickname: response.data[i].nick_name,
-                comment_num: response.data[i].comment_num,
+                comment_num: response.data[i].comment_number,
               }
             )
+            console.log(this.posts[i]['comment_num'])
           }
         })
       },
