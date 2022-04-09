@@ -101,6 +101,7 @@
         </v-toolbar>
       </v-sheet>
 
+<!-- //TODO:更GAI CHANGE!!! -->
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
@@ -210,7 +211,7 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      //更改主题色
+      //TODO:更改主题色!!!
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'orange', 'grey'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       truth:[true, false],

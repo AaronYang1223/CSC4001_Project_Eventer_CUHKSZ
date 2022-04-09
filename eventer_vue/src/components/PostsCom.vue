@@ -148,6 +148,7 @@
   export default {
     data: () => ({
       posts: [
+
         {
           title: 'Supermodel',
           text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
@@ -157,7 +158,6 @@
           nickname: 'Foster the People',
           like_num: 111,
           comment_num: 11,
-        
         },
         {
           title: 'Halcyon Days',
