@@ -1,13 +1,14 @@
 <template>
-  <div class="login">
-    <h1>Login</h1>
+  <div class="event">
+    <h1>New Event</h1>
   </div>
 </template>
 
 <script>
 
+
 export default {
-  name: 'LoginView',
+  name: 'NewEventView',
 
 }
 </script>

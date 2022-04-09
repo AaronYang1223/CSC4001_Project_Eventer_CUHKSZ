@@ -1,10 +1,28 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import vuetify from './plugins/vuetify'
 
-createApp(App).use(store).use(router).mount('#app')
+Vue.config.productionTip = false
 
-import axios from 'axios'
+// Filters
+Vue.filter('to-uppercase', function(value){
+  return value.toUpperCase()
+});
 
-Vue.prototype.$axios = axios
+Vue.filter('snippet', function(value){
+  return value.slice(0,190) + "......"
+});
+
+// Custom directives
+Vue.directive('rainbow', {
+  bind(el){
+      el.style.color = "#" + "4B" + Math.random().toString(16).slice(2, 4) + "FF";
+  }
+});
+
+new Vue({
+  router,
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')

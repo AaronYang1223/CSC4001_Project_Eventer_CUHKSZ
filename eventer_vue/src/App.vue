@@ -3,7 +3,7 @@
     <NavbarCom />
 
     <!-- load the actual code -->
-    <v-content>
+    <v-content class="ma-2 pa-1">
       <router-view></router-view>
     </v-content>
 
