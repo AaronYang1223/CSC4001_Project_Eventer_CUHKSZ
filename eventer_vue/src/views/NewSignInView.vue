@@ -119,6 +119,14 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col>
+                <v-checkbox
+                  v-model="applyForOrganization"
+                  label= "Apply As Organization"
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+            <v-row>
               <v-btn
                 block
                 v-if="submitShow" 
@@ -174,6 +182,7 @@ export default {
       hasError: false,
       email: "",
       emailExist: false,
+      applyForOrganization: false,
       newpassword: "",
       newpassword2: "",
       firstname: "",
