@@ -207,6 +207,14 @@
         this.sort.icon = !this.sort.icon
       },
 
+      get: function(url){
+        return fetch(url)
+        .then(response => response.json())
+        .then(json => {
+          this.posts = json.posts;
+        })
+      }
+
     }
 
   }
