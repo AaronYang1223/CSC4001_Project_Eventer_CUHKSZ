@@ -27,24 +27,22 @@
               ></v-text-field>
             </v-row>
             <v-row justify="center" align="center">
-              <v-btn block>
-                <a href="javascript:void(0);" @click="toMallInfo('M000989')">
-                  Login Test/登陆
-                </a>
+              <v-btn block @click="submit">
+                Login/登陆
               </v-btn>
             </v-row>
             <!-- 以下:注册和忘记密码 -->
             <v-row>
               <v-col>
                 <v-btn block>
-                  <a href="/t1">
+                  <a href="/signin">
                     Sign In/注册
                   </a>
                 </v-btn>
               </v-col>
               <v-col>
                 <v-btn block>
-                  <a href="/t2">
+                  <a href="/forget">
                     Forget the Password/忘记密码
                   </a>
                 </v-btn>
@@ -75,7 +73,7 @@ export default {
   data() {
     return {
       email: "",
-      loginSuccess: true,
+      loginSuccess: false,
       snackbar: false,
       password: "",
       rules: {
@@ -89,28 +87,15 @@ export default {
   methods: {
     submit: function(){
       console.log(this.email, this.password);
-    },
-    toMallInfo: function(account_id){
-      console.log(this.email, this.password);
-      //服务器接受信息
-      if (!this.loginSuccess) {
-        this.snackbar= true;
-        return false;
+      // 需要服务器返回登陆信息
+      this.loginSuccess = true;
+      console.log(this.loginSuccess);
+      if (this.loginSuccess) {
+        this.$store.commit("loginUpdate");
+        console.log("cnm")
+        console.log(this.$store.state.hasLogin);
+        window.location.href = "/";
       }
-      account_id = this.email;
-      account_id;
-      this.$router.push({
-      path: '/test',
-      query: {
-        account_id: this.email,
-        }
-      });
-      this.$router.push({
-      name: 'test',
-      params: {
-        account_id: this.email,
-      }
-      })
     },
   },
 }
