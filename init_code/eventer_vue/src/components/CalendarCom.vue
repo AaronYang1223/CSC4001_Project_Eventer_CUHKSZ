@@ -222,7 +222,7 @@
       this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/' + this.user_id).then(response => {
         this.events = []
         console.log(response.data)
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < response.data.length; i++) {
           this.events.push(
             {
               name: response.data[i].activity_title,
@@ -233,6 +233,7 @@
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,
               is_personal: response.data[i].is_personal,
+              color: this.colors[this.rnd(0, this.colors.length - 1)],
             }
           )
         }
@@ -300,42 +301,9 @@
 
         nativeEvent.stopPropagation()
       },
-      // updateRange ({ start, end }) {
-      //   const events = []
-
-      //   const min = new Date(`${start.date}T00:00:00`)
-      //   const max = new Date(`${end.date}T23:59:59`)
-      //   const days = (max.getTime() - min.getTime()) / 86400000
-      //   const eventCount = this.rnd(days, days + 20)
-
-      //   for (let i = 0; i < eventCount; i++) {
-      //     const allDay = this.rnd(0, 3) === 0
-      //     const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-      //     const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-      //     const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-      //     const second = new Date(first.getTime() + secondTimestamp)
-
-      //     events.push({
-      //       name: this.names[this.rnd(0, this.names.length - 1)],
-      //       start: first,
-      //       end: second,
-      //       DTime: this.showTime(first, second), 
-      //       color: this.colors[this.rnd(0, this.colors.length - 1)],
-      //       timed: !allDay,
-
-      //       avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-      //       is_authenticated: this.truth[this.rnd(0, this.truth.length - 1)],
-      //       nickname: 'Foster the People',
-
-      //       is_personal: this.truth[this.rnd(0, this.truth.length - 1)],
-      //     })
-      //   }
-
-      //   this.events = events
-      // },
-      // rnd (a, b) {
-      //   return Math.floor((b - a + 1) * Math.random()) + a
-      // },
+      rnd (a, b) {
+        return Math.floor((b - a + 1) * Math.random()) + a
+      },
     },
   }
 </script>
