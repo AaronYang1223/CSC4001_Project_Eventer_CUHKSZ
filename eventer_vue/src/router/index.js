@@ -9,6 +9,9 @@ import SignView from '../views/SignView.vue'
 import NewSignInView from '../views/NewSignInView.vue'
 import NewLoginView from '../views/NewLoginView.vue'
 import NewForgetView from '../views/NewForgetView.vue'
+import NewPostView from '../views/NewPost.vue'
+// import PostTestView from '../views/PostTestView.vue'
+import NewEventView from '../views/NewEventView.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +68,16 @@ const routes = [
     path: '/t3',
     name: 't3',
     component: NewLoginView,
+  },
+  {
+    path: '/t4',
+    name: 't4',
+    component: NewPostView,
+  },
+  {
+    path: '/t5',
+    name: 't5',
+    component: NewEventView,
   },
 ]
 
