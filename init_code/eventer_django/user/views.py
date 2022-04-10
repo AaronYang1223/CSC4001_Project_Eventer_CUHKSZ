@@ -99,6 +99,7 @@ def profile_add(request):
         #    check_organization(data)
         email = data.get('email')
         code = data.get('code')
+        password = data.get('password')
         email_code = Email_check_new.objects.filter(email = email, email_type = 'register').order_by('-send_time')[:1]
         if email_code != []:
             print('exist')
@@ -110,6 +111,7 @@ def profile_add(request):
             serializers = User_profile_serializer(data = user_data)
             if (serializers.is_valid()):
                 serializers.save()
+                User.objects.filter(email=email).update(password=password)
                 return JsonResponse({
                     'code' : '002',
                     'message':'create userprofile success'

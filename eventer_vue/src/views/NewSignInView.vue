@@ -321,11 +321,11 @@ export default {
       axios.post('api/profile/add',{
           email:this.email,
           code:this.codeIn,
-          is_organization:this.applyForOrganization,
+          password:this.newpassword,
           first_name:this.firstname,
           last_name:this.lastname,
           nick_name:this.nickname,
-          password:this.newpassword
+          is_organization:this.applyForOrganization
       })
       .then((response)=>{
         if(response.data['code']=='002'){
