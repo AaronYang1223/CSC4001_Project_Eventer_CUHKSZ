@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
     path('public_calendar/<str:start_date>/<str:end_date>', views.calendar),
     # path('public_calendar/create', views.create_calendar_event)
+    path('public_calendar/all', views.calendar_public_all),
 ]
