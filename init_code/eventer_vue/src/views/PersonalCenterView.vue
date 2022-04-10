@@ -51,7 +51,7 @@
 
               <v-tab-item>
                 <v-card flat >
-                <UpdateImageCom />
+                <TESTUpdateImageCom />
                 <ChangeInfoCom />
                 </v-card>
               </v-tab-item>
@@ -86,13 +86,13 @@
 </template>
 
 <script>
-import UpdateImageCom from '@/components/UpdateImageCom'
+import TESTUpdateImageCom from '@/components/TESTUpdateImageCom'
 import CalendarCom from '@/components/CalendarCom'
 import ChangeInfoCom from '@/components/ChangeInfoCom'
 
 export default {
   name: 'PersonalCenterView',
-  components: {UpdateImageCom, CalendarCom, ChangeInfoCom},
+  components: {TESTUpdateImageCom, CalendarCom, ChangeInfoCom},
   data () {
     return {
 

@@ -217,17 +217,18 @@
       user_id: '1',
 
     }),
-    create(){
-      this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/1').then(response => {
-        this.private_calendar = []
+    // 起始时间和结束时间不能一致或者超前
+    created(){
+      this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/' + this.user_id).then(response => {
+        this.events = []
         console.log(response.data)
-        for (let i = 0; i < response.data.length; i++) {
-          this.private_calendar.push(
+        for (let i = 0; i < 1; i++) {
+          this.events.push(
             {
               name: response.data[i].activity_title,
-              start: response.data[i].start_date,
-              end: response.data[i].end_date,
-              tags: response.data[i].tag.split(' '),
+              start: new Date(response.data[i].start_date),
+              end: new Date(response.data[i].end_date),
+              DTime: this.showTime(new Date(response.data[i].start_date), new Date(response.data[i].end_date)), 
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,
@@ -332,30 +333,9 @@
 
       //   this.events = events
       // },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-      },
-      changeSort: function(user_id){
-        this.sort.link = 'http://127.0.0.1:8000/api/private_calendar/all/' + user_id
-        this.$axios.get(this.sort.link).then(response => {
-          this.private_calendar = []
-          console.log(response.data)
-          for (let i = 0; i < response.data.length; i++) {
-            this.private_calendar.push(
-              {
-                name: response.data[i].activity_title,
-                start: response.data[i].start_date,
-                end: response.data[i].end_date,
-                tags: response.data[i].tag.split(' '),
-                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-                is_authenticated: response.data[i].is_organization,
-                nickname: response.data[i].nick_name,
-                is_personal: response.data[i].is_personal,
-              }
-            )
-          }
-        })
-      },
+      // rnd (a, b) {
+      //   return Math.floor((b - a + 1) * Math.random()) + a
+      // },
     },
   }
 </script>
