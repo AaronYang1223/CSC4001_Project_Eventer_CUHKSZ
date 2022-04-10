@@ -97,6 +97,7 @@ export default {
       this.content = this.$refs.textEditor.content;
       // content以html形式传输
       this.text = this.$refs.textEditor.text;
+      this.text = this.$store.state.msg;
       // text以纯文本形式传输
     },
     addTheTag: function() {

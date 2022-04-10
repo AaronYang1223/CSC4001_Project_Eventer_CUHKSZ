@@ -99,6 +99,7 @@ export default {
       console.log(this.email, this.password);
     },
     toMallInfo: function(account_id){
+      console.log("cnm");
       console.log(this.email, this.password);
       //服务器接受信息
       if (!this.loginSuccess) {
