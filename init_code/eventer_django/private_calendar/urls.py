@@ -6,4 +6,5 @@ urlpatterns = [
     path('private_calendar/<int:user>/<str:start_date>/<str:end_date>', views.calendar),
     path('private_calendar/<int:user>', views.calendar_get_user),
     # path('private_calendar/create', views.create_calendar_event)
+    path('private_calendar/all/<int:user>', views.calendar_private_all),
 ]
