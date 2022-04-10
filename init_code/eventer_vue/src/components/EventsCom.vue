@@ -293,6 +293,7 @@
           for (let i = 0; i < response.data.length; i++) {
             this.events.push(
               {
+                activity_id: response.data[i].id,
                 banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
                 title: response.data[i].title,
                 text: response.data[i].content,
@@ -311,7 +312,17 @@
             
           }
         })
-      },     
+      },
+      register: function(user_id, activity_id){
+        this.sort.link = 'http://127.0.0.1:8000/api/activity/participant/add'
+        this.$axios.post(this.sort.link, {
+          activity_id: activity_id,
+          user_id: user_id,
+        }).then(response => {
+          console.log(response.data)
+      
+        })
+      },
     },
   }
 </script>
