@@ -26,7 +26,7 @@
               <v-col>
               <!-- 输入密码 -->
                 <v-text-field
-                  type="password" 
+                  type="text" 
                   label="Password"
                   v-model="newpassword"
                   v-bind:disabled = "inputLock"
@@ -40,7 +40,7 @@
               <v-col>
               <!-- 再次输入密码 -->
                 <v-text-field
-                  type="password" 
+                  type="text" 
                   label="Password Repeat"
                   v-model="newpassword2"
                   v-bind:disabled = "inputLock"
@@ -317,25 +317,7 @@ export default {
     },
 
     submitNewPassword: function() {
-      // axios.post('api/profile/add',{
-      //     email:this.email,
-      //     code:this.codeIn,
-      //     first_name:this.firstname,
-      //     last_name:this.lastname,
-      //     password:this.newpassword,
-      //     nick_name:this.nickname
-      // })
-      // .then((response)=>{
-      //   if(response.data['code']=='002'){
-      //     this.codeCorrect = true;
-      //     console.log("code correct");
-      //   }
-      //   else if(response.data['code']=='102'){
-      //     this.codeCorrect = false;
-      //     console.log("code not match");}
-      // });
-      //this.codeCorrect = false;
-      //从服务器获得
+      
       axios.post('api/profile/add',{
           email:this.email,
           code:this.codeIn,
@@ -355,7 +337,7 @@ export default {
           //console.log("true");
           }
       });
-
+      console.log(this.newpassword)
       if (!this.codeCorrect) {
         this.snackbar2 = true;
         return false;

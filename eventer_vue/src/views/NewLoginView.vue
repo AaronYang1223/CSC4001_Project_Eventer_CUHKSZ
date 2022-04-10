@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -88,7 +89,21 @@ export default {
     submit: function(){
       console.log(this.email, this.password);
       // 需要服务器返回登陆信息
-      this.loginSuccess = true;
+      axios.get('api/profile/verify',{
+          params:{
+            email:this.email,
+            password:this.password
+          }
+      })
+      .then((response)=>{
+        if(response.data['status']=='valid'){
+          this.loginSuccess = true;
+        }
+        else if(response.data['status']=='error'){
+          this.loginSuccess = false;
+          }
+      });
+      //this.loginSuccess = true;
       console.log(this.loginSuccess);
       if (this.loginSuccess) {
         this.$store.commit("loginUpdate");
