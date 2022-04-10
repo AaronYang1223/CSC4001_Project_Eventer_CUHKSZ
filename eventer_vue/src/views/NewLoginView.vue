@@ -94,7 +94,7 @@ export default {
         this.$store.commit("loginUpdate");
         console.log("cnm")
         console.log(this.$store.state.hasLogin);
-        // window.location.href = "/";
+        window.location.href = "/";
       }
     },
   },
