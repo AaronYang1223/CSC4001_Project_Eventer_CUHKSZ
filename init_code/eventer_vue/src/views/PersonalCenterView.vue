@@ -51,7 +51,8 @@
 
               <v-tab-item>
                 <v-card flat >
-                <TESTUpdateImageCom />
+                <NewUpdateImageCom :uploadType="`head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="'https://cdn.vuetifyjs.com/images/cards/foster.jpg'"
+    @upload="getImgUrl"></NewUpdateImageCom>
                 <ChangeInfoCom />
                 </v-card>
               </v-tab-item>
@@ -86,20 +87,24 @@
 </template>
 
 <script>
-import TESTUpdateImageCom from '@/components/TESTUpdateImageCom'
+import NewUpdateImageCom from '@/components/NewUpdateImageCom'
 import CalendarCom from '@/components/CalendarCom'
 import ChangeInfoCom from '@/components/ChangeInfoCom'
 
 export default {
   name: 'PersonalCenterView',
-  components: {TESTUpdateImageCom, CalendarCom, ChangeInfoCom},
+  components: {NewUpdateImageCom, CalendarCom, ChangeInfoCom},
   data () {
     return {
 
     }
   },
   methods:{
-
+//接收子组件emit的事件
+getImgUrl(data) {
+    console.log("父组件")
+    console.log(data)  
+}
   },
 }
 </script>
