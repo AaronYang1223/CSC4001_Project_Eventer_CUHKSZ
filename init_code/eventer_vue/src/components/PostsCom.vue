@@ -148,37 +148,36 @@
   export default {
     data: () => ({
       posts: [
-
-        {
-          title: 'Supermodel',
-          text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
-          tags: ['Work', 'Home Improvement',] ,
-          avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-          is_authenticated: false,
-          nickname: 'Foster the People',
-          like_num: 111,
-          comment_num: 11,
-        },
-        {
-          title: 'Halcyon Days',
-          text: "Turns out semicolon-less style is easier and safer in.22 222222222 22222 222222 2222 222 2222 2222 22222 222 2222222222 2222 22 222222 2222222 2222222 2222222 222222 2222 2222222 22222 22222222 222222 222222 2222",
-          tags: ['Art', 'Tech', 'Creative Writing',] ,
-          avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-          is_authenticated: true,
-          nickname: 'Ellie Goulding',
-          like_num: 222,
-          comment_num: 22,
-        },
-          {
-          title: 'Title',
-          text: "Turns out semicolon-less style is easier and safer in .333 3333333 3333 3333333 33 33",
-          tags: ['Art', 'Creative Writing',] ,
-          avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
-          is_authenticated: false,
-          nickname: 'Evan You',
-          like_num: 333,
-          comment_num: 33,
-        },
+        // {
+        //   title: 'Supermodel',
+        //   text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
+        //   tags: ['Work', 'Home Improvement',] ,
+        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
+        //   is_authenticated: false,
+        //   nickname: 'Foster the People',
+        //   like_num: 111,
+        //   comment_num: 11,
+        // },
+        // {
+        //   title: 'Halcyon Days',
+        //   text: "Turns out semicolon-less style is easier and safer in.22 222222222 22222 222222 2222 222 2222 2222 22222 222 2222222222 2222 22 222222 2222222 2222222 2222222 222222 2222 2222222 22222 22222222 222222 222222 2222",
+        //   tags: ['Art', 'Tech', 'Creative Writing',] ,
+        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
+        //   is_authenticated: true,
+        //   nickname: 'Ellie Goulding',
+        //   like_num: 222,
+        //   comment_num: 22,
+        // },
+        //   {
+        //   title: 'Title',
+        //   text: "Turns out semicolon-less style is easier and safer in .333 3333333 3333 3333333 33 33",
+        //   tags: ['Art', 'Creative Writing',] ,
+        //   avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
+        //   is_authenticated: false,
+        //   nickname: 'Evan You',
+        //   like_num: 333,
+        //   comment_num: 33,
+        // },
       ],
     search:'',
     isTag : false,
@@ -187,6 +186,24 @@
       icon: false,
     }
     }),
+    created(){
+      this.$axios.get('http://127.0.0.1:8000/api/post/order/comment_number/all').then(response => {
+        this.posts = []
+        for (let i = 0; i < response.data.length; i++) {
+          this.posts.push(
+            {
+              title: response.data[i].post_title,
+              text: response.data[i].post_content,
+              tags: response.data[i].post_tag.split(' '),
+              avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+              is_authenticated: response.data[i].is_organization,
+              nickname: response.data[i].nick_name,
+              comment_num: response.data[i].comment_number,
+            }
+          )
+        }
+      })
+    },
     computed:{
       filteredPosts:function(){
         if (!this.search) return this.posts
