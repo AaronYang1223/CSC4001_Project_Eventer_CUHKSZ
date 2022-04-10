@@ -311,6 +311,29 @@
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
+      changeSort: function(){
+        this.sort.link = 'http://127.0.0.1:8000/api/public_calendar/all'
+        this.$axios.get(this.sort.link).then(response => {
+          this.public_calendar = []
+          console.log(response.data)
+          for (let i = 0; i < response.data.length; i++) {
+            this.public_calendar.push(
+              {
+                name: response.data[i].activity_title,
+                start: response.data[i].start_date,
+                end: response.data[i].end_date,
+                tags: response.data[i].tag.split(' '),
+                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                is_authenticated: response.data[i].is_organization,
+                nickname: response.data[i].nick_name,
+                // public 没有这个选项，因为和个人是没有关系的
+                // is_personal: response.data[i].is_personal,
+              }
+            )
+            
+          }
+        })
+      },
     },
   }
 </script>

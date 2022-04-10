@@ -140,15 +140,15 @@ POST http://127.0.0.1:8000/api/activity/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "tag": "test",
+    "tag": "test 123 123123 123213",
     "organizer_id": 1,
     "title": "test",
     "content": "test",
     "start_time": "2022-03-25T14:44:27",
     "end_time": "2022-03-25T14:44:27",
     "max_participant_num": 100,
-    "is_public": false,
-    "is_private": true
+    "is_public": true,
+    "is_private": false
 }
 
 ###
@@ -199,3 +199,18 @@ GET http://127.0.0.1:8000/api/post/order/comment_number/all HTTP/1.1
 
 ###
 GET http://127.0.0.1:8000/api/post/order/create_date/all HTTP/1.1
+
+###
+GET http://127.0.0.1:8000/api/activity/order/create_date/all HTTP/1.1
+
+
+###
+GET http://127.0.0.1:8000/api/activity/order/comment_number/all HTTP/1.1
+
+
+###
+GET http://127.0.0.1:8000/api/private_calendar/all/1 HTTP/1.1
+
+
+###
+GET http://127.0.0.1:8000/api/public_calendar/all HTTP/1.1
