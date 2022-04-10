@@ -37,7 +37,7 @@ class Email_check_new(models.Model):
 
     def __unicode__(self):
         return '{0}({1})'.format(self.code, self.email)
-        
+
 # class Email_check_old(models.Model):
 #     code = models.CharField(max_length=20, verbose_name='Verification Code')
 #     email = models.EmailField(max_length=50, verbose_name='User Email')

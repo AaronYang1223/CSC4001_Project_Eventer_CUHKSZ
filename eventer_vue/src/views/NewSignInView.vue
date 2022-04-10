@@ -317,25 +317,45 @@ export default {
     },
 
     submitNewPassword: function() {
+      // axios.post('api/profile/add',{
+      //     email:this.email,
+      //     code:this.codeIn,
+      //     first_name:this.firstname,
+      //     last_name:this.lastname,
+      //     password:this.newpassword,
+      //     nick_name:this.nickname
+      // })
+      // .then((response)=>{
+      //   if(response.data['code']=='002'){
+      //     this.codeCorrect = true;
+      //     console.log("code correct");
+      //   }
+      //   else if(response.data['code']=='102'){
+      //     this.codeCorrect = false;
+      //     console.log("code not match");}
+      // });
+      //this.codeCorrect = false;
+      //从服务器获得
       axios.post('api/profile/add',{
           email:this.email,
           code:this.codeIn,
+          is_organization:this.applyForOrganization,
           first_name:this.firstname,
           last_name:this.lastname,
-          password:this.newpassword,
-          nick_name:this.nickname
+          nick_name:this.nickname,
+          password:this.newpassword
       })
       .then((response)=>{
         if(response.data['code']=='002'){
           this.codeCorrect = true;
-          console.log("code correct");
+          //console.log("false");
         }
         else if(response.data['code']=='102'){
           this.codeCorrect = false;
-          console.log("code not match");}
+          //console.log("true");
+          }
       });
-      //this.codeCorrect = false;
-      //从服务器获得
+
       if (!this.codeCorrect) {
         this.snackbar2 = true;
         return false;

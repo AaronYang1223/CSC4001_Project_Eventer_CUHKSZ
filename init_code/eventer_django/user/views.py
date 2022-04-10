@@ -1,5 +1,6 @@
 from http.client import HTTPResponse
 import json
+import re
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -102,6 +103,8 @@ def profile_add(request):
         if email_code != []:
             print('exist')
         if(email_code.values()[0]['code']==code):
+            if(data.get('is_organization') == "true"):
+                    check_organization(email)
             user_data = JSONParser().parse(request)
 
             serializers = User_profile_serializer(data = user_data)
@@ -146,8 +149,7 @@ def email_verification(request):
         else:
             if email_type == 'register':
                 email_status = send_email(email, send_type = 'register')
-                if(data.get('is_organization') == "true"):
-                    check_organization(email)
+                
                 return JsonResponse({
                     'email': str(email),
                     'code':'001', # 001 === email valid for registration
@@ -159,17 +161,20 @@ def email_verification(request):
                     'code':'103', #103 == email doesn't get registered
                     'message': 'user doesn\'t exist' 
                 })
-    #code = data['code']
-    #email = data['email']
-    #type = data['email_type']
-    #user_obj = Email_check_new.objects.filter(email=email, code = code).first()
-    #if user_obj:    
-    #    if request.method=="POST":
-    #        #新建用户
-    #        pass
-    #    if request.method=="PUT":
-    #        #更改密码
-    #        user_old = User.objects.filter(email=email).first()
-    #else:
-    #    return HttpResponse(status=404)  # return need modification
+@csrf_exempt
+def verify_password(request):
+    if(request.method == "GET"):
+        email = request.GET.get("email")
+        password = request.GET.get("password")
+        user = User.objects.filter(email=email,password=password)
+        if(user==[]):
+            return JsonResponse({
+                'status':'error',
+                'message':'user does not exist'
+            })
+        return JsonResponse({
+            'status':'valid',
+            'message':'login success'
+        })
+
         

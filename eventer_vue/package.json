@@ -15,7 +15,9 @@
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vue-tinymce": "^1.0.5",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

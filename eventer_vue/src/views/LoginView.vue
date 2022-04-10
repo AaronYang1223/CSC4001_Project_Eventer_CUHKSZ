@@ -102,6 +102,21 @@ export default {
       console.log("cnm");
       console.log(this.email, this.password);
       //服务器接受信息
+      axios.get('api/profile/',{
+          params:{
+            email:this.email,
+            password:this.password
+          }
+      })
+      .then((response)=>{
+        if(response.data['status']=='valid'){
+          this.codeCorrect = true;
+        }
+        else if(response.data['status']=='error'){
+          this.codeCorrect = false;
+          }
+      });
+
       if (!this.loginSuccess) {
         this.snackbar= true;
         return false;
