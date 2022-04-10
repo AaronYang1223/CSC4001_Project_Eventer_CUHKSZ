@@ -28,7 +28,6 @@
           >
             <v-icon
             v-if="sort.icon" 
-            v-icon 
             dark
             color=blue
             >
@@ -36,7 +35,6 @@
             </v-icon>
             <v-icon 
             v-if="!sort.icon" 
-            v-icon 
             dark
             color=red
             >

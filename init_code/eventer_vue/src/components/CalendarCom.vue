@@ -128,7 +128,7 @@
               <v-spacer></v-spacer>
               <v-chip
                 class="ma-2"
-                :color="selectedEvent.color"
+                :color="getEventColor(selectedEvent)"
                 outlined
               >
                 {{ selectedEvent.DTime }}
@@ -222,13 +222,14 @@
       this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/' + this.user_id).then(response => {
         this.events = []
         console.log(response.data)
+        
         for (let i = 0; i < response.data.length; i++) {
           this.events.push(
             {
               name: response.data[i].activity_title,
-              start: new Date(response.data[i].start_date),
-              end: new Date(response.data[i].end_date),
-              DTime: this.showTime(new Date(response.data[i].start_date), new Date(response.data[i].end_date)), 
+              start: new Date(response.data[i].activity_start_date),
+              end: new Date(response.data[i].activity_end_date),
+              DTime: this.showTime(new Date(response.data[i].activity_start_date), new Date(response.data[i].activity_end_date)), 
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,

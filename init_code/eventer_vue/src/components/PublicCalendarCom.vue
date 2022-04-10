@@ -47,8 +47,7 @@
             @click="changeCalendar"
           >
             <v-icon
-            v-if="isPublic" 
-            v-icon 
+            v-if="isPublic"  
             dark
             color=primary
             >
@@ -56,7 +55,6 @@
             </v-icon>
             <v-icon 
             v-if="!isPublic" 
-            v-icon 
             dark
             color=primary
             >
@@ -130,7 +128,7 @@
               <v-spacer></v-spacer>
               <v-chip
                 class="ma-2"
-                :color="selectedEvent.color"
+                :color="getEventColor(selectedEvent)"
                 outlined
               >
                 {{ selectedEvent.DTime }}
@@ -211,7 +209,7 @@
       selectedOpen: false,
       events: [],
       //TODO:更改主题色!!!
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'orange', 'grey'],
+      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'orange'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       truth:[true, false],
       min_1: '',
@@ -226,9 +224,9 @@
           this.events.push(
             {
               name: response.data[i].activity_title,
-              start: new Date(response.data[i].start_date),
-              end: new Date(response.data[i].end_date),
-              DTime: this.showTime(new Date(response.data[i].start_date), new Date(response.data[i].end_date)), 
+              start: new Date(response.data[i].activity_start_date),
+              end: new Date(response.data[i].activity_end_date),
+              DTime: this.showTime(new Date(response.data[i].activity_start_date), new Date(response.data[i].activity_end_date)), 
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,
@@ -294,9 +292,10 @@
 
         nativeEvent.stopPropagation()
       },
-    },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
     },
+    },
+
   }
 </script>
