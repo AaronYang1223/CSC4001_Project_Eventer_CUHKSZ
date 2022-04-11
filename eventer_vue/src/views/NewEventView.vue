@@ -39,7 +39,7 @@
         {{ tag }}
       </v-chip>
     </v-chip-group>
-    <v-textarea
+    <!-- <v-textarea
       rows = "6"
       counter
       outlined
@@ -52,7 +52,7 @@
       id="inputMain"
       :rules="[rules.required]"
     >
-    </v-textarea>
+    </v-textarea> -->
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
     text:{{text}}<br/>
@@ -60,28 +60,33 @@
   <div>
     <span v-html="content"/>
   </div>
-    date:{{date}}<br/>
-    time:{{time}}<br/>
-    date model:{{modal}}<br/>
-    time modal:{{modal2}}<br/>
+    <br/>
+    dateStart:{{dateStart}}<br/>
+    dateEnd:{{dateEnd}}<br/>
+    start time:{{timeStart}}<br/>
+    end time:{{timeEnd}}<br/>
+    start date model:{{modalStartDate}}<br/>
+    end date model:{{modalEndDate}}<br/>
+    start time modal:{{modalStartTime}}<br/>
+    end time modal:{{modalEndTime}}<br/>
+    tags:{{tags}}<br/>
 
     <v-row>
       <v-col
-        cols="12"
-        sm="6"
-        md="4"
+        cols="11"
+        sm="5"
       >
         <v-dialog
-          ref="dialogDate"
-          v-model="modal"
-          :return-value.sync="date"
+          ref="dialogStartDate"
+          v-model="modalStartDate"
+          :return-value.sync="dateStart"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
-              label="Picker in dialog"
+              v-model="dateStart"
+              label="Start Day"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -89,21 +94,21 @@
             ></v-text-field>
           </template>
           <v-date-picker
-            v-model="date"
+            v-model="dateStart"
             scrollable
           >
             <v-spacer></v-spacer>
             <v-btn
               text
               color="primary"
-              @click="modal = false"
+              @click="modalStartDate = false"
             >
               Cancel
             </v-btn>
             <v-btn
               text
               color="primary"
-              @click="$refs.dialogDate.save(date)"
+              @click="$refs.dialogStartDate.save(dateStart)"
             >
               OK
             </v-btn>
@@ -116,16 +121,62 @@
         sm="5"
       >
         <v-dialog
-          ref="dialogTime"
-          v-model="modal2"
-          :return-value.sync="time"
+          ref="dialogEndDate"
+          v-model="modalEndDate"
+          :return-value.sync="dateEnd"
           persistent
           width="290px"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="time"
-              label="Picker in dialog"
+              v-model="dateEnd"
+              label="End Date"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="dateEnd"
+            scrollable
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+              text
+              color="primary"
+              @click="modalEndDate = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              text
+              color="primary"
+              @click="$refs.dialogEndDate.save(dateEnd)"
+            >
+              OK
+            </v-btn>
+          </v-date-picker>
+        </v-dialog>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col
+        cols="11"
+        sm="5"
+      >
+        <v-dialog
+          ref="dialogStartTime"
+          v-model="modalStartTime"
+          :return-value.sync="timeStart"
+          persistent
+          width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="timeStart"
+              label="Start Time"
               prepend-icon="mdi-clock-time-four-outline"
               readonly
               v-bind="attrs"
@@ -133,22 +184,67 @@
             ></v-text-field>
           </template>
           <v-time-picker
-            v-if="modal2"
-            v-model="time"
+            v-if="modalStartTime"
+            v-model="timeStart"
             full-width
           >
             <v-spacer></v-spacer>
             <v-btn
               text
               color="primary"
-              @click="modal2 = false"
+              @click="modalStartTime = false"
             >
               Cancel
             </v-btn>
             <v-btn
               text
               color="primary"
-              @click="$refs.dialogTime.save(time)"
+              @click="$refs.dialogStartTime.save(timeStart)"
+            >
+              OK
+            </v-btn>
+          </v-time-picker>
+        </v-dialog>
+      </v-col>
+    <v-spacer></v-spacer>
+      <v-col
+        cols="11"
+        sm="5"
+      >
+        <v-dialog
+          ref="dialogEndTime"
+          v-model="modalEndTime"
+          :return-value.sync="timeEnd"
+          persistent
+          width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="timeEnd"
+              label="End Time"
+              prepend-icon="mdi-clock-time-four-outline"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-time-picker
+            v-if="modalEndTime"
+            v-model="timeEnd"
+            full-width
+          >
+            <v-spacer></v-spacer>
+            <v-btn
+              text
+              color="primary"
+              @click="modalEndTime = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              text
+              color="primary"
+              @click="$refs.dialogEndTime.save(timeEnd)"
             >
               OK
             </v-btn>
@@ -156,6 +252,17 @@
         </v-dialog>
       </v-col>
     </v-row>
+
+
+    <v-file-input
+      v-model="file_info"
+      label="Event Picture"
+      filled
+      dense
+      show-size
+      accept="image/*"
+      prepend-icon="mdi-camera"
+    ></v-file-input>
     
     <v-btn 
       block
@@ -164,7 +271,7 @@
       提交
     </v-btn>
         
-    
+    {{file_info}}
   </div>
 </template>
 
@@ -182,11 +289,16 @@ export default {
       tags: [
         
       ],
-      time: null,
+      file_info: null,
+      timeStart: null,
+      timeEnd: null,
       menu2: false,
-      modal2: false,
-      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      modal: false,
+      modalStartTime: false,
+      modalEndTime: false,
+      dateStart: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      dateEnd: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      modalStartDate: false,
+      modalEndDate: false,
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',

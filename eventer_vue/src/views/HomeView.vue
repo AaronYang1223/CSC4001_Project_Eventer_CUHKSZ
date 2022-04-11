@@ -25,13 +25,13 @@ export default {
   methods: {
     test: function(){
       this.islogin = this.$store.state.hasLogin;
-      this.userid = this.$store.state.msg;
+      this.userid = this.$store.state.userID;
     },
     no: function(){
       this.islogin = this.$store.state.hasLogin;
       this.userid = this.$store.state.msg;
       this.$store.commit("logoutUpdate");
-      console.log("cnm")
+      this.$store.commit("userIDUpdate", "");
       console.log(this.$store.state.hasLogin);
       window.location.href = "/";
     }
