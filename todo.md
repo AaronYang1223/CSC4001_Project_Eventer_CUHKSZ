@@ -17,3 +17,4 @@
 14. Post cover page的问题 OK
 15. 改密码的问题
 16. 富文本替换为文本
+17. pose和event加个id
