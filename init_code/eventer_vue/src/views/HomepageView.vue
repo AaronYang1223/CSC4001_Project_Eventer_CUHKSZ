@@ -26,11 +26,13 @@
             </v-tabs>
 
             <v-tabs-items v-model="tab">
+              {{updateNews(tab)}}
               <v-tab-item
                 v-for="i in 3"
                 :key="i"
                 :value="'tab-' + i"
               >
+                
                 <v-card v-if="i == 1 && !isPublic" flat>
                   <CalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></CalendarCom>
                 </v-card>
@@ -39,6 +41,7 @@
                 </v-card>
                 <v-card v-if="i == 2" flat>
                   <PostsCom />
+                  
                 </v-card>
                 <v-card v-if="i == 3" flat>
                   <EventsCom />
@@ -60,7 +63,7 @@
             tile
           >
             <WeatherCom />
-            <NewsCom />
+            <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
       </v-row>
@@ -83,12 +86,20 @@ export default {
     return {
       tab: null,
       isPublic: false,
-      
+      isPost: true,
     }
   },
   methods:{
     updateCalendar: function(updatedCalendar){
       this.isPublic = updatedCalendar
+    },
+    updateNews: function(tab){
+      if(tab == "tab-2"){
+        this.isPost = true
+      }else if(tab == "tab-3"|| tab == "tab-1"){
+        this.isPost =false
+      }
+      console.log(this.isPost)
     }
   }
 }
