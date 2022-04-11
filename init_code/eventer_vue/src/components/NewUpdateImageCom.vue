@@ -1,23 +1,49 @@
 //upload组件里的代码
 <template>
   <div class="avatar">
-    <input 
-      type="file" 
-      class="input-file" 
-      :style="`width:${imgWidth};height:${imgHeight};`" 
-      name="avatar" 
-      ref="avatarInput" 
-      @change="changeImage($event)" 
-      accept="image/gif,image/jpeg,image/jpg,image/png"
-    >
-    <img 
-      :src="avatar?avatar:require('../assets/logo.png')" 
-      alt="" 
-      :style="`width:${imgWidth};height: ${imgHeight};`" 
-      name="avatar"
-    >
-    <div class="text" @click="upload" v-if="file">确定上传</div>
-  </div>
+    <v-container>
+        <v-card
+        flat
+        outlined
+        >
+          <v-list-item-content class="justify-center">
+
+          <v-avatar
+            size="200"
+          >
+            <img :src="avatar">
+          </v-avatar>
+
+        <div class="text-center">
+          <div class="mt-4">
+          <v-btn
+            :style="`width:${imgWidth};height:${imgHeight};`" 
+            max-width="200"
+            text
+          >
+            <input 
+              type="file" 
+              class="input-file" 
+              :style="`width:${imgWidth};height:${imgHeight};`" 
+
+              ref="avatarInput" 
+              @change="changeImage($event)" 
+              accept="image/gif,image/jpeg,image/jpg,image/png"
+            >
+            
+
+          </v-btn>
+          </div>
+        </div>
+
+
+          </v-list-item-content>
+        </v-card>
+    </v-container>
+  </div>  
+
+
+
 </template>
 
 <script>
@@ -30,7 +56,7 @@ export default {
     }
   },
 
-  props: ["uploadType", "imgUrl", "imgWidth", "imgHeight"],
+  props: ["uploadType", "imgWidth", "imgHeight"],
 
     created(){
       this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
@@ -45,14 +71,7 @@ export default {
       let file = e.target.files[0];
       if(file) {
         this.file = file
-        console.log(this.file)
-        let reader = new FileReader()
-        let that = this
-        reader.readAsDataURL(file)
-        reader.onload= function(){
-          // 这里的this 指向reader
-          that.avatar = this.result
-        }
+        this.upload() 
       }
     },
 
@@ -86,10 +105,9 @@ export default {
 
 <style lang="less" scope>
 .avatar {
-    cursor: pointer;
     position: relative;
     .input-file {
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
         opacity: 0;
@@ -101,7 +119,6 @@ export default {
         color: #fff;
         background-color: rgba(0,0,0,0.3);
         text-align: center;
-        cursor: pointer;
         position: absolute;
         top: 0;
         left: 0;

@@ -98,6 +98,9 @@
         type:Boolean
       }
     },
+    created(){
+
+    },
     data: () => ({
       posts: [
         {
