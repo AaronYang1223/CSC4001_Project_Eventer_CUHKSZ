@@ -33,6 +33,7 @@
                 <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
                   {{n+(page-1)*10}}
                   <single-comment :CommentID="123" :PostID="13">
+                    <!-- 传数组 -->
                   </single-comment>
                 </div>
                 <!-- <PostsCom /> -->
