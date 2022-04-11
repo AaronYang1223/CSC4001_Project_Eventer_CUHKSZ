@@ -19,9 +19,12 @@
           <v-btn
             :style="`width:${imgWidth};height:${imgHeight};`" 
             max-width="200"
-            text
+            color="primary"
+            
           >
-            <input 
+
+
+            <input
               type="file" 
               class="input-file" 
               :style="`width:${imgWidth};height:${imgHeight};`" 
