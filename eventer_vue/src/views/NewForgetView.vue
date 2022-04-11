@@ -119,6 +119,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -195,8 +196,20 @@ export default {
         return false;
       }
       console.log(this.email);
-      // 等待服务器返回邮箱存在否
-      this.emailExist = true;
+      axios.post('api/profile/send_email',{
+          email:this.email,
+          email_type:'retrieve'
+      })
+      .then((response)=>{
+        if(response.data['code']=='003'){
+          this.emailExist = true;
+          console.log("false");
+        }
+        else if(response.data['code']=='103'){
+          this.emailExist = false;
+          console.log("true");}
+      });
+      //this.emailExist = true;
       if (!this.emailExist) {
         this.tip = "邮箱不存在";
         return false;
@@ -238,8 +251,22 @@ export default {
 
     submitNewPassword: function() {
       console.log(this.codeIn);
-      //更改逻辑!!
-      this.codeCorrect = true;
+      axios.put('api/profile/retrieve',{
+          email:this.email,
+          code:this.codeIn,
+          newpassword:this.newpassword,
+      })
+      .then((response)=>{
+        if(response.data['code']=='004'){
+          this.codeCorrect = true;
+          //console.log("false");
+        }
+        else if(response.data['code']=='104'){
+          this.codeCorrect = false;
+          //console.log("true");
+          }
+      });
+      //this.codeCorrect = true;
       //从服务器获得
       if (!this.codeCorrect) {
         this.snackbar2 = true;

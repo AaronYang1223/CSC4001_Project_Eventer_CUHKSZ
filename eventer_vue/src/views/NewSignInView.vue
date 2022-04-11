@@ -339,6 +339,7 @@ export default {
       });
       console.log(this.newpassword)
       if (!this.codeCorrect) {
+        console.log("error")
         this.snackbar2 = true;
         return false;
       }
