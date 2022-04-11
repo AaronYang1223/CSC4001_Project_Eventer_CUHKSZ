@@ -169,14 +169,15 @@ def verify_password(request):
         email = request.GET.get("email")
         password = request.GET.get("password")
         user = User.objects.filter(email=email,password=password)
-        if(user==[]):
-            return JsonResponse({
-                'status':'error',
-                'message':'user does not exist'
-            })
+        if(user.exists()):
+            user_data = User.objects.get(email=email,password=password)
+            serializer = User_profile_serializer(user_data)
+            return JsonResponse(serializer.data)
+        print("wrong")
         return JsonResponse({
-            'status':'valid',
-            'message':'login success'
+            'status':'error',
+            'message':'login success',
+            'id':''
         })
 
         

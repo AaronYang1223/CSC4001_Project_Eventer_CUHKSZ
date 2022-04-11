@@ -16,7 +16,7 @@ def user_dictory(instance, filename):
 class User(models.Model):
     
     # django default 
-    # id = models.AutoField(primary_key = True)
+    id = models.AutoField(primary_key = True)
     email = models.EmailField()
     password = models.CharField(max_length = 1024)
     first_name = models.CharField(max_length = 256)

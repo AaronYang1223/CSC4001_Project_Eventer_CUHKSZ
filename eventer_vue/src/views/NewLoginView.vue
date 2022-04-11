@@ -74,6 +74,9 @@ export default {
   data() {
     return {
       email: "",
+      ID:"",
+      nickname:"",
+      avatar:"",
       loginSuccess: false,
       snackbar: false,
       password: "",
@@ -96,21 +99,36 @@ export default {
           }
       })
       .then((response)=>{
-        if(response.data['status']=='valid'){
+        
+          this.ID = response.data.id;
+          this.email = response.data.email;
+          this.nickname = response.data.nick_name;
+          this.avatar = 'http://127.0.0.1:8000' + response.data.picture;
           this.loginSuccess = true;
-        }
+          if (this.loginSuccess) {
+          this.$store.commit("loginUpdate");
+          this.$store.commit("userEmailUpdate", this.email);
+          this.$store.commit("userIDUpdate", this.ID);
+          this.$store.commit("userNicknameUpdate", this.nickname);
+          this.$store.commit("userAvatarUpdate", this.avatar);
+          console.log("success");
+          window.location.href = "/";
+          }
+        
         else if(response.data['status']=='error'){
           this.loginSuccess = false;
-          }
+          
+      }
+          
       });
       //this.loginSuccess = true;
-      console.log(this.loginSuccess);
-      if (this.loginSuccess) {
-        this.$store.commit("loginUpdate");
-        this.$store.commit("userIDUpdate", this.email);
-        console.log(this.$store.state.userID);
-        window.location.href = "/";
-      }
+      // console.log(this.loginSuccess);
+      // if (this.loginSuccess) {
+      //   this.$store.commit("loginUpdate");
+      //   this.$store.commit("userIDUpdate", this.email);
+      //   console.log(this.$store.state.userID);
+      //   window.location.href = "/";
+      // }
     },
   },
 }

@@ -277,6 +277,7 @@
 
 <script>
 import RichTextEdit from '../components/RichTextEdit.vue'
+import axios from 'axios'
 export default {
   components: { RichTextEdit },
   data() {
@@ -314,6 +315,28 @@ export default {
       // content以html形式传输
       this.text = this.$refs.textEditor.text;
       // text以纯文本形式传输
+      axios.post('api/activity/create/',{
+          organizer_id:this.$store.state.userID,
+          tag:this.tags.join(" "),
+          // start_time:,
+          // end_time:,
+          title:this.topic,
+          // content:,
+          cover_page:this.file_info,
+          // max_participant_num:,
+          // is_public:,
+          // is_private:,
+      })
+      .then((response)=>{
+        if(response.data['code']=='001'){
+          //this.codeCorrect = true;
+          //console.log("false");
+        }
+        else if(response.data['code']=='101'){
+          //this.codeCorrect = false;
+          //console.log("true");
+          }
+      });
     },
     addTheTag: function() {
       if (this.newTag != "" && (this.tags.indexOf(this.newTag) == -1)) {

@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import RichTextEdit from '../components/RichTextEdit.vue'
 export default {
   components: { RichTextEdit },
@@ -99,6 +100,22 @@ export default {
       this.text = this.$refs.textEditor.text;
       this.text = this.$store.state.msg;
       // text以纯文本形式传输
+      axios.post('api/post/create/',{
+          user_id:this.$store.state.userID,
+          post_tag:this.tags.join(" "),
+          post_title:this.topic,
+          post_content:this.content
+      })
+      .then((response)=>{
+        if(response.data['code']=='001'){
+          
+          console.log("ok");
+        }
+        else if(response.data['code']=='101'){
+          
+          console.log("error");
+          }
+      });
     },
     addTheTag: function() {
       if (this.newTag != "" && (this.tags.indexOf(this.newTag) == -1)) {

@@ -11,11 +11,19 @@ import datetime
 @csrf_exempt
 def post_create(request):
     if (request.method == 'POST'):
-        serializer = Post_serializer(data=request.data)
+        post_data = JSONParser().parse(request)
+        serializer = Post_serializer(data=post_data)
+        print(post_data)
         if (serializer.is_valid()):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({
+                "code":"001",
+                "message":"success post"
+            })
+        return JsonResponse({
+            "code":"101",
+            "message":"post failed"
+        })
 # user_id = models.ForeignKey(User, related_name = "post", on_delete = models.CASCADE)
 # post_tag = models.CharField(max_length = 32)
 # post_title = models.CharField(max_length = 256)

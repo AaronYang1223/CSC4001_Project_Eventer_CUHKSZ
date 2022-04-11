@@ -6,7 +6,10 @@ import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 const state = {
-  userID: "",
+  userID:"",
+  userEmail:"",
+  userNickname:"",
+  avatar:"",
 	msg: '123456',
   hasLogin: false,
 }
@@ -21,6 +24,15 @@ const mutations = {
   userIDUpdate (state, userid) {
     state.userID = userid
   },
+  userEmailUpdate (state, useremail){
+    state.userEmail = useremail
+  },
+  userNicknameUpdate (state, nickname){
+    state.userNickname = nickname
+  },
+  userAvatarUpdate (state, avatar_url){
+    state.avatar = avatar_url
+  }
 }
 
 const actions = {
