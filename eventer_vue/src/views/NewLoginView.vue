@@ -107,8 +107,8 @@ export default {
       console.log(this.loginSuccess);
       if (this.loginSuccess) {
         this.$store.commit("loginUpdate");
-        console.log("cnm")
-        console.log(this.$store.state.hasLogin);
+        this.$store.commit("userIDUpdate", this.email);
+        console.log(this.$store.state.userID);
         window.location.href = "/";
       }
     },

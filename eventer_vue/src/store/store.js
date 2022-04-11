@@ -6,6 +6,7 @@ import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 const state = {
+  userID: "",
 	msg: '123456',
   hasLogin: false,
 }
@@ -16,7 +17,10 @@ const mutations = {
   },
   logoutUpdate (state) {
     state.hasLogin = false
-  }
+  },
+  userIDUpdate (state, userid) {
+    state.userID = userid
+  },
 }
 
 const actions = {

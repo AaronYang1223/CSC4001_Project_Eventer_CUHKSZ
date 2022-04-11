@@ -344,7 +344,8 @@ export default {
       }
       console.log(this.email, this.newpassword);
 
-      
+      window.location.href = "/login";
+
     },
   },
 }
