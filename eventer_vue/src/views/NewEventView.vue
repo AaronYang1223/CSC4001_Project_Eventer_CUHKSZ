@@ -39,20 +39,6 @@
         {{ tag }}
       </v-chip>
     </v-chip-group>
-    <!-- <v-textarea
-      rows = "6"
-      counter
-      outlined
-      full-width
-      shaped
-      auto-grow
-      type="text"
-      label="Main"
-      v-model="content"
-      id="inputMain"
-      :rules="[rules.required]"
-    >
-    </v-textarea> -->
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
     text:{{text}}<br/>
