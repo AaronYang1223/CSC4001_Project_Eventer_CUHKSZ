@@ -233,6 +233,11 @@ def activity_add_user_info(serializer):
         temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
         temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
         temp_data[i]['picture'] = temp_user_serializer.data['picture']
+        if ((not temp_data[i]['is_outdate']) and (datetime.datetime.strptime(temp_data[i]['end_time'], "%Y-%m-%dT%H:%M:%S") < datetime.datetime.now())):
+            temp_data[i]['is_outdate'] = True
+            activity = Activity.objects.get(pk = temp_data[i]['id'])
+            activity.is_outdate = True
+            activity.save()
     return temp_data
 
 @csrf_exempt
