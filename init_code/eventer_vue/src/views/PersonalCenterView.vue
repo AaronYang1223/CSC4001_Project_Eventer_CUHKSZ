@@ -13,9 +13,8 @@
           >
             <NewUpdateImageCom 
               :uploadType="`head`" 
-              :imgWidth="`100px`" 
-              :imgHeight="`100px`" 
-              :imgUrl="'https://cdn.vuetifyjs.com/images/cards/foster.jpg'"
+              :imgWidth="`200px`" 
+              :imgHeight="`30px`" 
               @upload="getImgUrl"
             >
             </NewUpdateImageCom>
