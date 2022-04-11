@@ -32,9 +32,12 @@ export default {
 
   props: ["uploadType", "imgUrl", "imgWidth", "imgHeight"],
 
-  created(){
-
-  },
+    created(){
+      this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
+        console.log(response.data)
+        this.avatar = 'http://127.0.0.1:8000' + response.data[this.user_id-1].picture
+      })
+    },
 
   methods: {
   //changeImage
@@ -70,6 +73,10 @@ export default {
       this.$axios.post('http://127.0.0.1:8000/api/profile/upload/1', data
       ).then(response => {
         console.log(response.data)
+        this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
+        console.log(response.data)
+        this.avatar = 'http://127.0.0.1:8000' + response.data[this.user_id-1].picture
+      })
       })
 
     }
