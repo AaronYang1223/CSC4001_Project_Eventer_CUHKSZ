@@ -22,7 +22,7 @@
               <v-list-item-title >
                 <h1 class="font-weight-black">CUHKSZ</h1>       
               </v-list-item-title>
-              <v-list-item-subtitle>Mon, 12:30 PM, Mostly sunny</v-list-item-subtitle>
+              <v-list-item-subtitle>{{date}}, {{time}}, {{weather}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-card>
@@ -43,8 +43,7 @@
           </v-card-title>
             <v-card-subtitle>
               <v-img
-                src="https://cdn.vuetifyjs.com/images/cards/sun.png"
-                alt="Sunny image"
+                :src="weather_img"
                 width="30"
               ></v-img>
             </v-card-subtitle>
@@ -57,6 +56,10 @@
 <script>
   export default {
     data: () => ({
+      date: "Mon",
+      time: "12:30 PM",
+      weather: "Mostly sunny",
+      weather_img: "https://cdn.vuetifyjs.com/images/cards/sun.png",
     }),
   }
 </script>
