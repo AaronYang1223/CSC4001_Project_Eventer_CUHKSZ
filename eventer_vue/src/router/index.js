@@ -14,7 +14,9 @@ import NewPostView from '../views/NewPost.vue'
 // import PostTestView from '../views/PostTestView.vue'
 import NewEventView from '../views/NewEventView.vue'
 import PostView from '../views/PostView.vue'
+import EventView from '../views/EventView.vue'
 import store from '../store/store.js'
+
 
 
 Vue.use(VueRouter)
@@ -89,8 +91,13 @@ const routes = [
   },
   {
     path: '/post/:id',
-    name: 'test',
+    name: 'post',
     component: PostView,
+  },
+  {
+    path: '/event/:id',
+    name: 'event',
+    component: EventView,
   },
 ]
 
