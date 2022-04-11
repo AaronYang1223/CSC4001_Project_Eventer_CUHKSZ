@@ -1,87 +1,78 @@
 <template>
   <div class="personal">
-     <v-container>
+    <v-container>
       <v-row no-gutters>
-        <v-col 
-          cols="12" xs="12" sm="12" md="12" 
+        <v-col
+          cols="12" xs="12" sm="4" md="4"
+          
         >
           <v-card
             class="pa-2 mx-1 mt-2"
             outlined
             tile
           >
-          <!-- 适配时直接右侧砍掉 做成超链接形式-->
-            <v-tabs
-              vertical 
-              slider-size="3"
-              height="600px"
-              grow
-              right
+            <NewUpdateImageCom 
+              :uploadType="`head`" 
+              :imgWidth="`100px`" 
+              :imgHeight="`100px`" 
+              :imgUrl="'https://cdn.vuetifyjs.com/images/cards/foster.jpg'"
+              @upload="getImgUrl"
             >
-              <v-tab>
-                <v-icon left>
-                  mdi-account
-                </v-icon>
-                Personal Information
-              </v-tab>
-              <v-tab>
-                <v-icon left>
-                  mdi-calendar
-                </v-icon>
-                Personal Calendar
-              </v-tab>
-              <v-tab>
-                <v-icon left>
-                  mdi-post
-                </v-icon>
-                New Post
-              </v-tab>
-              <v-tab>
-                <v-icon left>
-                  mdi-calendar-plus
-                </v-icon>
-                New Event
-              </v-tab>
-              <v-tab>
-                <v-icon left>
-                  mdi-access-point
-                </v-icon>
-                Option 5
-              </v-tab>
-
-              <v-tab-item>
-                <v-card flat >
-                <NewUpdateImageCom :uploadType="`head`" :imgWidth="`85px`" :imgHeight="`104px`" :imgUrl="'https://cdn.vuetifyjs.com/images/cards/foster.jpg'"
-    @upload="getImgUrl"></NewUpdateImageCom>
-                <ChangeInfoCom />
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <CalendarCom />
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <p>
-                      Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                    </p>
-
-                    <p class="mb-0">
-                      Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
-                    </p>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs>
-
+            </NewUpdateImageCom>
           </v-card>
         </v-col>
 
+        <v-col 
+          cols="12" xs="12" sm="8" md="8" 
+        >
+          <v-card
+            class="pa-2 mx-1 mt-2"
+            outlined
+            tile
+          >
+            <v-tabs
+              v-model="tab"
+            >
+              <v-tab href="#tab-1">
+                Calendar
+              </v-tab>
+              <v-tab href="#tab-2">
+                Posts
+              </v-tab>
+              <v-tab href="#tab-3">
+                Events
+              </v-tab>
+              <v-tabs-slider color="accent"></v-tabs-slider>
+            </v-tabs>
+
+            <v-tabs-items v-model="tab">
+              {{updateNews(tab)}}
+              <v-tab-item
+                v-for="i in 3"
+                :key="i"
+                :value="'tab-' + i"
+              >
+                
+                <v-card v-if="i == 1 && !isPublic" flat>
+                  <CalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></CalendarCom>
+                </v-card>
+                <v-card v-if="i == 1 && isPublic" flat>
+                  <PublicCalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></PublicCalendarCom>
+                </v-card>
+                <v-card v-if="i == 2" flat>
+                  <PostsCom />
+                  
+                </v-card>
+                <v-card v-if="i == 3" flat>
+                  <EventsCom />
+                </v-card>
+              </v-tab-item>
+            </v-tabs-items>
+
+          </v-card>
+        </v-col>
       </v-row>
     </v-container>
-    
 
   </div>
 </template>
@@ -89,22 +80,36 @@
 <script>
 import NewUpdateImageCom from '@/components/NewUpdateImageCom'
 import CalendarCom from '@/components/CalendarCom'
-import ChangeInfoCom from '@/components/ChangeInfoCom'
+import PostsCom from '@/components/PostsCom'
+import EventsCom from '@/components/EventsCom'
 
 export default {
   name: 'PersonalCenterView',
-  components: {NewUpdateImageCom, CalendarCom, ChangeInfoCom},
+  components: {NewUpdateImageCom, CalendarCom, PostsCom, EventsCom},
   data () {
     return {
-
+      tab: null,
+      isPublic: false,
+      isPost: true,
     }
   },
   methods:{
-//接收子组件emit的事件
-getImgUrl(data) {
-    console.log("父组件")
-    console.log(data)  
-}
+    //接收子组件emit的事件
+    getImgUrl(data) {
+        console.log("父组件")
+        console.log(data)  
+    },
+    updateCalendar: function(updatedCalendar){
+      this.isPublic = updatedCalendar
+    },
+    updateNews: function(tab){
+      if(tab == "tab-2"){
+        this.isPost = true
+      }else if(tab == "tab-3"|| tab == "tab-1"){
+        this.isPost =false
+      }
+      console.log(this.isPost)
+    }
   },
 }
 </script>

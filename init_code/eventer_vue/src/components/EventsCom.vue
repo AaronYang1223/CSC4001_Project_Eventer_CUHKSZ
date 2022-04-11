@@ -266,31 +266,30 @@
 
     }),
     created(){
-        this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
-          this.events = []
-          console.log(response.data)
-          for (let i = 0; i < response.data.length; i++) {
-            this.events.push(
-              {
-                activity_id: response.data[i].id,
-                banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
-                title: response.data[i].title,
-                text: response.data[i].content,
-                tags: response.data[i].tag.split(' '),
-                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-                is_authenticated: response.data[i].is_organization,
-                nickname: response.data[i].nick_name,
-                upper_num: response.data[i].max_participant_num,
-                attend_num: response.data[i].participant_num,
-                start_time: response.data[i].start_time,
-                end_time: response.data[i].end_time,
-                selection: 0,
-                show: false,
-              }
-            )
-            
-          }
-        })
+      this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
+        this.events = []
+        console.log(response.data)
+        for (let i = 0; i < response.data.length; i++) {
+          this.events.push(
+            {
+              activity_id: response.data[i].id,
+              banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+              title: response.data[i].title,
+              text: response.data[i].content,
+              tags: response.data[i].tag.split(' '),
+              avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+              is_authenticated: response.data[i].is_organization,
+              nickname: response.data[i].nick_name,
+              upper_num: response.data[i].max_participant_num,
+              attend_num: response.data[i].participant_num,
+              start_time: response.data[i].start_time,
+              end_time: response.data[i].end_time,
+              selection: 0,
+              show: false,
+            }
+          )
+        }
+      })
     },
     computed:{
       filteredEvents:function(){
