@@ -26,16 +26,14 @@
                   <span v-html="content">
                   </span>
                 </div>
-                <!-- <CalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></CalendarCom> -->
               </v-card>
 
               <v-card flat>
                 <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
-                  {{n+(page-1)*10}}
-                  <single-comment :CommentID="123" :PostID="13">
+                  <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
+                    <!-- 传数组 -->
                   </single-comment>
                 </div>
-                <!-- <PostsCom /> -->
               </v-card>
 
               <v-card flat>
@@ -86,11 +84,27 @@
       </v-row>
     </v-container>
     <!-- <v-btn @click="test">测试</v-btn> -->
-    {{commentNumber}}<br/>
+    <!-- {{commentNumber}}<br/>
     {{pageLength}}<br/>
     {{lastPageComentNum}}<br/>
     {{thisPageCommentNum}}<br/>
-    被提交的：{{submittest}}
+
+    <br/>{{commentItem}}
+    <br/>{{commentsList}} -->
+    <v-snackbar v-model="snackbar">
+      {{tip}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </div>
 </template>
 
@@ -102,22 +116,28 @@ export default {
   data () {
     return {
       tab: null,
-      isPublic: false,
       page: 1,
-      commentNumber: 22,
+      commentNumber: 77,
       pageLength: 0,
       lastPageComentNum: 0,
+      thisPageCommentNum: 0,
       topic: "这是标题好长啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
       content: "<p>123123123<strong>123213<em>12321312</em></strong></p> <p><strong><em>123213<s>123213123</s>123123</em></strong><em>123123</em></p> <p>123123<em>123213<strong>123213</strong></em></p> <p><s><em><strong>123123123</strong></em></s></p>",
-      thisPageCommentNum: 0,
       newCommentText: "",
-
-      submittest: "",
+      commentsList: [],
+      commentItem: {
+        commentUserID: "这是id",
+        commentUserAvatarsPath: "",
+        commentText: "这是评论",
+        likeNum: 10,
+        dislikeNum: 9,
+      },
+      tip: "",
+      snackbar: false,
     }
   },
   created: function () {
-    console.log("nihao");
-    //获得目前post的帖子数
+    //axios获得目前post的评论数，然后再操作
     this.pageLength = Math.ceil(this.commentNumber/10);
     this.lastPageComentNum = this.commentNumber%10;
     if (this.commentNumber >= 10) {
@@ -125,6 +145,10 @@ export default {
     }
     else {
       this.thisPageCommentNum = this.commentNumber;
+    }
+    //axios 把所有PostID对应的momment注入this.commentsList
+    for (let index = 0; index < this.commentNumber; index++) {
+      this.commentsList.push(this.commentItem);
     }
   },
   methods:{
@@ -137,8 +161,24 @@ export default {
       }
     },
     SubmitNewComment: function(){
+      if (this.newCommentText == "") {
+        this.tip = "No Comment";
+        this.snackbar = true;
+        return false;
+      }
+      //用axios上传
       console.log(this.newCommentText);
-      this.submittest = this.newCommentText;
+      console.log(this.$store.state.userID);
+      console.log(this.$store.state.userNickName);
+      console.log(this.$route.params.id);
+      // axios 上传如果成功
+      this.tip = "Comment Success";
+      this.snackbar = true;
+      // location.reload();
+      // 如果失败
+      // this.tip = "Comment Failed";
+      // this.snackbar = true;
+      // return false;
     }
   }
 }

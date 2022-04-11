@@ -88,7 +88,7 @@ const routes = [
     component: NewEventView,
   },
   {
-    path: '/test',
+    path: '/post/:id',
     name: 'test',
     component: PostView,
   },

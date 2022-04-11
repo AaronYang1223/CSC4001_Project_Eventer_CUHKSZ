@@ -27,24 +27,20 @@
               ></v-text-field>
             </v-row>
             <v-row justify="center" align="center">
-              <v-btn block @click="submit">
+              <v-btn block @click="submit" color="green">
                 Login/登陆
               </v-btn>
             </v-row>
             <!-- 以下:注册和忘记密码 -->
             <v-row>
               <v-col>
-                <v-btn block>
-                  <a href="/signin">
+                <v-btn block @click="toSignin">
                     Sign In/注册
-                  </a>
                 </v-btn>
               </v-col>
               <v-col>
-                <v-btn block>
-                  <a href="/forget">
-                    Forget the Password/忘记密码
-                  </a>
+                <v-btn block @click="toForget">
+                  Forget the Password/忘记密码
                 </v-btn>
               </v-col>
             </v-row>
@@ -53,7 +49,7 @@
       </v-layout>
     </div>
     <v-snackbar v-model="snackbar">
-      登录失败
+      {{tip}}
       <template v-slot:action="{ attrs }">
         <v-btn
           color="pink"
@@ -90,6 +86,16 @@ export default {
   },
   methods: {
     submit: function(){
+      if (this.email == "") {
+        this.tip = "Input your Email !";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.password == "") {
+        this.tip = "Input your Password !";
+        this.snackbar = true;
+        return false;
+      }
       console.log(this.email, this.password);
       // 需要服务器返回登陆信息
       axios.get('api/profile/verify',{
@@ -130,6 +136,12 @@ export default {
       //   window.location.href = "/";
       // }
     },
+    toSignin: function(){
+      window.location.href = "/signin";
+    },
+    toForget: function(){
+      window.location.href = "/forget";
+    }
   },
 }
 </script>

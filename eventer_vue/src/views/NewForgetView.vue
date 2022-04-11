@@ -102,7 +102,7 @@
         </template>
       </v-snackbar>
       <v-snackbar v-model="snackbar2">
-        验证码错误
+        Verify Code Error
         <template v-slot:action="{ attrs }">
           <v-btn
             color="pink"
@@ -124,11 +124,8 @@ export default {
   data() {
     return {
       tip: "用Email找回密码",
-      isTip: false,
-      isActive: true,
       showNum: false,
       wait_timer: false,
-      hasError: false,
       email: "",
       emailExist: false,
       newpassword: "",
@@ -152,12 +149,6 @@ export default {
     }
   },
   methods: {
-    cancelError: function() {
-      this.hasError = false;
-      this.isActive = true;
-      this.isTip = false;
-      this.tip = "注册账号";
-    },
 
     getCode: function() {
       if (this.wait_timer > 0) {
@@ -167,7 +158,7 @@ export default {
         this.hasError = true;
         this.isActive = false;
         this.isTip = true;
-        this.tip = "Email不能为空";
+        this.tip = "Email can't be empty";
         return false;
       }
       if (
@@ -176,23 +167,23 @@ export default {
         this.hasError = true;
         this.isActive = false;
         this.isTip = true;
-        this.tip = "Email地址无效";
+        this.tip = "Email is invalid";
         return false;
       }
       if (this.newpassword == "") {
-        this.tip = "密码不能为空";
+        this.tip = "Password can't be empty";
         return false;
       }
       if (this.newpassword.length < 8) {
-        this.tip = "密码不能少于8位";
+        this.tip = "Password can't less than 8 char";
         return false;
       }
       if (this.newpassword.length > 18) {
-        this.tip = "密码不能多于18位";
+        this.tip = "Password can't more than 18 char";
         return false;
       }
       if (this.newpassword != this.newpassword2) {
-        this.tip = "密码不一致";
+        this.tip = "Two Password is not same";
         return false;
       }
       console.log(this.email);
@@ -211,11 +202,11 @@ export default {
       });
       //this.emailExist = true;
       if (!this.emailExist) {
-        this.tip = "邮箱不存在";
+        this.tip = "Email already be used";
         return false;
       }
 
-      this.tip = "已发送，请稍候";
+      this.tip = "Already send, please wait";
       this.inputLock = true;
       this.submitShow = true;
       this.showNum = true;
@@ -237,15 +228,15 @@ export default {
 
     getCodeText: function() {
       if (this.wait_timer > 0) {
-        return "已发送";
+        return "Already send";
       }
       if (this.wait_timer === 0) {
         this.showNum = false;
         this.codeTime = true;
-        return "重新发送验证码！";
+        return "Send Again !";
       }
       if (this.wait_timer === false) {
-        return "发送验证码！";
+        return "Send Verify Code";
       }
     },
 
