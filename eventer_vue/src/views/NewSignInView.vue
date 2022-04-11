@@ -279,6 +279,7 @@ export default {
       //this.emailExist = false;
       if (this.emailExist) {
         this.tip = "邮箱已存在";
+        
         return false;
       }
 
