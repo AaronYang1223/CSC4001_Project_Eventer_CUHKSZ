@@ -214,7 +214,7 @@
       truth:[true, false],
       min_1: '',
       min_2: '',
-      user_id: '1',
+      user_id: '7',
 
     }),
     // 起始时间和结束时间不能一致或者超前

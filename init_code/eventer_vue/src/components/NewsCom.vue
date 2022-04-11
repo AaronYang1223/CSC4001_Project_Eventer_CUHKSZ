@@ -29,16 +29,16 @@
     >
 
         <v-list-item
-          v-for="(post, i) in posts"
+          v-for="(event, i) in events"
           :key="i"
         >
           
           <v-list-item-avatar>
-            <v-img :src="post.avatar"></v-img>
+            <v-img :src="event.avatar"></v-img>
           </v-list-item-avatar>
 
           <v-badge
-              v-if="post.is_authenticated"
+              v-if="event.is_authenticated"
               color="accent"
               icon="mdi-hexagram"
               offset-x="30"
@@ -47,11 +47,11 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{post.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="post.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
+            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{event.title}}</v-list-item-title>
+            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{event.title}}</v-list-item-title>
+            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{event.title}}</v-list-item-title>
+            <v-list-item-title v-else v-html="event.title"></v-list-item-title>
+            <v-list-item-subtitle v-html="event.content"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
     </v-list>
@@ -122,6 +122,7 @@
       this.activity_link = 'http://127.0.0.1:8000/api/activity/order/comment_number/5'
       this.$axios.get(this.activity_link).then(response => {
         this.events = []
+        console.log("hot events")
         console.log(response.data)
         for (let i = 0; i < response.data.length; i++) {
           this.events.push(
