@@ -13,6 +13,7 @@ import NewForgetView from '../views/NewForgetView.vue'
 import NewPostView from '../views/NewPost.vue'
 // import PostTestView from '../views/PostTestView.vue'
 import NewEventView from '../views/NewEventView.vue'
+import PostView from '../views/PostView.vue'
 import store from '../store/store.js'
 
 
@@ -85,6 +86,11 @@ const routes = [
     path: '/newevent',
     name: 'newevent',
     component: NewEventView,
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: PostView,
   },
 ]
 
