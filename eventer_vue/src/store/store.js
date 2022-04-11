@@ -7,6 +7,9 @@ Vue.use(Vuex)
 
 const state = {
   userID: "",
+  userEmail:"",
+  userNickName: "Unknown",
+  avatar:"",
 	msg: '123456',
   hasLogin: false,
 }
@@ -18,9 +21,15 @@ const mutations = {
   logoutUpdate (state) {
     state.hasLogin = false
   },
-  userIDUpdate (state, userid) {
-    state.userID = userid
+  userEmailUpdate (state, useremail){
+    state.userEmail = useremail
   },
+  userNicknameUpdate (state, nickname){
+    state.userNickname = nickname
+  },
+  userAvatarUpdate (state, avatar_url){
+    state.avatar = avatar_url
+  }
 }
 
 const actions = {

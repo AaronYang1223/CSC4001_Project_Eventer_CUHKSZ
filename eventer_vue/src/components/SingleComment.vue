@@ -5,43 +5,43 @@
         <v-list-item-avatar color="grey darken-3">
           <v-img
             alt="头像"
-            src=""
+            src:="imgSrc"
           ></v-img>
           <!-- 头像地址 -->
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>{{UeserName}}</v-list-item-title>
+          <v-list-item-title>{{userName}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-card-actions>
     <v-card-text class="font-weight-bold">
-      {{commentText}}
+      {{commentContent}}
     </v-card-text>
+    like:{{likeNumber}}
+    dislike:{{dislikeNumber}}
   </v-card>
 </template>
 
 <script>
 export default {
-  props: ['CommentID', 'PostID'],
+  props: ['CommentItem'],
   
   data() {
     return {
-      TruePostID: "",
-      TrueCommentID: "",
-      commentText: "",
       imgSrc: "",
-      UeserName: "",
+      userName: "",
+      commentContent: "",
+      likeNumber: 0,
+      dislikeNumber: 0,
     }
   },
   created: function () {
-    console.log(this.CommentID);
-    console.log(this.PostID);
-    this.TrueCommentID = this.CommentID;
-    this.TruePostID = this.PostID;
-    //根据两个id确定所有值
-    this.commentText = "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.";
-    this.UeserName = "Evan You";
+    this.userName  = this.CommentItem.commentUserID;//名字
+    this.commentContent = this.CommentItem.commentText;
+    this.imgSrc = this.CommentItem.commentUserAvatarsPath;
+    this.likeNumber = this.CommentItem.likeNum;
+    this.dislikeNumber = this.CommentItem.dislikeNum;
   },
 }
 </script>
