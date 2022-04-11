@@ -246,6 +246,7 @@ export default {
         return false;
       }
       console.log(this.email, this.newpassword);
+      window.location.href = "/login";
     },
   },
 }

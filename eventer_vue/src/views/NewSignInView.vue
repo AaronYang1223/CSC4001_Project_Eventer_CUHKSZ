@@ -26,7 +26,7 @@
               <v-col>
               <!-- 输入密码 -->
                 <v-text-field
-                  type="text" 
+                  type="password" 
                   label="Password"
                   v-model="newpassword"
                   v-bind:disabled = "inputLock"
@@ -40,7 +40,7 @@
               <v-col>
               <!-- 再次输入密码 -->
                 <v-text-field
-                  type="text" 
+                  type="password" 
                   label="Password Repeat"
                   v-model="newpassword2"
                   v-bind:disabled = "inputLock"
@@ -171,7 +171,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -259,24 +258,9 @@ export default {
         this.tip = "密码不一致";
         return false;
       }
-      //console.log(this.email);
-
+      console.log(this.email);
       // 等待服务器返回邮箱存在否
-      axios.post('api/profile/send_email',{
-          email:this.email,
-          email_type:'register'
-      })
-      .then((response)=>{
-        if(response.data['code']=='001'){
-          this.emailExist = false;
-          console.log("false");
-        }
-        else if(response.data['code']=='101'){
-          this.emailExist = true;
-          console.log("true");}
-      });
-
-      //this.emailExist = false;
+      this.emailExist = false;
       if (this.emailExist) {
         this.tip = "邮箱已存在";
         return false;
@@ -317,34 +301,16 @@ export default {
     },
 
     submitNewPassword: function() {
-      
-      axios.post('api/profile/add',{
-          email:this.email,
-          code:this.codeIn,
-          password:this.newpassword,
-          first_name:this.firstname,
-          last_name:this.lastname,
-          nick_name:this.nickname,
-          is_organization:this.applyForOrganization
-      })
-      .then((response)=>{
-        if(response.data['code']=='002'){
-          this.codeCorrect = true;
-          //console.log("false");
-        }
-        else if(response.data['code']=='102'){
-          this.codeCorrect = false;
-          //console.log("true");
-          }
-      });
-      console.log(this.newpassword)
+      console.log(this.codeIn);
+      //更改逻辑!!
+      this.codeCorrect = false;
+      //从服务器获得
       if (!this.codeCorrect) {
         this.snackbar2 = true;
         return false;
       }
       console.log(this.email, this.newpassword);
-
-      
+      window.location.href = "/login";
     },
   },
 }
