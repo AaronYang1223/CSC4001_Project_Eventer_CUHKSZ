@@ -173,7 +173,7 @@ def verify_password(request):
             user_data = User.objects.get(email=email,password=password)
             serializer = User_profile_serializer(user_data)
             return JsonResponse(serializer.data)
-        print("wrong")
+
         return JsonResponse({
             'status':'error',
             'message':'login success',
