@@ -57,6 +57,17 @@
     end time modal:{{modalEndTime}}<br/>
     tags:{{tags}}<br/>
 
+    {{startYear}}
+    {{startMonth}}
+    {{startDay}}
+    {{startHour}}
+    {{startMin}}
+    {{endYear}}
+    {{endMonth}}
+    {{endDay}}
+    {{endHour}}
+    {{endMin}}
+
     <v-row>
       <v-col
         cols="11"
@@ -249,6 +260,25 @@
       accept="image/*"
       prepend-icon="mdi-camera"
     ></v-file-input>
+    <div
+      v-if="userIsOrg == true"
+    >
+      <v-row>
+        <v-col>
+          <v-text-field
+            label="Participant"
+            prepend-icon="mdi-account"
+            v-model="maxPartNum"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-checkbox
+            v-model="eventIsPublic"
+            :label="`Set This Event Public`"
+          ></v-checkbox>
+        </v-col>
+      </v-row>
+    </div>
     
     <v-btn 
       block
@@ -256,6 +286,19 @@
     >
       提交
     </v-btn>
+    <v-snackbar v-model="snackbar">
+      {{tip}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
         
     {{file_info}}
   </div>
@@ -273,8 +316,8 @@ export default {
       text: "",
       newTag: "",
       tags: [
-        
       ],
+      tagList: "",
       file_info: null,
       timeStart: null,
       timeEnd: null,
@@ -292,20 +335,125 @@ export default {
         samepassword:  value => value == this.newpassword || "Password not same",
         emailMatch: v => /.+@+cuhk|link+.+cuhk+./.test(v) || "E-mail must be valid",
       },
+
+      //新元素
+      snackbar: false,
+      tip: "",
+      userIsOrg: false,
+      eventIsPublic: false,//是否公共
+      maxPartNum: 0,
+
+      //新判断元素
+      startYear: "",
+      startMonth: "",
+      startDay: "",
+      startHour: "",
+      startMin: "",
+      endYear: "",
+      endMonth: "",
+      endDay: "",
+      endHour: "",
+      endMin: "",
     }
   },
+
+  created: function () {
+    //通过axios获得用户是不是组织用户
+    this.userIsOrg = true;//写完axios注释了
+  },
+
   methods: {
     Submit: function() {
       this.content = this.$refs.textEditor.content;
       // content以html形式传输
       this.text = this.$refs.textEditor.text;
       // text以纯文本形式传输
+
+
+      for (let index = 0; index < this.tags.length; index++) {
+        this.tagList = this.tagList + " " + this.tags[index];
+      }
+      if (this.tagList == "") {
+        this.tip = "tag can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.topic == "") {
+        this.tip = "topic can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.content == "") {
+        this.tip = "content can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.timeStart == null || this.timeEnd == null) {
+        this.tip = "time can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      // if (this.maxPartNum <= 0 || this.maxPartNum%1 == 0) {
+      if (this.maxPartNum <= 0) {
+        this.tip = "Participant number invaild";
+        this.snackbar = true;
+        return false;
+      }
+      this.startYear = this.dateStart.split("-")[0];
+      this.startMonth = this.dateStart.split("-")[1];
+      this.startDay = this.dateStart.split("-")[2];
+      this.startHour = this.timeStart.split(":")[0];
+      this.startMin = this.timeStart.split(":")[1];
+      this.endYear = this.dateEnd.split("-")[0];
+      this.endMonth = this.dateEnd.split("-")[1];
+      this.endDay = this.dateEnd.split("-")[2];
+      this.endHour = this.timeEnd.split(":")[0];
+      this.endMin = this.timeEnd.split(":")[1];
+      if (this.startYear > this.endYear) {
+        this.tip = "Your Date and Time is invalid";
+        return false;
+      }
+      else if (this.startMonth > this.endMonth) {
+        this.tip = "Your Date and Time is invalid";
+        return false;
+      }
+      else if (this.startDay > this.endDay) {
+        this.tip = "Your Date and Time is invalid";
+        return false;
+      }
+      else if (this.startHour > this.endHour) {
+        this.tip = "Your Date and Time is invalid";
+        return false;
+      }
+      else if (this.startMin > this.endMin) {
+        this.tip = "Your Date and Time is invalid";
+        return false;
+      }
+      //axios 提交 tagList userid starttime(由date和time合并) endtime title comtent coverpage(还没做好) maxPartNum isPublic
     },
     addTheTag: function() {
-      if (this.newTag != "" && (this.tags.indexOf(this.newTag) == -1)) {
-        this.tags.push(this.newTag);
-        this.newTag = "";
+      if (this.newTag == "") {
+        this.tip = "Tag can't be empty";
+        this.snackbar = true;
+        return false;
       }
+      if (this.newTag.indexOf(" ") != -1) {
+        this.tip = "Tag can't have space";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.newTag.length >= 10) {
+        this.tip = "Tag can't longer than 10 char";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.tags.indexOf(this.newTag) != -1) {
+        this.tip = "Tag can't repeat";
+        this.snackbar = true;
+        return false;
+      }
+      this.tags.push(this.newTag);
+      this.newTag = "";
     },
   },
 }
