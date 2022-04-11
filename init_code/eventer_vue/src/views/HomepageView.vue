@@ -2,6 +2,19 @@
   <div class="home">
     <v-container>
       <v-row no-gutters>
+        <v-col class="hidden-sm-and-up"
+          cols="12" xs="12" sm="4" md="4"
+          
+        >
+          <v-card
+            class="pa-2 mx-1 mt-2"
+            outlined
+            tile
+          >
+            <WeatherCom />
+          </v-card>
+        </v-col>
+
         <v-col 
           cols="12" xs="12" sm="8" md="8" 
         >
@@ -55,7 +68,7 @@
         <!-- 确定这个part的手机端适配方式：隐藏？ -->
         <v-col 
           cols="12" xs="12" sm="4" md="4"
-          
+          class="hidden-xs-only"
         >
           <v-card
             class="pa-2 mx-1 mt-2"
