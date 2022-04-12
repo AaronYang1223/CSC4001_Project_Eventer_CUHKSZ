@@ -100,6 +100,8 @@ export default {
       tip: "",
       userIsOrg: false,
       tagList: "",
+      postId: "",
+      newPath: "",
 
       rules: {
         required: value => !!value || 'Required.',
@@ -135,6 +137,10 @@ export default {
         return false;
       }
       //提交 id taglist content topic
+
+      //提交之后,从服务器获得post id
+      // this.newPath = "/post/"+this.postId,
+      // window.location.href = this.newPath;
 
     },
     addTheTag: function() {

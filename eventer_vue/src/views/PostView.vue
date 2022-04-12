@@ -152,6 +152,8 @@ export default {
         commentText: "这是评论啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
         likeNum: 10,
         dislikeNum: 9,
+        likeId: "1 2 3 4",
+        dislikeId: "7 8 9",
       },
       tip: "",
       tags: [],

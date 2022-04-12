@@ -342,6 +342,8 @@ export default {
       userIsOrg: false,
       eventIsPublic: false,//是否公共
       maxPartNum: 0,
+      eventId: "",
+      newPath: "",
 
       //新判断元素
       startYear: "",
@@ -430,6 +432,10 @@ export default {
         return false;
       }
       //axios 提交 tagList userid starttime(由date和time合并) endtime title comtent coverpage(还没做好) maxPartNum isPublic
+
+      //提交之后,从服务器获得event id
+      // this.newPath = "/event/"+this.eventId,
+      // window.location.href = this.newPath;
     },
     addTheTag: function() {
       if (this.newTag == "") {
