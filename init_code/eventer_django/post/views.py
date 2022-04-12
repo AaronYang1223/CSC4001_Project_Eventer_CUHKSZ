@@ -1,3 +1,4 @@
+import imp
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -6,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import Post_serializer
 from .models import Post
+from post_comment.models import Post_comment, Like_post_comment
+from post_comment.serializers import Post_comment_serializer,Like_post_comment_serializer
 from user.models import User
 from user.serializers import User_profile_serializer
 import datetime
@@ -45,16 +48,29 @@ def post_change(request, pk):
 
 
 @csrf_exempt
-def post_pk(request, pk):
+def post_pk(request,pk):
+    #id = request.GET.get("id")
     try:
         post = Post.objects.get(pk = pk, is_delete = False)
     except:
-        return HttpResponse(status = 404)
+        return JsonResponse({'code' : '404'})
     
     if (request.method == 'GET'):
         serializer = Post_serializer(post)
-        return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+        tempdata = post_add_comment_info(serializer)
+        return JsonResponse(tempdata.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+def post_add_comment_info(serializer):
+    temp_data = serializer.data
+    #print(temp_data)
+    all_comments = Post_comment.objects.filter(post_id = temp_data['id'])
+    all_comment_serializer = Post_comment_serializer(all_comments)
+    print(all_comment_serializer)
+    temp_data[0]['comment']['user_id']=all_comment_serializer[0].data['user_id']
     
+    
+    print(temp_data)
+    return temp_data
     
 @csrf_exempt
 def post_tag(request, tag):

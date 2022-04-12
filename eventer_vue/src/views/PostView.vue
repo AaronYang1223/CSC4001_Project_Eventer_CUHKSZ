@@ -130,6 +130,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import SingleComment from '../components/SingleComment.vue';
 export default {
   components: { SingleComment },
@@ -168,9 +169,21 @@ export default {
     //不存在就:  window.location.href = "/";
 
     //axios获取topic 正文内容 tagList
-    this.topic = "Topic Test";
-    this.content = "<p>123123123<strong>123213<em>12321312</em></strong></p> <p><strong><em>123213<s>123213123</s>123123</em></strong><em>123123</em></p> <p>123123<em>123213<strong>123213</strong></em></p> <p><s><em><strong>123123123</strong></em></s></p>";
-    this.tagList = "tag1 tag2 tag3";
+    axios.get('api/post/verify',{
+          params:{
+            id:this.$route.params.id
+          }
+      })
+      .then((response)=>{
+        this.topic = response.data.post_title;
+        this.content = response.data.post_content;
+        this.taglist = response.data.post_tag;
+        this.commentNumber = response.data.commnet_number;
+      });
+
+    //this.topic = "Topic Test";
+    //this.content = "<p>123123123<strong>123213<em>12321312</em></strong></p> <p><strong><em>123213<s>123213123</s>123123</em></strong><em>123123</em></p> <p>123123<em>123213<strong>123213</strong></em></p> <p><s><em><strong>123123123</strong></em></s></p>";
+    //this.tagList = "tag1 tag2 tag3";
     this.tags = this.tagList.split(" ");
     //axios获得一下目前post的评论数（写入this.commentNumber里），然后再操作
     this.pageLength = Math.ceil(this.commentNumber/10);
