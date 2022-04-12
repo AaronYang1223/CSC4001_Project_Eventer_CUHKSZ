@@ -214,7 +214,7 @@
       truth:[true, false],
       min_1: '',
       min_2: '',
-      user_id: '1',
+      user_id: '7',
 
     }),
     // 起始时间和结束时间不能一致或者超前
@@ -226,6 +226,7 @@
         for (let i = 0; i < response.data.length; i++) {
           this.events.push(
             {
+              activity_id: response.data[i].activity_id,
               name: response.data[i].activity_title,
               start: new Date(response.data[i].activity_start_date),
               end: new Date(response.data[i].activity_end_date),

@@ -29,16 +29,16 @@
     >
 
         <v-list-item
-          v-for="(post, i) in posts"
+          v-for="(event, i) in events"
           :key="i"
         >
           
           <v-list-item-avatar>
-            <v-img :src="post.avatar"></v-img>
+            <v-img :src="event.avatar"></v-img>
           </v-list-item-avatar>
 
           <v-badge
-              v-if="post.is_authenticated"
+              v-if="event.is_authenticated"
               color="accent"
               icon="mdi-hexagram"
               offset-x="30"
@@ -47,11 +47,11 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{post.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="post.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
+            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{event.title}}</v-list-item-title>
+            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{event.title}}</v-list-item-title>
+            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{event.title}}</v-list-item-title>
+            <v-list-item-title v-else v-html="event.title"></v-list-item-title>
+            <v-list-item-subtitle v-html="event.content"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
     </v-list>
@@ -99,7 +99,101 @@
       }
     },
     created(){
-      
+
+      this.posts_link = 'http://127.0.0.1:8000/api/post/order/comment_number/5'
+      this.$axios.get(this.posts_link).then(response => {
+        this.posts = []
+        for (let i = 0; i < response.data.length; i++) {
+          this.posts.push(
+            {
+              post_id: response.data[i].id,
+              title: response.data[i].post_title,
+              content: response.data[i].post_content,
+              tags: response.data[i].post_tag.split(' '),
+              avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+              is_authenticated: response.data[i].is_organization,
+              nickname: response.data[i].nick_name,
+              comment_num: response.data[i].comment_number,
+            }
+          )
+        }
+      })
+
+      this.activity_link = 'http://127.0.0.1:8000/api/activity/order/comment_number/5'
+      this.$axios.get(this.activity_link).then(response => {
+        this.events = []
+        console.log("hot events")
+        console.log(response.data)
+        for (let i = 0; i < response.data.length; i++) {
+          this.events.push(
+            {
+              activity_id: response.data[i].id,
+              banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+              title: response.data[i].title,
+              content: response.data[i].content,
+              tags: response.data[i].tag.split(' '),
+              avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+              is_authenticated: response.data[i].is_organization,
+              nickname: response.data[i].nick_name,
+              upper_num: response.data[i].max_participant_num,
+              attend_num: response.data[i].participant_num,
+              start_time: response.data[i].start_time,
+              end_time: response.data[i].end_time,
+              selection: 0,
+              show: false,
+            }
+          )
+        }
+      })
+
+      // get_post_user(user_id) {
+      //   this.posts_link = 'http://127.0.0.1:8000/api/post/user/' + user_id
+      //   this.$axios.get(this.posts_link).then(response => {
+      //     this.posts = []
+      //     for (let i = 0; i < response.data.length; i++) {
+      //       this.posts.push(
+      //         {
+      //           post_id: response.data[i].id,
+      //           title: response.data[i].post_title,
+      //           content: response.data[i].post_content,
+      //           tags: response.data[i].post_tag.split(' '),
+      //           avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+      //           is_authenticated: response.data[i].is_organization,
+      //           nickname: response.data[i].nick_name,
+      //           comment_num: response.data[i].comment_number,
+      //         }
+      //       )
+      //     }
+      //   })
+      // }
+
+      // get_activity_user(user_id) {
+      //   this.activity_link = 'http://127.0.0.1:8000/api/activity/user/' + user_id
+      //   this.$axios.get(this.activity_link).then(response => {
+      //     this.events = []
+      //     console.log(response.data)
+      //     for (let i = 0; i < response.data.length; i++) {
+      //       this.events.push(
+      //         {
+      //           activity_id: response.data[i].id,
+      //           banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+      //           title: response.data[i].title,
+      //           content: response.data[i].content,
+      //           tags: response.data[i].tag.split(' '),
+      //           avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+      //           is_authenticated: response.data[i].is_organization,
+      //           nickname: response.data[i].nick_name,
+      //           upper_num: response.data[i].max_participant_num,
+      //           attend_num: response.data[i].participant_num,
+      //           start_time: response.data[i].start_time,
+      //           end_time: response.data[i].end_time,
+      //           selection: 0,
+      //           show: false,
+      //         }
+      //       )
+      //     }
+      //   })
+      // }
     },
     data: () => ({
       posts: [

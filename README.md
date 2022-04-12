@@ -16,23 +16,23 @@ Use anaconda and export the yaml file in the environment file
 
 #### Branch
 
--main
+- main
 
 ------
 
--frontend
+- frontend
 
--backend
+- backend
 
 ------
 
--ysq
+- ysq
 
--zqh
+- zqh
 
--zyl
+- zyl
 
--lyy
+- lyy2
 
 
 

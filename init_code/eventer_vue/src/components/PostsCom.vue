@@ -226,6 +226,7 @@
           for (let i = 0; i < response.data.length; i++) {
             this.posts.push(
               {
+                post_id: response.data[i].id,
                 title: response.data[i].post_title,
                 text: response.data[i].post_content,
                 tags: response.data[i].post_tag.split(' '),

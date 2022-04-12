@@ -208,7 +208,8 @@ def activity_order_comment_number(request, num):
     
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
-        return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
 @csrf_exempt
 def activity_order_comment_number_all(request):
@@ -232,4 +233,22 @@ def activity_add_user_info(serializer):
         temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
         temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
         temp_data[i]['picture'] = temp_user_serializer.data['picture']
+        if ((not temp_data[i]['is_outdate']) and (datetime.datetime.strptime(temp_data[i]['end_time'], "%Y-%m-%dT%H:%M:%S") < datetime.datetime.now())):
+            temp_data[i]['is_outdate'] = True
+            activity = Activity.objects.get(pk = temp_data[i]['id'])
+            activity.is_outdate = True
+            activity.save()
     return temp_data
+
+@csrf_exempt
+def activity_user(request, user_id):
+    
+    try:
+        activities = Activity.objects.filter(organizer_id = user_id, is_delete = False)
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
