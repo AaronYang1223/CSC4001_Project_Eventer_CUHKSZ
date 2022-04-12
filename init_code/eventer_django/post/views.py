@@ -57,19 +57,21 @@ def post_pk(request,pk):
     
     if (request.method == 'GET'):
         serializer = Post_serializer(post)
-        tempdata = post_add_comment_info(serializer)
-        return JsonResponse(tempdata.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+        temp_data = post_add_comment_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
 def post_add_comment_info(serializer):
     temp_data = serializer.data
     #print(temp_data)
     all_comments = Post_comment.objects.filter(post_id = temp_data['id'])
-    all_comment_serializer = Post_comment_serializer(all_comments)
-    print(all_comment_serializer)
-    temp_data[0]['comment']['user_id']=all_comment_serializer[0].data['user_id']
+    all_comments_serializer = Post_comment_serializer(all_comments)
+    #print(all_comment_serializer)
     
+    temp_data['comment'] = [{"user_id":"", "content":""}]*len(all_comments)
+    for i in range(len(all_comments)):
+        temp_data['comment'][i]['user_id'] = all_comments[i].user_id.id
+        temp_data['comment'][i]['content'] = all_comments[i].content
     
-    print(temp_data)
     return temp_data
     
 @csrf_exempt
