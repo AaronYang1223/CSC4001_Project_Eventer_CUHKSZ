@@ -241,6 +241,9 @@ export default {
       coverPage: "",
       scoreNum: 0,
       scoreAvg: 0,
+      //new
+      isPrivate: false,
+      privateID: "",
     }
   },
   created: function () {
@@ -248,6 +251,13 @@ export default {
     //这是用户打开的post的id
     //用axios发送到后端检验一下这个post是不是存在
     //不存在就:  window.location.href = "/";
+
+    //用axios获取isPrivate,把userid存到this.privateID
+    if (this.isPrivate) {
+      if (this.$store.state.userID != this.privateID) {
+        window.location.href = "/";
+      }
+    }
 
     //axios获取topic 正文内容 tagList
     this.topic = "Topic Test";
