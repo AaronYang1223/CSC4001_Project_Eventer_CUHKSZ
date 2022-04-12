@@ -113,9 +113,9 @@ export default {
   data() {
     return {
       user: {
-        avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
+        avatar: this.$store.state.avatar,
+        fullName: this.$store.state.userNickName,
+        email: this.$store.state.userEmail,
       },
     }
   },
