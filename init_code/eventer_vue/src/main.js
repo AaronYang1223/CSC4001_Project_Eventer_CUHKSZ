@@ -29,6 +29,13 @@ Vue.filter('snippet', function(value){
   return value.slice(0,190)
 });
 
+Vue.filter('snippet_event', function(value){
+  if(value.length >=10){
+    return value.slice(0,10) + "..."
+  }
+  return value.slice(0,10)
+});
+
 // Custom directives
 Vue.directive('rainbow', {
   bind(el){

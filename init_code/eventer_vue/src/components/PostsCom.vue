@@ -79,22 +79,21 @@
             </p>
           </v-container>
 
-
             <v-row class="mx-3">
-                <v-chip-group>
-                  <v-chip
-                    class="ma-2 font-weight-black"
-                    outlined
-                    v-for="tag in post.tags"
-                    :key="tag"
-                    color="accent"
-                  >
-                  <v-icon left>
-                    mdi-label
-                  </v-icon>
-                    {{ tag | to-uppercase}}
-                  </v-chip>
-                </v-chip-group>
+              <v-chip-group>
+                <v-chip
+                  class="ma-2 font-weight-black"
+                  outlined
+                  v-for="tag in post.tags"
+                  :key="tag"
+                  color="accent"
+                >
+                <v-icon left>
+                  mdi-label
+                </v-icon>
+                  {{ tag | to-uppercase}}
+                </v-chip>
+              </v-chip-group>
             </v-row>
 
             <v-card-actions>

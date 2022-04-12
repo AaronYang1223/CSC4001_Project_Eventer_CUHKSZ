@@ -65,7 +65,12 @@
             </v-img>
 
             <v-card-title>
-              {{event.title}}
+              <v-btn
+              text
+              router :to="'/post/1'"
+              >
+              {{event.title | snippet_event}}
+              </v-btn>
             </v-card-title>
 
             <v-card-subtitle>
