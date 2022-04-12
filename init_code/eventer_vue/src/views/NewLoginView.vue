@@ -105,13 +105,17 @@ export default {
           }
       })
       .then((response)=>{
-        
+          if(response.data.status == "error"){
+            this.loginSuccess = false;
+            return;
+          }
+          this.loginSuccess = true;
           this.ID = response.data.id;
           this.email = response.data.email;
           this.nickname = response.data.nick_name;
           this.avatar = 'http://127.0.0.1:8000' + response.data.picture;
-          this.loginSuccess = true;
-          if (this.loginSuccess) {
+          
+          
           this.$store.commit("loginUpdate");
           this.$store.commit("userEmailUpdate", this.email);
           this.$store.commit("userIDUpdate", this.ID);
@@ -120,12 +124,6 @@ export default {
           this.$store.commit("userIsOrganizationUpdate", response.data.is_organization);
           console.log("success");
           window.location.href = "/";
-          }
-        
-        else if(response.data['status']=='error'){
-          this.loginSuccess = false;
-          
-      }
           
       });
       //this.loginSuccess = true;

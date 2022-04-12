@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import SingleComment from '../components/SingleComment.vue';
 export default {
   components: { SingleComment },
@@ -169,7 +169,7 @@ export default {
     //不存在就:  window.location.href = "/";
 
     //axios获取topic 正文内容 tagList
-    axios.get('api/post/'+ this.$route.params.id,{
+    this.$axios.get('http://127.0.0.1:8000/api/post/'+ this.$route.params.id,{
           // params:{
           //   id:this.$route.params.id
           // }
@@ -187,7 +187,7 @@ export default {
             }
           )
         }
-        console.log("success")
+        //console.log(this.taglist)
       });
 
     //this.topic = "Topic Test";
@@ -225,19 +225,32 @@ export default {
         this.snackbar = true;
         return false;
       }
+      
+      this.$axios.post('http://127.0.0.1:8000/api/post/comment/create',{
+          user_id:this.$store.state.userID,
+          post_id:this.$route.params.id,
+          content:this.newCommentText,
+
+      })
+      .then((response)=>{
+        
+        console.log(response)
+        //console.log(this.taglist)
+        this.tip = "Comment Success";
+        this.snackbar = true;
+        location.reload();
+      });
       //用axios上传
-      console.log(this.newCommentText);
-      console.log(this.$store.state.userID);
-      console.log(this.$store.state.userNickName);
-      console.log(this.$route.params.id);
+      // console.log(this.newCommentText);
+      // console.log(this.$store.state.userID);
+      // console.log(this.$store.state.userNickName);
+      // console.log(this.$route.params.id);
       // axios 上传如果成功
-      this.tip = "Comment Success";
-      this.snackbar = true;
-      location.reload();
+      
       // 如果失败
-      this.tip = "Comment Failed";
-      this.snackbar = true;
-      return false;
+      // this.tip = "Comment Failed";
+      // this.snackbar = true;
+      // return false;
     }
   }
 }

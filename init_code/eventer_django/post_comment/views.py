@@ -13,9 +13,10 @@ def post_comment_create(request):
     if (request.method=='POST'):
         data = JSONParser().parse(request)
         serializer = Post_comment_serializer(data = data)
+        print(data)
         if serializer.is_valid():
             serializer.save()
-            
+            print("success")
             # update post comment num
             post = Post.objects.get(id = serializer.data['post_id'])
             post.comment_number += 1
