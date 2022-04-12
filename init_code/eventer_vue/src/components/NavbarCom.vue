@@ -59,7 +59,7 @@
                 text
                 color="grey darken-1"
                 plain
-                router :to="'/post'"
+                router :to="'/newpost'"
               >
                 New Post
               </v-btn>
@@ -70,7 +70,7 @@
                 text
                 color="grey darken-1"
                 plain
-                router :to="'/event'"
+                router :to="'/newevent'"
               >
                 New event
               </v-btn>
@@ -119,9 +119,6 @@ export default {
       },
     }
   },
-  created(){
-
-  },
   methods:{
     toggleTheme(){
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
@@ -133,8 +130,9 @@ export default {
       this.$store.commit("userIDUpdate", "");
       console.log(this.$store.state.hasLogin);
       window.location.href = "/";
-    }
+    },
   }
+
 }
 </script>
 
