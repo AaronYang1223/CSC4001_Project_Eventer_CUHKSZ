@@ -23,7 +23,10 @@ Vue.filter('to-uppercase', function(value){
 });
 
 Vue.filter('snippet', function(value){
-  return value.slice(0,190) + "......"
+  if(value.length >=190){
+    return value.slice(0,190) + "......"
+  }
+  return value.slice(0,190)
 });
 
 // Custom directives

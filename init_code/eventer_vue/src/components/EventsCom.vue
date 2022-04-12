@@ -146,7 +146,6 @@
                   </v-row>
                 </v-list-item>
 
-                <!-- 只能报名一个且如果时间满了，那这个时间段将不可选中，且报名时要先选择时间段-->
                 <v-card-text>
                 <v-chip-group
                   v-model="event.selection"
