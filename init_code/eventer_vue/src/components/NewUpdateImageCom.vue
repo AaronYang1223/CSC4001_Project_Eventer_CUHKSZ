@@ -103,7 +103,6 @@ export default {
 .avatar {
     position: relative;
     .input-file {
-<<<<<<< HEAD
         position: absolute;
         top: 0;
         left: 0;
@@ -112,13 +111,6 @@ export default {
     }
     .v-btn__content {
       white-space: normal;
-=======
-        top: 10;
-        left: 100;
-        opacity: 0;
-        cursor: pointer;
-        position: absolute;
->>>>>>> new_main
     }
 }
 </style>
