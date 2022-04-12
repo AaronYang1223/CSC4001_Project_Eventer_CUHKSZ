@@ -1,5 +1,6 @@
 from http.client import HTTPResponse
 import json
+import re
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
@@ -98,15 +99,19 @@ def profile_add(request):
         #    check_organization(data)
         email = data.get('email')
         code = data.get('code')
+        password = data.get('password')
         email_code = Email_check_new.objects.filter(email = email, email_type = 'register').order_by('-send_time')[:1]
         if email_code != []:
             print('exist')
         if(email_code.values()[0]['code']==code):
+            if(data.get('is_organization') == "true"):
+                    check_organization(email)
             user_data = JSONParser().parse(request)
 
             serializers = User_profile_serializer(data = user_data)
             if (serializers.is_valid()):
                 serializers.save()
+                User.objects.filter(email=email).update(password=password)
                 return JsonResponse({
                     'code' : '002',
                     'message':'create userprofile success'
@@ -146,8 +151,7 @@ def email_verification(request):
         else:
             if email_type == 'register':
                 email_status = send_email(email, send_type = 'register')
-                if(data.get('is_organization') == "true"):
-                    check_organization(email)
+                
                 return JsonResponse({
                     'email': str(email),
                     'code':'001', # 001 === email valid for registration
@@ -159,17 +163,21 @@ def email_verification(request):
                     'code':'103', #103 == email doesn't get registered
                     'message': 'user doesn\'t exist' 
                 })
-    #code = data['code']
-    #email = data['email']
-    #type = data['email_type']
-    #user_obj = Email_check_new.objects.filter(email=email, code = code).first()
-    #if user_obj:    
-    #    if request.method=="POST":
-    #        #新建用户
-    #        pass
-    #    if request.method=="PUT":
-    #        #更改密码
-    #        user_old = User.objects.filter(email=email).first()
-    #else:
-    #    return HttpResponse(status=404)  # return need modification
+@csrf_exempt
+def verify_password(request):
+    if(request.method == "GET"):
+        email = request.GET.get("email")
+        password = request.GET.get("password")
+        user = User.objects.filter(email=email,password=password)
+        if(user.exists()):
+            user_data = User.objects.get(email=email,password=password)
+            serializer = User_profile_serializer(user_data)
+            return JsonResponse(serializer.data)
+
+        return JsonResponse({
+            'status':'error',
+            'message':'login failed',
+            'id':''
+        })
+
         
