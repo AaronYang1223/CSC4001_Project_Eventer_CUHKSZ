@@ -110,6 +110,7 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
+          locale="zh"
 
         ></v-calendar>
         <v-menu
@@ -236,6 +237,7 @@
               nickname: response.data[i].nick_name,
               is_personal: response.data[i].is_personal,
               color: this.colors[this.rnd(0, this.colors.length - 1)],
+              timed: new Date(response.data[i].activity_start_date),
             }
           )
         }
