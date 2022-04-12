@@ -66,7 +66,7 @@
               v-text="post.title"
               v-rainbow
               text
-              router :to="'/post/1'"
+              router :to="'/post/'+ post.id"
               >
             </v-btn>
             </v-card-title>
@@ -202,6 +202,7 @@
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,
               comment_num: response.data[i].comment_number,
+              id: response.data[i].id
             }
           )
         }
