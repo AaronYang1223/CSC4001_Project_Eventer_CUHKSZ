@@ -63,12 +63,12 @@
             <v-card-title>
               <v-btn
               class="text-h5 font-weight-black "
-              v-text="post.title"
               v-rainbow
               text
               router :to="'/post/'+ post.id"
               >
-            </v-btn>
+                {{post.title | snippet_post}}
+              </v-btn>
             </v-card-title>
 
           <v-container mx-1>
