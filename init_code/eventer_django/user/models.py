@@ -26,7 +26,7 @@ class User(models.Model):
     
     # default UTC time in settings.py
     create_time = models.DateTimeField(auto_now_add = True)
-    picture = ProcessedImageField(upload_to = user_dictory, default = 'user/default.png', processors = [ResizeToFill(100, 100)])
+    picture = ProcessedImageField(upload_to = user_dictory, default = 'user/default.png', processors = [ResizeToFill(300, 300)])
 
 class Email_check_new(models.Model):
     code = models.CharField(max_length=20, verbose_name='Verification Code')
