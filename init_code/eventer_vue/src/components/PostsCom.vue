@@ -60,11 +60,16 @@
             outlined
           >
 
-            <v-card-title
+            <v-card-title>
+              <v-btn
               class="text-h5 font-weight-black "
               v-text="post.title"
               v-rainbow
-            ></v-card-title>
+              text
+              router :to="'/post/1'"
+              >
+            </v-btn>
+            </v-card-title>
 
           <v-container mx-1>
             <p
