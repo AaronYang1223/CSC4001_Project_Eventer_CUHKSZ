@@ -110,7 +110,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-          locale="zh"
 
         ></v-calendar>
         <v-menu
