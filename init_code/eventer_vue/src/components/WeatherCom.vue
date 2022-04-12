@@ -51,6 +51,7 @@
   </v-card>
 </template>
 
+<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
 <script>
   export default {
     data: () => ({
@@ -72,6 +73,28 @@
         this.winddirection = response.data['lives'][0]['winddirection']
         this.windpower = response.data['lives'][0]['windpower']
       })
+      var appKey = '07c0e4651c277a50'
+      var key = 'AaQCL0vFyaXKGVINyE0o9XjQf6s4qxrI'
+      var salt = (new Date).getTime()
+      var curtime = Math.round(new Date().getTime()/1000)
+      var query = this.nickname
+      var from = 'zh-CHS'
+      var to = 'en'
+      var str1 = appKey + query + salt + curtime + key
+      var sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
+      this.$axios.post('https://openapi.youdao.com/api', {
+        q: query,
+        appKey: appKey,
+        salt: salt,
+        from: from,
+        to: to,
+        sign: sign,
+        signType: 'v3',
+        curtime: curtime
+      }).then(response => {
+        this.tras = response.data.translation[0]
+        console.log(response.data)
+      })
     }
-  }
+}
 </script>
