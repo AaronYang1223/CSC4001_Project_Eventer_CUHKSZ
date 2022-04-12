@@ -3,4 +3,6 @@
 init_code/eventer_env/
 test.http
 
-
+*.sqlite3
+*.zip
+.DS_Store

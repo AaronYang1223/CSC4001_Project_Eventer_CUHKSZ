@@ -32,9 +32,13 @@ def participant_activity_add(request):
         data = JSONParser().parse(request)
         serializers = Participant_Activity_serializer(data = data)
         if (serializers.is_valid()):
+            
             participant_activity = Participant_Activity.objects.filter(user_id = data['user_id'], activity_id = data['activity_id'])
             activity = Activity.objects.get(id = data['activity_id'])
 
+            if (activity.is_private == True):
+                return JsonResponse({'message': 'This activity is private'}, status = 404)
+            
             if (len(participant_activity) != 0):
                 return JsonResponse('User {} already participant activity {}'.format(data['user_id'], data['activity_id']), status = 404, safe = False)
             

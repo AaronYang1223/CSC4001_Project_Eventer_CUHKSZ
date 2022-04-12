@@ -22,7 +22,7 @@ class User(models.Model):
     first_name = models.CharField(max_length = 256)
     last_name = models.CharField(max_length = 256)
     nick_name = models.CharField(max_length = 256)
-    is_orginazation = models.BooleanField(default = False)
+    is_organization = models.BooleanField(default = False)
     
     # default UTC time in settings.py
     create_time = models.DateTimeField(auto_now_add = True)

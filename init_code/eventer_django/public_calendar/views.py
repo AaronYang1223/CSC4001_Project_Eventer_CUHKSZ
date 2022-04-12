@@ -8,6 +8,9 @@ from .serializers import Public_calendar_serializer
 from .models import Public_calendar
 import datetime
 from activity.models import Activity
+from user.models import User
+from user.serializers import User_profile_serializer
+from activity.serializers import Activity_serializer
 
 def calendar(request, start_date, end_date):
     
@@ -40,3 +43,28 @@ def calendar_add(activity_id, user_id) -> bool:
         serializer.save()
         return True
     return False
+
+@csrf_exempt
+def calendar_public_all(request):
+    
+    try:
+        calendars = Public_calendar.objects.filter(is_delete = False)
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Public_calendar_serializer(calendars, many = True)
+        temp_data = calendar_public_add_info(serializer)
+        return JsonResponse(temp_data, safe = False)
+    
+def calendar_public_add_info(calendars):
+    temp_data = calendars.data
+    for i in range(len(temp_data)):
+        activity = Activity.objects.get(id = temp_data[i]['activity_id'])
+        temp_activity_serializer = Activity_serializer(activity)
+        user = User.objects.get(id = temp_activity_serializer.data['organizer_id'])
+        temp_user_serializer = User_profile_serializer(user)
+        temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
+        temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
+        temp_data[i]['picture'] = temp_user_serializer.data['picture']
+    return temp_data

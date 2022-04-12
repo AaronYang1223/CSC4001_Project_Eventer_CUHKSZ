@@ -1,30 +1,25 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <v-app>
+    <NavbarCom />
+
+    <!-- load the actual code -->
+    <v-content class="ma-2 pa-1">
+      <router-view></router-view>
+    </v-content>
+
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import NavbarCom from '@/components/NavbarCom'
 
-nav {
-  padding: 30px;
+export default {
+  components: { NavbarCom },
+  name: 'App',
+  data() {
+    return {
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
     }
   }
 }
-</style>
+</script>

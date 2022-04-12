@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import Post_serializer
 from .models import Post
+from user.models import User
+from user.serializers import User_profile_serializer
 import datetime
 
 @csrf_exempt
@@ -95,13 +97,25 @@ def post_order_create_date(request, num):
         serializer = Post_serializer(posts, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
+@csrf_exempt
+def post_order_create_date_all(request):
+    
+    try:
+        posts = Post.objects.filter(is_delete = False).order_by('-create_time')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Post_serializer(posts, many = True)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
 
 @csrf_exempt
 def post_order_comment_number(request, num):
     
     if (num <= 0):
         return HttpResponse(status = 404)
-
     try:
         posts = Post.objects.filter(is_delete = False).order_by('-comment_number')[:num]
     except:
@@ -109,4 +123,42 @@ def post_order_comment_number(request, num):
     
     if (request.method == 'GET'):
         serializer = Post_serializer(posts, many = True)
-        return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+@csrf_exempt
+def post_order_comment_number_all(request):
+    
+    try:
+        posts = Post.objects.filter(is_delete = False).order_by('-comment_number')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Post_serializer(posts, many = True)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+    
+def post_add_user_info(serializer):
+    temp_data = serializer.data
+    for i in range(len(temp_data)):
+        user = User.objects.get(pk = temp_data[i]['user_id'])
+        temp_user_serializer = User_profile_serializer(user)
+        # is_organization, nick_name, picture
+        temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
+        temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
+        temp_data[i]['picture'] = temp_user_serializer.data['picture']
+    return temp_data
+
+
+@csrf_exempt
+def post_user(request, user_id):
+    try:
+        posts = Post.objects.filter(user_id = user_id, is_delete = False).order_by('-create_time')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Post_serializer(posts, many = True)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
