@@ -170,15 +170,21 @@ export default {
 
     //axios获取topic 正文内容 tagList
 <<<<<<< HEAD
+<<<<<<< HEAD
     axios.get('api/post/'+ this.$route.params.id,{
           // params:{
           //   id:this.$route.params.id
           // }
 =======
+=======
+>>>>>>> parent of 006c6f6 (git update CalendarCom language)
     axios.get('api/post/verify',{
           params:{
             id:this.$route.params.id
           }
+<<<<<<< HEAD
+>>>>>>> parent of 006c6f6 (git update CalendarCom language)
+=======
 >>>>>>> parent of 006c6f6 (git update CalendarCom language)
       })
       .then((response)=>{
@@ -195,7 +201,11 @@ export default {
           )
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         console.log("success")
+=======
+
+>>>>>>> parent of 006c6f6 (git update CalendarCom language)
 =======
 
 >>>>>>> parent of 006c6f6 (git update CalendarCom language)
@@ -218,9 +228,15 @@ export default {
     //axios 把所有PostID对应的momment注入this.commentsList
     //下面这部分是测试显示的，如果注入comment之后注释掉
 <<<<<<< HEAD
+<<<<<<< HEAD
     // for (let index = 0; index < this.commentNumber; index++) {
     //   this.commentsList.push(this.commentItem);
     // }
+=======
+    for (let index = 0; index < this.commentNumber; index++) {
+      this.commentsList.push(this.commentItem);
+    }
+>>>>>>> parent of 006c6f6 (git update CalendarCom language)
 =======
     for (let index = 0; index < this.commentNumber; index++) {
       this.commentsList.push(this.commentItem);
