@@ -146,14 +146,14 @@ export default {
           post_content:this.content
       })
       .then((response)=>{
-        if(response.data['code']=='001'){
+        if(response.data['code']=='101'){
           
-          console.log("ok");
+          console.log("error: create post failed");
         }
-        else if(response.data['code']=='101'){
+        else {
           
-          console.log("error");
-          }
+          this.postId = response.data['id']
+        }
       });
       //提交之后,从服务器获得post id
       // this.newPath = "/post/"+this.postId,

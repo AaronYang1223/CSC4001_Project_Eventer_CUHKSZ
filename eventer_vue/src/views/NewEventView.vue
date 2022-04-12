@@ -434,26 +434,26 @@ export default {
         return false;
       }
       //axios 提交 tagList userid starttime(由date和time合并) endtime title comtent coverpage(还没做好) maxPartNum isPublic
-      axios.post('api/activity/create/',{
+      axios.post('api/activity/create',{
           organizer_id:this.$store.state.userID,
           tag:this.tags.join(" "),
-          // start_time:,
-          // end_time:,
+          start_time:this.dateStart + " " + this.timeStart,
+          end_time:this.dateEnd + " " + this.timeEnd,
           title:this.topic,
-          // content:,
-          cover_page:this.file_info,
-          // max_participant_num:,
-          // is_public:,
+          content: this.content,
+          //cover_page:this.file_info,
+          max_participant_num: this.maxPartNum,
+          is_public: this.eventIsPublic,
           // is_private:,
       })
       .then((response)=>{
-        if(response.data['code']=='001'){
+        if(response.data['code']=='101'){
           //this.codeCorrect = true;
-          //console.log("false");
+          console.log("error");
         }
-        else if(response.data['code']=='101'){
+        else {
           //this.codeCorrect = false;
-          //console.log("true");
+          console.log("ok");
           }
       });
       //提交之后,从服务器获得event id

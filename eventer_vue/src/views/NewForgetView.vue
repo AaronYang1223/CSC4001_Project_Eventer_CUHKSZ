@@ -255,14 +255,15 @@ export default {
         else if(response.data['code']=='104'){
           this.codeCorrect = false;
           //console.log("true");
-          }
+          if (!this.codeCorrect) {
+          this.snackbar2 = true;
+          return false;
+      }
+        }
       });
       //this.codeCorrect = true;
       //从服务器获得
-      if (!this.codeCorrect) {
-        this.snackbar2 = true;
-        return false;
-      }
+      
       console.log(this.email, this.newpassword);
       window.location.href = "/login";
     },

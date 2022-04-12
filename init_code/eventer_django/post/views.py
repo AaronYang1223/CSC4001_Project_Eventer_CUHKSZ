@@ -15,13 +15,10 @@ def post_create(request):
     if (request.method == 'POST'):
         post_data = JSONParser().parse(request)
         serializer = Post_serializer(data=post_data)
-        print(post_data)
+        print(serializer)
         if (serializer.is_valid()):
             serializer.save()
-            return JsonResponse({
-                "code":"001",
-                "message":"success post"
-            })
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse({
             "code":"101",
             "message":"post failed"
