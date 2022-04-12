@@ -182,7 +182,7 @@ export default {
         for (let i = 0; i < response.data.comment.length; i++) {
           this.commentsList.push(
             {
-              user_id: response.data.comment[i]['user_id'],
+              user: response.data.comment[i]['user'],
               content: response.data.comment[i]['content'],
             }
           )
