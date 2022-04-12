@@ -179,6 +179,15 @@ export default {
         this.content = response.data.post_content;
         this.taglist = response.data.post_tag;
         this.commentNumber = response.data.commnet_number;
+        for (let i = 0; i < response.data.comment.length; i++) {
+          this.commentsList.push(
+            {
+              user_id: response.data.comment[i]['user_id'],
+              content: response.data.comment[i]['content'],
+            }
+          )
+        }
+
       });
 
     //this.topic = "Topic Test";

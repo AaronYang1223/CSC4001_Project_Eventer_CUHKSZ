@@ -67,10 +67,17 @@ def post_add_comment_info(serializer):
     all_comments_serializer = Post_comment_serializer(all_comments)
     #print(all_comment_serializer)
     
-    temp_data['comment'] = [{"user_id":"", "content":""}]*len(all_comments)
+    temp_data['comment'] = [{}]*len(all_comments)
     for i in range(len(all_comments)):
-        temp_data['comment'][i]['user_id'] = all_comments[i].user_id.id
+        user_info = User.objects.get(id = all_comments[i].user_id.id)
+        user_info_serializer = User_profile_serializer(user_info)
+        temp_data['comment'][i]['user'] = {
+                                            "user_id": all_comments[i].user_id.id,
+                                            "nick_name" : user_info_serializer.data['nick_name'],
+                                            "avatar": "http://127.0.0.1:8000"+user_info_serializer.data['picture']
+                                        }
         temp_data['comment'][i]['content'] = all_comments[i].content
+        
     
     return temp_data
     
