@@ -42,6 +42,78 @@
                 </div>
               </v-card>
 
+              <v-card>
+                <v-row class="main-content">
+                  <v-col>
+                    <v-text-field
+                      label="Start Time"
+                      prepend-icon="mdi-clock-time-four-outline"
+                      :value="startTime"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      label="End Time"
+                      prepend-icon="mdi-clock-time-four-outline"
+                      :value="endTime"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row class="main-content">
+                  <v-col>
+                    <v-text-field
+                      label="Participant"
+                      prepend-icon="mdi-account"
+                      :value="partOverMax"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-btn
+                      color="yellow lighten-3"
+                      block
+                      @click="updateParticipant"
+                    >
+                      Join In
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+
+              <v-card>
+                <v-row class="main-content">
+                  <v-col>
+                    Avarage: ({{ scoreAvg }})
+                    <v-rating
+                      v-model="scoreAvg"
+                      background-color="grey"
+                      color="yellow accent-4"
+                      half-increments
+                      hover
+                      size="18"
+                      readonly
+                    ></v-rating>
+                  </v-col>
+                  <v-col>
+                    Your: ({{ scoreNum }})
+                    <div
+                      @click="updateRating"
+                    >
+                      <v-rating
+                        v-model="scoreNum"
+                        background-color="grey"
+                        color="yellow accent-4"
+                        half-increments
+                        hover
+                        size="18"
+                      ></v-rating>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card>
+
               <v-divider></v-divider>
               <v-banner
                 class= "text-h5 font-weight-bold"
@@ -159,6 +231,16 @@ export default {
       tags: [],
       tagList: "",
       snackbar: false,
+
+      //event 新数据
+      startTime: "",
+      endTime: "",
+      participantNum: 0,
+      maxParticipantNum: 0,
+      partOverMax: "",
+      coverPage: "",
+      scoreNum: 0,
+      scoreAvg: 0,
     }
   },
   created: function () {
@@ -172,6 +254,17 @@ export default {
     this.content = "<p>123123123<strong>123213<em>12321312</em></strong></p> <p><strong><em>123213<s>123213123</s>123123</em></strong><em>123123</em></p> <p>123123<em>123213<strong>123213</strong></em></p> <p><s><em><strong>123123123</strong></em></s></p>";
     this.tagList = "tag1 tag2 tag3";
     this.tags = this.tagList.split(" ");
+
+    //event新元素
+    this.startTime = "XXXX.XX.XX XX:XX";
+    this.endTime = "XXXX.XX.XX XX:XX";
+    this.participantNum = 25;
+    this.maxParticipantNum = 100;
+    this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
+    this.scoreNum = 2;
+    this.scoreAvg = 2.2;
+    this.coverPage = "";
+
     //axios获得一下目前post的评论数（写入this.commentNumber里），然后再操作
     this.pageLength = Math.ceil(this.commentNumber/10);
     this.lastPageComentNum = this.commentNumber%10;
@@ -216,6 +309,25 @@ export default {
       this.tip = "Comment Failed";
       this.snackbar = true;
       return false;
+    },
+    updateRating: function () {
+      //axios提交this.scoreNum,计算后返回this.scoreAvg
+      this.scoreAvg = this.scoreNum - 1;
+    },
+    updateParticipant: function () {
+      //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
+      // this.participantNum
+      // this.maxParticipantNum
+      this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
+      this.tip = "Event is Over";
+      //活动已结束
+      this.tip = "You already joined in";
+      //已经参加了
+      this.tip = "Event is Full";
+      //人已经满了
+      this.tip = "Succesee Join";
+      //成功加入
+      this.snackbar = true;
     }
   }
 }

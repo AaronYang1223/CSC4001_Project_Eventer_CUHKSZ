@@ -64,7 +64,19 @@
     >
       提交
     </v-btn>
-        
+    <v-snackbar v-model="snackbar">
+      {{tip}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
     
   </div>
 </template>
@@ -82,8 +94,16 @@ export default {
       text: "",
       newTag: "",
       tags: [
-        
       ],
+
+      //新元素
+      snackbar: false,
+      tip: "",
+      userIsOrg: false,
+      tagList: "",
+      postId: "",
+      newPath: "",
+
       rules: {
         required: value => !!value || 'Required.',
         min: v => v.length >= 8 || 'Min 8 characters',
@@ -98,8 +118,27 @@ export default {
       this.content = this.$refs.textEditor.content;
       // content以html形式传输
       this.text = this.$refs.textEditor.text;
-      this.text = this.$store.state.msg;
       // text以纯文本形式传输
+
+      for (let index = 0; index < this.tags.length; index++) {
+        this.tagList = this.tagList + " " + this.tags[index];
+      }
+      if (this.tagList == "") {
+        this.tip = "tag can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.topic == "") {
+        this.tip = "topic can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.content == "") {
+        this.tip = "content can't be empty";
+        this.snackbar = true;
+        return false;
+      }
+      //提交 id taglist content topic
       axios.post('api/post/create/',{
           user_id:this.$store.state.userID,
           post_tag:this.tags.join(" "),
@@ -116,12 +155,35 @@ export default {
           console.log("error");
           }
       });
+      //提交之后,从服务器获得post id
+      // this.newPath = "/post/"+this.postId,
+      // window.location.href = this.newPath;
+
+
     },
     addTheTag: function() {
-      if (this.newTag != "" && (this.tags.indexOf(this.newTag) == -1)) {
-        this.tags.push(this.newTag);
-        this.newTag = "";
+      if (this.newTag == "") {
+        this.tip = "Tag can't be empty";
+        this.snackbar = true;
+        return false;
       }
+      if (this.newTag.indexOf(" ") != -1) {
+        this.tip = "Tag can't have space";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.newTag.length >= 10) {
+        this.tip = "Tag can't longer than 10 char";
+        this.snackbar = true;
+        return false;
+      }
+      if (this.tags.indexOf(this.newTag) != -1) {
+        this.tip = "Tag can't repeat";
+        this.snackbar = true;
+        return false;
+      }
+      this.tags.push(this.newTag);
+      this.newTag = "";
     },
   },
 }
