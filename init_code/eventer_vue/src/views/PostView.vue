@@ -169,7 +169,7 @@ export default {
     //不存在就:  window.location.href = "/";
 
     //axios获取topic 正文内容 tagList
-    axios.get('api/post/'+ this.$route.params.id,{
+    this.$axios.get('http://127.0.0.1:8000/api/post/'+ this.$route.params.id,{
           // params:{
           //   id:this.$route.params.id
           // }
@@ -187,7 +187,7 @@ export default {
             }
           )
         }
-        console.log("success")
+        //console.log(this.taglist)
       });
 
     //this.topic = "Topic Test";

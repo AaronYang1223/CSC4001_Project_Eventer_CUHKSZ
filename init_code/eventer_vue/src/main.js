@@ -12,7 +12,8 @@ Vue.use(VueTinymce)
 Vue.use(Vuex)
 
 Vue.config.productionTip = false
-
+import Axios from 'axios'
+Vue.prototype.$axios = Axios;
 // console.log(store.state.hasLogin)
 
 new Vue({
