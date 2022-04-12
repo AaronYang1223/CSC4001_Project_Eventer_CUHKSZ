@@ -20,21 +20,18 @@
             :style="`width:${imgWidth};height:${imgHeight};`" 
             max-width="200"
             color="primary"
-            
+            text
           >
-
-
+            <span>Edit avatar</span>
             <input
               type="file" 
               class="input-file" 
-              :style="`width:${imgWidth};height:${imgHeight};`" 
+              :style="`width:${imgWidth};height:${imgHeight};`"
 
               ref="avatarInput" 
               @change="changeImage($event)" 
               accept="image/gif,image/jpeg,image/jpg,image/png"
             >
-            
-
           </v-btn>
           </div>
         </div>
@@ -110,26 +107,14 @@ export default {
 .avatar {
     position: relative;
     .input-file {
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
         opacity: 0;
         cursor: pointer;
     }
-    .bg {
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        background-color: rgba(0,0,0,0.3);
-        text-align: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-
-    }
-    .text {
-        padding-top: 10px;
-        color: lightblue;
+    .v-btn__content {
+      white-space: normal;
     }
 }
 </style>
