@@ -263,7 +263,7 @@
         }else{
           this.min_2 = end.getMinutes().toString()
         }
-        return start.getUTCHours().toString() + ":" + this.min_1 + "~" + end.getUTCHours().toString() + ":" + this.min_2
+        return start.getHours().toString() + ":" + this.min_1 + "~" + end.getHours().toString() + ":" + this.min_2
       },
       viewDay ({ date }) {
         this.focus = date
