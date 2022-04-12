@@ -260,9 +260,7 @@
       accept="image/*"
       prepend-icon="mdi-camera"
     ></v-file-input>
-    <div
-      v-if="userIsOrg == true"
-    >
+    <div>
       <v-row>
         <v-col>
           <v-text-field
@@ -273,9 +271,17 @@
         </v-col>
         <v-col>
           <v-checkbox
-            v-model="eventIsPublic"
-            :label="`Set This Event Public`"
+            v-model="eventIsPrivate"
+            :label="`Set This Event Private`"
           ></v-checkbox>
+        </v-col>
+        <v-col>
+          <div v-if="userIsOrg == true">
+            <v-checkbox
+              v-model="eventIsPublic"
+              :label="`Set This Event Public`"
+            ></v-checkbox>
+          </div>
         </v-col>
       </v-row>
     </div>
@@ -342,6 +348,7 @@ export default {
       tip: "",
       userIsOrg: false,
       eventIsPublic: false,//是否公共
+      eventIsPrivate: false,//是否私人
       maxPartNum: 0,
       eventId: "",
       newPath: "",
