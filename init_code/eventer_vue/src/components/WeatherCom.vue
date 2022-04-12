@@ -22,7 +22,7 @@
               <v-list-item-title >
                 <h1 class="font-weight-black">{{city}}</h1>       
               </v-list-item-title>
-              <v-list-item-subtitle>{{date}}, {{time}}, {{weather}}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{date}}, {{weather}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-card>
