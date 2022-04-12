@@ -39,11 +39,6 @@ npm run lint
 - 备选方案：
   - hidden
 
-#### 页面布局
-
-- padding and margin
-- grid system
-
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).

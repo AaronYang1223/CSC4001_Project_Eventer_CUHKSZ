@@ -92,7 +92,7 @@ export default {
       data.append('picture', fileData)
       data.append('operaType', this.uploadType)
       console.log('data', typeof data, data)
-      this.$axios.post('http://127.0.0.1:8000/api/profile/upload/1', data
+      this.$axios.post('http://127.0.0.1:8000/api/profile/upload/7', data
       ).then(response => {
         console.log(response.data)
         this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
