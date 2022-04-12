@@ -65,7 +65,12 @@
             </v-img>
 
             <v-card-title>
-              {{event.title}}
+              <v-btn
+              text
+              router :to="'/post/1'"
+              >
+              {{event.title | snippet_event}}
+              </v-btn>
             </v-card-title>
 
             <v-card-subtitle>
@@ -96,6 +101,16 @@
                 Register
               </v-btn>
 
+              <v-chip
+              color="accent"
+              small
+              >
+              <v-icon left>
+                mdi-clock
+              </v-icon>
+                {{ event.start_time }}
+              </v-chip>
+
               <v-spacer></v-spacer>
 
               <v-btn
@@ -112,8 +127,7 @@
 
                 <v-list-item class="grow">
 
-                <v-list-item-avatar
-                >
+                <v-list-item-avatar>
                   <v-img
                     class="elevation-6"
                     :src="event.avatar"
@@ -147,8 +161,7 @@
                   </v-row>
                 </v-list-item>
 
-                <!-- 只能报名一个且如果时间满了，那这个时间段将不可选中，且报名时要先选择时间段-->
-                <v-card-text>
+                <!-- <v-card-text>
                 <v-chip-group
                   v-model="event.selection"
                   active-class="primary--text text--accent-4"
@@ -158,10 +171,10 @@
                   v-for="time in event.available_time"
                   :key="time"
                 >
-                  {{ time }}
+                  {{ event.start_time }}
                 </v-chip>
                 </v-chip-group>
-                </v-card-text>
+                </v-card-text> -->
               </div>
             </v-expand-transition>
 
@@ -264,6 +277,8 @@
         icon: false,
       },
 
+      min: '',
+
     }),
     created(){
       this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
@@ -282,7 +297,7 @@
               nickname: response.data[i].nick_name,
               upper_num: response.data[i].max_participant_num,
               attend_num: response.data[i].participant_num,
-              start_time: response.data[i].start_time,
+              start_time: this.showStartTime(new Date(response.data[i].start_date)),
               end_time: response.data[i].end_time,
               selection: 0,
               show: false,
@@ -308,6 +323,16 @@
     },
     // run when anything change
     methods: {
+      showStartTime (start) {
+        console.log(1)
+        this.min = start.getMinutes()
+        if (this.min == 0){
+          this.min = "00"
+        }else{
+          this.min = start.getMinutes().toString()
+        }
+        return start.getHours().toString() + ":" + this.min 
+      },
       changeSort: function(){
         this.sort.icon = !this.sort.icon
         this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/activity/order/create_date/all' : 'http://127.0.0.1:8000/api/activity/order/comment_number/all'
@@ -327,7 +352,7 @@
                 nickname: response.data[i].nick_name,
                 upper_num: response.data[i].max_participant_num,
                 attend_num: response.data[i].participant_num,
-                start_time: response.data[i].start_time,
+                start_time: this.showStartTime(new Date(response.data[i].start_date)),
                 end_time: response.data[i].end_time,
                 selection: 0,
                 show: false,

@@ -60,11 +60,16 @@
             outlined
           >
 
-            <v-card-title
+            <v-card-title>
+              <v-btn
               class="text-h5 font-weight-black "
-              v-text="post.title"
               v-rainbow
-            ></v-card-title>
+              text
+              router :to="'/post/'+ post.id"
+              >
+                {{post.title | snippet_post}}
+              </v-btn>
+            </v-card-title>
 
           <v-container mx-1>
             <p
@@ -74,22 +79,21 @@
             </p>
           </v-container>
 
-
             <v-row class="mx-3">
-                <v-chip-group>
-                  <v-chip
-                    class="ma-2 font-weight-black"
-                    outlined
-                    v-for="tag in post.tags"
-                    :key="tag"
-                    color="accent"
-                  >
-                  <v-icon left>
-                    mdi-label
-                  </v-icon>
-                    {{ tag | to-uppercase}}
-                  </v-chip>
-                </v-chip-group>
+              <v-chip-group>
+                <v-chip
+                  class="ma-2 font-weight-black"
+                  outlined
+                  v-for="tag in post.tags"
+                  :key="tag"
+                  color="accent"
+                >
+                <v-icon left>
+                  mdi-label
+                </v-icon>
+                  {{ tag | to-uppercase}}
+                </v-chip>
+              </v-chip-group>
             </v-row>
 
             <v-card-actions>
@@ -197,6 +201,7 @@
               is_authenticated: response.data[i].is_organization,
               nickname: response.data[i].nick_name,
               comment_num: response.data[i].comment_number,
+              id: response.data[i].id
             }
           )
         }

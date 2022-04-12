@@ -11,6 +11,7 @@
     "@packy-tang/vue-tinymce": "^1.1.2",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "less": "^4.1.2",
     "less-loader": "^10.2.0",
     "tinymce": "^6.0.1",
     "vue": "^2.6.14",

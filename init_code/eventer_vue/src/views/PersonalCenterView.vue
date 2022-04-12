@@ -13,8 +13,6 @@
           >
             <NewUpdateImageCom 
               :uploadType="`head`" 
-              :imgWidth="`200px`" 
-              :imgHeight="`30px`" 
               @upload="getImgUrl"
             >
             </NewUpdateImageCom>

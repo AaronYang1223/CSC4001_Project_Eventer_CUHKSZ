@@ -5,14 +5,8 @@
         <v-card
         flat
         outlined
+        class="hidden-sm-and-down"
         >
-          <v-list-item-content class="justify-center">
-
-          <v-avatar
-            size="200"
-          >
-            <img :src="avatar">
-          </v-avatar>
 
         <div class="text-center">
           <div class="mt-4">
@@ -37,7 +31,6 @@
         </div>
 
 
-          </v-list-item-content>
         </v-card>
     </v-container>
   </div>  
@@ -52,7 +45,7 @@ export default {
     return{
       avatar: '',
       file: '',
-      user_id: 1,
+      user_id: '',
     }
   },
 
@@ -61,7 +54,7 @@ export default {
     created(){
       this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
         console.log(response.data)
-        this.avatar = 'http://127.0.0.1:8000' + response.data[this.user_id-1].picture
+        this.avatar = this.$store.state.avatar
       })
     },
 
@@ -72,6 +65,7 @@ export default {
       if(file) {
         this.file = file
         this.upload() 
+
       }
     },
 
@@ -89,12 +83,14 @@ export default {
       data.append('picture', fileData)
       data.append('operaType', this.uploadType)
       console.log('data', typeof data, data)
-      this.$axios.post('http://127.0.0.1:8000/api/profile/upload/7', data
+      this.$axios.post('http://127.0.0.1:8000/api/profile/upload/'+ this.$store.state.userID, data
       ).then(response => {
         console.log(response.data)
+        this.avatar = 'http://127.0.0.1:8000'+response.data['picture']
         this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
         console.log(response.data)
-        this.avatar = 'http://127.0.0.1:8000' + response.data[this.user_id-1].picture
+        this.$store.commit("userAvatarUpdate", this.avatar);
+        //this.avatar = this.$store.state.avatar;
       })
       })
 
@@ -107,6 +103,7 @@ export default {
 .avatar {
     position: relative;
     .input-file {
+<<<<<<< HEAD
         position: absolute;
         top: 0;
         left: 0;
@@ -115,6 +112,13 @@ export default {
     }
     .v-btn__content {
       white-space: normal;
+=======
+        top: 10;
+        left: 100;
+        opacity: 0;
+        cursor: pointer;
+        position: absolute;
+>>>>>>> new_main
     }
 }
 </style>

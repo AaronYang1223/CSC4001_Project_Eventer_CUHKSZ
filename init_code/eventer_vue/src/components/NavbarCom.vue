@@ -59,7 +59,7 @@
                 text
                 color="grey darken-1"
                 plain
-                router :to="'/post'"
+                router :to="'/newpost'"
               >
                 New Post
               </v-btn>
@@ -70,7 +70,7 @@
                 text
                 color="grey darken-1"
                 plain
-                router :to="'/event'"
+                router :to="'/newevent'"
               >
                 New event
               </v-btn>
@@ -113,14 +113,11 @@ export default {
   data() {
     return {
       user: {
-        avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
+        avatar: this.$store.state.avatar,
+        fullName: this.$store.state.userNickName,
+        email: this.$store.state.userEmail,
       },
     }
-  },
-  created(){
-
   },
   methods:{
     toggleTheme(){
@@ -133,8 +130,9 @@ export default {
       this.$store.commit("userIDUpdate", "");
       console.log(this.$store.state.hasLogin);
       window.location.href = "/";
-    }
+    },
   }
+
 }
 </script>
 

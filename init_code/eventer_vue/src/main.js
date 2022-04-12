@@ -23,7 +23,24 @@ Vue.filter('to-uppercase', function(value){
 });
 
 Vue.filter('snippet', function(value){
-  return value.slice(0,190) + "......"
+  if(value.length >=190){
+    return value.slice(0,190) + "......"
+  }
+  return value.slice(0,190)
+});
+
+Vue.filter('snippet_event', function(value){
+  if(value.length >=10){
+    return value.slice(0,10) + "..."
+  }
+  return value.slice(0,10)
+});
+
+Vue.filter('snippet_post', function(value){
+  if(value.length >=10){
+    return value.slice(0,10) + "..."
+  }
+  return value.slice(0,10)
 });
 
 // Custom directives
