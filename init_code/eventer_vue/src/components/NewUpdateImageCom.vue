@@ -5,42 +5,65 @@
         <v-card
         flat
         outlined
+        class="hidden-sm-and-down"
         >
-          <v-list-item-content class="justify-center">
-
-          <v-avatar
-            size="200"
-          >
-            <img :src="avatar">
-          </v-avatar>
 
         <div class="text-center">
           <div class="mt-4">
-          <v-btn
-            :style="`width:${imgWidth};height:${imgHeight};`" 
-            max-width="200"
-            color="primary"
             
+          
+
+
+          <input 
+            type="file" 
+            class="input-file" 
+            style="width:200px; height:200px; border-radius:50%; "
+            name="avatar" 
+            ref="avatarInput" 
+            @change="changeImage($event)" 
+            accept="image/gif,image/jpeg,image/jpg,image/png"
+          >
+          <img 
+            :src="avatar?avatar:require('../assets/logo.png')" 
+            alt="" 
+            style="width:200px; height:200px; border-radius:50%; "
+            name="avatar"
           >
 
-
-            <input
-              type="file" 
-              class="input-file" 
-              :style="`width:${imgWidth};height:${imgHeight};`" 
-
-              ref="avatarInput" 
-              @change="changeImage($event)" 
-              accept="image/gif,image/jpeg,image/jpg,image/png"
-            >
-            
-
-          </v-btn>
           </div>
         </div>
 
 
-          </v-list-item-content>
+        </v-card>
+
+        <v-card
+        flat
+        outlined
+        class="hidden-md-and-up"
+        >
+
+        <div class="text-center">
+          <div class="mt-4">
+          <input 
+            type="file" 
+            class="input-file" 
+            style="width:100px; height:100px; border-radius:50%; "
+            name="avatar" 
+            ref="avatarInput" 
+            @change="changeImage($event)" 
+            accept="image/gif,image/jpeg,image/jpg,image/png"
+          >
+          <img 
+            :src="avatar?avatar:require('../assets/logo.png')" 
+            alt="" 
+            style="width:100px; height:100px; border-radius:50%; "
+            name="avatar"
+          >
+
+          </div>
+        </div>
+
+
         </v-card>
     </v-container>
   </div>  
@@ -110,26 +133,11 @@ export default {
 .avatar {
     position: relative;
     .input-file {
-        position: relative;
-        top: 0;
-        left: 0;
+        top: 10;
+        left: 100;
         opacity: 0;
         cursor: pointer;
-    }
-    .bg {
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        background-color: rgba(0,0,0,0.3);
-        text-align: center;
         position: absolute;
-        top: 0;
-        left: 0;
-
-    }
-    .text {
-        padding-top: 10px;
-        color: lightblue;
     }
 }
 </style>

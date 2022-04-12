@@ -112,8 +112,7 @@
 
                 <v-list-item class="grow">
 
-                <v-list-item-avatar
-                >
+                <v-list-item-avatar>
                   <v-img
                     class="elevation-6"
                     :src="event.avatar"
