@@ -33,25 +33,27 @@
         align="center"
       >
         <v-card
-          class="mx-auto mt-2"
+          class="mt-6"
           flat
           tile
           height="83"
         >
 
-          <h1 class="font-weight-thin text-center">{{temperature}}&deg;C</h1>
+          <h1 class="font-weight-thin text-center display-2">{{temperature}}&deg;C</h1>
 
-          <v-img
+          <!-- <v-img
             :src="weather_img"
             width="30"
-          ></v-img>
+          ></v-img> -->
         </v-card>
       </v-col>
     </v-row>
   </v-card>
 </template>
 
-<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+// <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+
 <script>
   export default {
     data: () => ({
@@ -73,28 +75,28 @@
         this.winddirection = response.data['lives'][0]['winddirection']
         this.windpower = response.data['lives'][0]['windpower']
       })
-      var appKey = '07c0e4651c277a50'
-      var key = 'AaQCL0vFyaXKGVINyE0o9XjQf6s4qxrI'
-      var salt = (new Date).getTime()
-      var curtime = Math.round(new Date().getTime()/1000)
-      var query = this.nickname
-      var from = 'zh-CHS'
-      var to = 'en'
-      var str1 = appKey + query + salt + curtime + key
-      var sign = CryptoJS.SHA256(str1).toString(CryptoJS.enc.Hex)
-      this.$axios.post('https://openapi.youdao.com/api', {
-        q: query,
-        appKey: appKey,
-        salt: salt,
-        from: from,
-        to: to,
-        sign: sign,
-        signType: 'v3',
-        curtime: curtime
-      }).then(response => {
-        this.tras = response.data.translation[0]
-        console.log(response.data)
-      })
+      // var appKey = '07c0e4651c277a50'
+      // var key = 'AaQCL0vFyaXKGVINyE0o9XjQf6s4qxrI'
+      // var salt = (new Date).getTime()
+      // var curtime = Math.round(new Date().getTime()/1000)
+      // var query = this.weather
+      // var from = 'zh-CHS'
+      // var to = 'en'
+      // var str1 = appKey + query + salt + curtime + key
+      // var sign = this.CryptoJS.SHA256(str1).toString(this.CryptoJS.enc.Hex)
+      // this.$axios.post('https://openapi.youdao.com/api', {
+      //   q: query,
+      //   appKey: appKey,
+      //   salt: salt,
+      //   from: from,
+      //   to: to,
+      //   sign: sign,
+      //   signType: 'v3',
+      //   curtime: curtime
+      // }).then(response => {
+      //   this.tras = response.data.translation[0]
+      //   console.log(response.data)
+      // })
     }
 }
 </script>
