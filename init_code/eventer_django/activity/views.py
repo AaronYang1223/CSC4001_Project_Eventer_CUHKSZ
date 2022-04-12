@@ -32,7 +32,6 @@ def activity_create(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = Activity_serializer(data = data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
             
@@ -47,8 +46,8 @@ def activity_create(request):
                 if (not res):
                     return JsonResponse('Can not delete from public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
             
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse({'code':'101'})
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
 def activity_pk(request, pk):

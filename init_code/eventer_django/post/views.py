@@ -1,4 +1,3 @@
-import imp
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -7,8 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import Post_serializer
 from .models import Post
-from post_comment.models import Post_comment, Like_post_comment
-from post_comment.serializers import Post_comment_serializer,Like_post_comment_serializer
 from user.models import User
 from user.serializers import User_profile_serializer
 import datetime
@@ -16,16 +13,11 @@ import datetime
 @csrf_exempt
 def post_create(request):
     if (request.method == 'POST'):
-        post_data = JSONParser().parse(request)
-        serializer = Post_serializer(data=post_data)
-        print(serializer)
+        serializer = Post_serializer(data=request.data)
         if (serializer.is_valid()):
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse({
-            "code":"101",
-            "message":"post failed"
-        })
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # user_id = models.ForeignKey(User, related_name = "post", on_delete = models.CASCADE)
 # post_tag = models.CharField(max_length = 32)
 # post_title = models.CharField(max_length = 256)
@@ -48,38 +40,16 @@ def post_change(request, pk):
 
 
 @csrf_exempt
-def post_pk(request,pk):
-    #id = request.GET.get("id")
+def post_pk(request, pk):
     try:
         post = Post.objects.get(pk = pk, is_delete = False)
     except:
-        return JsonResponse({'code' : '404'})
+        return HttpResponse(status = 404)
     
     if (request.method == 'GET'):
         serializer = Post_serializer(post)
-        temp_data = post_add_comment_info(serializer)
-        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-
-def post_add_comment_info(serializer):
-    temp_data = serializer.data
-    #print(temp_data)
-    all_comments = Post_comment.objects.filter(post_id = temp_data['id'])
-    all_comments_serializer = Post_comment_serializer(all_comments)
-    #print(all_comment_serializer)
+        return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
-    temp_data['comment'] = [{}]*len(all_comments)
-    for i in range(len(all_comments)):
-        user_info = User.objects.get(id = all_comments[i].user_id.id)
-        user_info_serializer = User_profile_serializer(user_info)
-        temp_data['comment'][i]['user'] = {
-                                            "user_id": all_comments[i].user_id.id,
-                                            "nick_name" : user_info_serializer.data['nick_name'],
-                                            "avatar": "http://127.0.0.1:8000"+user_info_serializer.data['picture']
-                                        }
-        temp_data['comment'][i]['content'] = all_comments[i].content
-        
-    
-    return temp_data
     
 @csrf_exempt
 def post_tag(request, tag):

@@ -16,9 +16,9 @@ def user_dictory(instance, filename):
 class User(models.Model):
     
     # django default 
-    #id = models.AutoField(primary_key = True)
+    # id = models.AutoField(primary_key = True)
     email = models.EmailField()
-    password = models.CharField(max_length = 1024)
+    password = models.CharField(max_length = 1024, default = '123456')
     first_name = models.CharField(max_length = 256)
     last_name = models.CharField(max_length = 256)
     nick_name = models.CharField(max_length = 256)
@@ -37,7 +37,7 @@ class Email_check_new(models.Model):
 
     def __unicode__(self):
         return '{0}({1})'.format(self.code, self.email)
-
+        
 # class Email_check_old(models.Model):
 #     code = models.CharField(max_length=20, verbose_name='Verification Code')
 #     email = models.EmailField(max_length=50, verbose_name='User Email')

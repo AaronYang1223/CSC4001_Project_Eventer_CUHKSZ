@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('profile/<int:pk>', views.profile),
-    path('profile/verify',views.verify_password),
     path('profile/add', views.profile_add),
     path('profile/change', views.profile_change),
     path('profile/retrieve', views.profile_retrieve),
