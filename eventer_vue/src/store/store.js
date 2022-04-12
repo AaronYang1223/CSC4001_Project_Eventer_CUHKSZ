@@ -10,6 +10,7 @@ const state = {
   userEmail:"",
   userNickName: "Unknown",
   avatar:"",
+  userIsOrganization:false,
 	msg: '123456',
   hasLogin: false,
 }
@@ -32,6 +33,9 @@ const mutations = {
   },
   userAvatarUpdate (state, avatar_url){
     state.avatar = avatar_url
+  },
+  userIsOrganizationUpdate(state, is_organization){
+    state.userIsOrganization = is_organization
   }
 }
 

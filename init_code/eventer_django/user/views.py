@@ -176,7 +176,7 @@ def verify_password(request):
 
         return JsonResponse({
             'status':'error',
-            'message':'login success',
+            'message':'login failed',
             'id':''
         })
 

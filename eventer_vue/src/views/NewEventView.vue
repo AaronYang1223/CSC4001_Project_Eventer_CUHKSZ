@@ -369,7 +369,7 @@ export default {
 
   created: function () {
     //通过axios获得用户是不是组织用户
-    this.userIsOrg = true;//写完axios注释了
+    this.userIsOrg = this.$store.state.userIsOrganization;//写完axios注释了
   },
 
   methods: {
@@ -451,7 +451,7 @@ export default {
           //cover_page:this.file_info,
           max_participant_num: this.maxPartNum,
           is_public: this.eventIsPublic,
-          // is_private:,
+          is_private:this.eventIsPrivate,
       })
       .then((response)=>{
         if(response.data['code']=='101'){
