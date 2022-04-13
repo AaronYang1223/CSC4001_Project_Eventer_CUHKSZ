@@ -64,21 +64,50 @@ def post_add_comment_info(serializer):
     temp_data = serializer.data
     #print(temp_data)
     all_comments = Post_comment.objects.filter(post_id = temp_data['id'])
-    all_comments_serializer = Post_comment_serializer(all_comments)
+    all_comments_serializer = Post_comment_serializer(all_comments, many=True)
     #print(all_comment_serializer)
     
-    temp_data['comment'] = [{}]*len(all_comments)
-    for i in range(len(all_comments)):
-        user_info = User.objects.get(id = all_comments[i].user_id.id)
+    temp_data['comment'] = [{"user": {
+                "user_id": '',
+                "nick_name": "",
+                "avatar": ""
+            },
+            "content": "",
+            "likeNum": '',
+            "likeId": "",
+            "dislikeId": ""}]*len(all_comments_serializer.data)
+    
+    for i in range(len(all_comments_serializer.data)):
+        print(i)
+        #print(all_comments_serializer.data[i]['user_id'])
+        user_info = User.objects.get(id = all_comments_serializer.data[i]['user_id'])
+        
         user_info_serializer = User_profile_serializer(user_info)
+        comment_like_info = Like_post_comment.objects.filter(comment_id=all_comments_serializer.data[i]['id'], is_like='1')
+        comment_dislike_info = Like_post_comment.objects.filter(comment_id=all_comments_serializer.data[i]['id'], is_like='0')
+        likeId = ""
+        dislikeId = ""
+        for item in comment_like_info:
+            likeId = likeId + str(item.user_id.id) + " "
+        for item in comment_dislike_info:
+            dislikeId = dislikeId + str(item.user_id.id) + " "
         temp_data['comment'][i]['user'] = {
-                                            "user_id": all_comments[i].user_id.id,
+                                            "user_id": all_comments_serializer.data[i]['user_id'],
                                             "nick_name" : user_info_serializer.data['nick_name'],
-                                            "avatar": "http://127.0.0.1:8000"+user_info_serializer.data['picture']
+                                            "avatar": "http://127.0.0.1:8000"+user_info_serializer.data['picture'],
+                                            #"likeNum": all_comments[i].like_num,
+                                            #"dislikeNum": all_comments[i].dislike_num,
+                                            #"likeId": likeId,
+                                            #"dislikeId": dislikeId
                                         }
         temp_data['comment'][i]['content'] = all_comments[i].content
+        #print(temp_data['comment'][i]['content'],i)
+        temp_data['comment'][i]['likeNum'] = all_comments[i].like_num
+        temp_data['comment'][i]['likeId'] = likeId
+        temp_data['comment'][i]['dislikeId'] = dislikeId
+        print(temp_data['comment'][0])
         
-    
+    print (temp_data['comment'])
     return temp_data
     
 @csrf_exempt

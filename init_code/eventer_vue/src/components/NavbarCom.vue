@@ -128,6 +128,10 @@ export default {
       this.userid = this.$store.state.msg;
       this.$store.commit("logoutUpdate");
       this.$store.commit("userIDUpdate", "");
+      this.$store.commit("userNicknameUpdate", "");
+      this.$store.commit("userAvatarUpdate", "");
+      this.$store.commit("userIsOrganizationUpdat", false);
+      this.$store.commit("userEmailUpdate", "");
       console.log(this.$store.state.hasLogin);
       window.location.href = "/";
     },
