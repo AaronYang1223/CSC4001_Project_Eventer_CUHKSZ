@@ -1,13 +1,24 @@
+// TODO: 登录失败时增加提示框
 <template>
   <div>
-    <div>
-      <v-layout align-center justify-center py-5>
-        <v-card class="px-2 pb-3" max-width=900px>
-          <v-card-text>
-            <h1 align="center">
-              <span style="color:blue">L</span>ogin
+    <v-container mt-15 py-15>
+      <v-layout justify-center py-15>
+        <v-card 
+          class="px-2 pb-3" 
+          max-width=900px 
+          flat
+          outlined
+          tile
+        >
+
+          <div class="text-center mt-4">
+            <h1 class="primary--text">
+              <span >L</span>
+              <span>ogin</span>
             </h1>
-            <br/>
+          </div>
+
+          <v-card-text>
             <v-row>
               <v-text-field
                 id="login"
@@ -47,7 +58,9 @@
           </v-card-text>
         </v-card>
       </v-layout>
-    </div>
+
+    </v-container>
+    <!-- ？？ -->
     <v-snackbar v-model="snackbar">
       {{tip}}
       <template v-slot:action="{ attrs }">
@@ -61,6 +74,7 @@
         </v-btn>
       </template>
     </v-snackbar>
+
   </div>
 </template>
 

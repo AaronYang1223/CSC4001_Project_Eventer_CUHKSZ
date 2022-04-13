@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <NavbarCom />
+    <NavbarCom v-if="this.$store.state.hasLogin"></NavbarCom>
 
     <!-- load the actual code -->
     <v-content class="ma-2 pa-1">
