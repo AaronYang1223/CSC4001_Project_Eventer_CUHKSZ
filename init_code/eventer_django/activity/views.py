@@ -9,6 +9,7 @@ from django.http import HttpResponse, JsonResponse
 
 import public_calendar
 import private_calendar
+import user
 from .serializers import Activity_serializer
 from .models import Activity
 import datetime
@@ -16,6 +17,10 @@ import datetime
 from activity import serializers
 from user.models import User
 from user.serializers import User_profile_serializer
+from activity_comment.models import Activity_comment, Like_activity_comment
+from activity_comment.serializers import Activity_comment_serializer
+from score_activity.models import Score
+from score_activity.serializers import Score_activity_serializer
 
 
 # TODO: Change post function for uploading a cover page when create an activity
@@ -253,3 +258,46 @@ def activity_user(request, user_id):
         serializer = Activity_serializer(activities, many = True)
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+
+@csrf_exempt
+def activity_comment(request, activity_id):
+    
+    try:
+        activity = Activity.objects.get(pk = activity_id)
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        activity_serializer = Activity_serializer(activity)
+        temp_data = activity_add_comment_info(activity_serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+    
+    # if (request.method == 'POST'):
+    #     data = JSONParser().parse(request)
+    #     serializer = Comment_serializer(data = data)
+    #     if (serializer.is_valid()):
+    #         serializer.save()
+    #         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = 201)
+    #     return JsonResponse(serializer.errors, status = 400)
+    
+@csrf_exempt
+def activity_add_comment_info(serializer):
+    temp_data = serializer.data
+    comments = Activity_comment.objects.filter(activity_id = temp_data['id'], is_delete = False)
+    comment_serializer = Activity_comment_serializer(comments, many = True)
+    temp_data['comments_list'] = [int(i['id']) for i in comment_serializer.data]
+    temp_data['comments'] = comment_serializer.data
+    for i in range(len(temp_data['comments'])):
+        user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
+        user_serializer = User_profile_serializer(user)
+        temp_data['comments'][i]['avatar'] = user_serializer.data['picture']
+        
+        like = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '1')
+        dislike = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '0')
+        like_str = [str(i.user_id.id) for i in like]
+        dislike_str = [str(i.user_id.id) for i in dislike]
+        temp_data['comments'][i]['like_user'] = ' '.join(like_str)
+        temp_data['comments'][i]['dislike_user'] = ' '.join(dislike_str)
+    return temp_data
