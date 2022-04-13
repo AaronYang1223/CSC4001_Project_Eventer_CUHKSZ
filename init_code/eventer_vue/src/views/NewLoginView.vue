@@ -1,8 +1,9 @@
 // TODO: 登录失败时增加提示框
 <template>
-  <div>
-    <v-container mt-15 py-15>
-      <v-row justify="center" align="center">
+  <div id="building">
+    <v-container mt-16 py-16>
+
+      <v-row justify="center" align="center" class="mt-16">
         <v-card 
           class="px-2 pb-3" 
           max-width=400px 
@@ -179,6 +180,13 @@ export default {
 }
 </script>
 
-<style>
 
+  
+<style>
+#building{
+background:url("https://cdn.vuetifyjs.com/images/cards/docks.jpg");
+width:100%;			
+height:100%;			
+position:fixed;
+background-size:100% 100%;}
 </style>
