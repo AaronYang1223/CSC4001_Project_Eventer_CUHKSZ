@@ -332,7 +332,7 @@
                 nickname: response.data[i].nick_name,
                 upper_num: response.data[i].max_participant_num,
                 attend_num: response.data[i].participant_num,
-                start_time: response.data[i].start_time,
+                start_time:  this.showStartTime(new Date(response.data[i].start_time)),
                 end_time: response.data[i].end_time,
                 selection: 0,
                 show: false,
@@ -362,8 +362,8 @@
       showStartTime (start) {
         console.log(1)
         this.min = start.getMinutes()
-        if (this.min == 0){
-          this.min = "00"
+        if (this.min < 10){
+          this.min = "0" + this.min.toString()
         }else{
           this.min = start.getMinutes().toString()
         }
@@ -371,34 +371,65 @@
         return (start.getMonth() + 1).toString() + "/" + start.getDate().toString() + " " + start.getHours().toString() + ":" + this.min 
       },
       changeSort: function(){
-        this.sort.icon = !this.sort.icon
-        this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/activity/order/create_date/all' : 'http://127.0.0.1:8000/api/activity/order/comment_number/all'
-        this.$axios.get(this.sort.link).then(response => {
-          this.events = []
-          console.log("FIX")
-          console.log(response.data)
-          for (let i = 0; i < response.data.length; i++) {
-            this.events.push(
-              {
-                activity_id: response.data[i].id,
-                banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
-                title: response.data[i].title,
-                text: response.data[i].content,
-                tags: response.data[i].tag.split(' '),
-                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-                is_authenticated: response.data[i].is_organization,
-                nickname: response.data[i].nick_name,
-                upper_num: response.data[i].max_participant_num,
-                attend_num: response.data[i].participant_num,
-                start_time: this.showStartTime(new Date(response.data[i].start_time)),
-                end_time: response.data[i].end_time,
-                selection: 0,
-                show: false,
-              }
-            )
-            
-          }
-        })
+        if(!this.isPersonal){
+          this.sort.icon = !this.sort.icon
+          this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/activity/order/create_date/all' : 'http://127.0.0.1:8000/api/activity/order/comment_number/all'
+          this.$axios.get(this.sort.link).then(response => {
+            this.events = []
+            console.log("FIX")
+            console.log(response.data)
+            for (let i = 0; i < response.data.length; i++) {
+              this.events.push(
+                {
+                  activity_id: response.data[i].id,
+                  banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+                  title: response.data[i].title,
+                  text: response.data[i].content,
+                  tags: response.data[i].tag.split(' '),
+                  avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                  is_authenticated: response.data[i].is_organization,
+                  nickname: response.data[i].nick_name,
+                  upper_num: response.data[i].max_participant_num,
+                  attend_num: response.data[i].participant_num,
+                  start_time: this.showStartTime(new Date(response.data[i].start_time)),
+                  end_time: response.data[i].end_time,
+                  selection: 0,
+                  show: false,
+                }
+              )
+            }
+          })
+        }
+        else{
+          this.sort.icon = !this.sort.icon 
+          this.sort.link = this.sort.icon ? ('http://127.0.0.1:8000/api/activity/user/order/create_date/' + this.user_id) : ('http://127.0.0.1:8000/api/activity/user/order/comment_number/' + this.user_id)
+          this.$axios.get(this.sort.link).then(response => {
+            this.events = []
+            console.log("FIX")
+            console.log(response.data)
+            for (let i = 0; i < response.data.length; i++) {
+              this.events.push(
+                {
+                  activity_id: response.data[i].id,
+                  banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
+                  title: response.data[i].title,
+                  text: response.data[i].content,
+                  tags: response.data[i].tag.split(' '),
+                  avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                  is_authenticated: response.data[i].is_organization,
+                  nickname: response.data[i].nick_name,
+                  upper_num: response.data[i].max_participant_num,
+                  attend_num: response.data[i].participant_num,
+                  start_time: this.showStartTime(new Date(response.data[i].start_time)),
+                  end_time: response.data[i].end_time,
+                  selection: 0,
+                  show: false,
+                }
+              )
+              
+            }
+          })
+        }
       },
       register: function(user_id, activity_id){
         this.sort.link = 'http://127.0.0.1:8000/api/activity/participant/add'

@@ -208,7 +208,36 @@ def post_order_comment_number_all(request):
         serializer = Post_serializer(posts, many = True)
         temp_data = post_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+
+@csrf_exempt
+def post_user_order_comment_num(request, user_id):
+
+    try:
+        posts = Post.objects.filter(user_id = user_id, is_delete = False).order_by('-create_time')
+    except:
+        return HttpResponse(status = 404)
+
+    if (request.method == 'GET'):
+        serializer = Post_serializer(posts, many = True)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+
+@csrf_exempt
+def post_user_order_create_date(request, user_id):
+
+    try:
+        posts = Post.objects.filter(user_id = user_id, is_delete = False).order_by('-comment_number')
+    except:
+        return HttpResponse(status = 404)
+
+    if (request.method == 'GET'):
+        serializer = Post_serializer(posts, many = True)
+        temp_data = post_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+
 def post_add_user_info(serializer):
     temp_data = serializer.data
     for i in range(len(temp_data)):
