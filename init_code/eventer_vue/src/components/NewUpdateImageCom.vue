@@ -6,32 +6,85 @@
         flat
         outlined
         class="hidden-sm-and-down"
+        tile
         >
 
-        <div class="text-center">
-          <div class="mt-4">
-          <v-btn
-            :style="`width:${imgWidth};height:${imgHeight};`" 
-            max-width="200"
-            color="primary"
-            text
-          >
-            <span>Edit avatar</span>
-            <input
-              type="file" 
-              class="input-file" 
-              :style="`width:${imgWidth};height:${imgHeight};`"
+          <v-list-item-content class="justify-center">
 
-              ref="avatarInput" 
-              @change="changeImage($event)" 
-              accept="image/gif,image/jpeg,image/jpg,image/png"
+            <v-avatar
+              size="200"
             >
-          </v-btn>
-          </div>
-        </div>
+              <img :src="avatar">
+            </v-avatar>          
 
+            <div class="text-center mt-4">
 
+              <v-btn
+                style="width:150px; height:25px;" 
+                color="primary"
+              >
+
+                <span>Edit avatar</span>
+
+                <input
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+
+                  ref="avatarInput" 
+                  @change="changeImage($event)" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+
+              </v-btn>
+
+            </div>
+
+          </v-list-item-content>
         </v-card>
+                
+                
+        <v-card
+        flat
+        outlined
+        class="hidden-md-and-up"
+        tile
+        >
+
+          <v-list-item-content class="justify-center">
+
+            <v-avatar
+              size="150"
+            >
+              <img :src="avatar">
+            </v-avatar>          
+
+            <div class="text-center mt-4">
+
+              <v-btn
+                style="width:120px; height:20px;" 
+                color="primary"
+              >
+
+                <span>Edit avatar</span>
+
+                <input
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+
+                  ref="avatarInput" 
+                  @change="changeImage($event)" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+
+              </v-btn>
+
+            </div>
+
+          </v-list-item-content>
+        </v-card>
+
     </v-container>
   </div>  
 
