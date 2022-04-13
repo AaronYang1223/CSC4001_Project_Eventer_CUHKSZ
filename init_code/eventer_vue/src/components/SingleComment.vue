@@ -101,6 +101,14 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '1'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userLike = true;
         }
         else{
@@ -109,6 +117,14 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '2'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userLike = false;
         }
       }
@@ -121,6 +137,14 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '0'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userDislike = true;
         }
         else{
@@ -129,6 +153,14 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '2'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userDislike = false;
         }
       }
