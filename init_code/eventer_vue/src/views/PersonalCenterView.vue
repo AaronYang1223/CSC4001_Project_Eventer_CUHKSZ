@@ -16,6 +16,7 @@
               @upload="getImgUrl"
             >
             </NewUpdateImageCom>
+            <BtnsCom />
           </v-card>
         </v-col>
 
@@ -79,10 +80,11 @@ import NewUpdateImageCom from '@/components/NewUpdateImageCom'
 import CalendarCom from '@/components/CalendarCom'
 import PostsCom from '@/components/PostsCom'
 import EventsCom from '@/components/EventsCom'
+import BtnsCom from '@/components/BtnsCom'
 
 export default {
   name: 'PersonalCenterView',
-  components: {NewUpdateImageCom, CalendarCom, PostsCom, EventsCom},
+  components: {NewUpdateImageCom, CalendarCom, PostsCom, EventsCom, BtnsCom},
   data () {
     return {
       tab: null,
