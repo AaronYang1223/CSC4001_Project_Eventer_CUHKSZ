@@ -285,7 +285,7 @@
 
       min: '',
 
-      user_id: 11,
+      user_id: this.$store.state.userID,
 
     }),
     created(){

@@ -192,7 +192,7 @@
       link: '',
       icon: false,
     },
-    user_id: 7,
+    user_id: this.$store.state.userID,
     }),
     created(){
       if(!this.isPersonal){
