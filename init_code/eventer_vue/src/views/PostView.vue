@@ -167,7 +167,14 @@ export default {
     //这是用户打开的post的id
     //用axios发送到后端检验一下这个post是不是存在
     //不存在就:  window.location.href = "/";
-
+    this.pageLength = Math.ceil(this.commentNumber/10);
+    this.lastPageComentNum = this.commentNumber%10;
+    if (this.commentNumber >= 10) {
+      this.thisPageCommentNum = 10;
+    }
+    else {
+      this.thisPageCommentNum = this.commentNumber;
+    }
     //axios获取topic 正文内容 tagList
     this.$axios.get('http://127.0.0.1:8000/api/post/'+ this.$route.params.id,{
           // params:{
@@ -177,32 +184,47 @@ export default {
       .then((response)=>{
         this.topic = response.data.post_title;
         this.content = response.data.post_content;
-        this.taglist = response.data.post_tag;
+        this.tagList = response.data.post_tag;
+        this.tags = this.tagList.split(" ");
         this.commentNumber = response.data.commnet_number;
-        for (let i = 0; i < response.data.comment.length; i++) {
+        //console.log(response.data.comments.length);
+        for (let i = 0; i < response.data.comments.length; i++) {
+          console.log(response.data.comments[i]['user_id']);
+          console.log('http://127.0.0.1:8000'+response.data.comments[i]['avatar']);
+          console.log(response.data.comments[i]['content']);
+          console.log(response.data.comments[i]['like_num']);
+          console.log(response.data.comments[i]['dislike_num']);
+          console.log(response.data.comments[i]['like_user']);
+          console.log(response.data.comments[i]['dislike_user']);
+          // this.commentItem['commentUserID'] = response.data.comments[i]['user_id'];
+          // this.commentItem['commentUserAvatarsPath'] = response.data.comments[i]['avatar'];
+          // this.commentItem['commentTexth'] = response.data.comments[i]['content'];
+          // this.commentItem['likeNum'] = response.data.comments[i]['like_num'];
+          // this.commentItem['dislikeNum'] = response.data.comments[i]['dislike_num'];
+          // this.commentItem['likeId'] = response.data.comments[i]['like_user'];
+          // this.commentItem['dislikeId'] = response.data.comments[i]['dislike_user'];
           this.commentsList.push(
-            {
-              user: response.data.comment[i]['user'],
-              content: response.data.comment[i]['content'],
-            }
+              {commentUserID: String(response.data.comments[i]['user_id']),
+              commentUserAvatarsPath: 'http://127.0.0.1:8000'+response.data.comments[i]['avatar'],
+              commentText: response.data.comments[i]['content'],
+              likeNum: response.data.comments[i]['like_num'],
+              dislikeNum: response.data.comments[i]['dislike_num'],
+              likeId: response.data.comments[i]['like_user'],
+              dislikeId: response.data.comments[i]['dislike_user']}
           )
+          console.log(this.commentsList)
         }
-        //console.log(this.taglist)
+        
+        console.log(this.tagList)
       });
 
     //this.topic = "Topic Test";
     //this.content = "<p>123123123<strong>123213<em>12321312</em></strong></p> <p><strong><em>123213<s>123213123</s>123123</em></strong><em>123123</em></p> <p>123123<em>123213<strong>123213</strong></em></p> <p><s><em><strong>123123123</strong></em></s></p>";
     //this.tagList = "tag1 tag2 tag3";
-    this.tags = this.tagList.split(" ");
+    
+    console.log(this.tags)
     //axios获得一下目前post的评论数（写入this.commentNumber里），然后再操作
-    this.pageLength = Math.ceil(this.commentNumber/10);
-    this.lastPageComentNum = this.commentNumber%10;
-    if (this.commentNumber >= 10) {
-      this.thisPageCommentNum = 10;
-    }
-    else {
-      this.thisPageCommentNum = this.commentNumber;
-    }
+    
 
     //axios 把所有PostID对应的momment注入this.commentsList
     //下面这部分是测试显示的，如果注入comment之后注释掉

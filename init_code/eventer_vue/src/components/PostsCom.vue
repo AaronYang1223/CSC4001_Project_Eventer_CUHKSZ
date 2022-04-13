@@ -148,6 +148,11 @@
 
 <script>
   export default {
+    props:{
+      isPersonal:{
+        type:Boolean
+      }
+    },
     data: () => ({
       posts: [
         // {
@@ -186,26 +191,53 @@
     sort:{
       link: '',
       icon: false,
-    }
+    },
+    user_id: 7,
     }),
     created(){
-      this.$axios.get('http://127.0.0.1:8000/api/post/order/comment_number/all').then(response => {
-        this.posts = []
-        for (let i = 0; i < response.data.length; i++) {
-          this.posts.push(
-            {
-              title: response.data[i].post_title,
-              text: response.data[i].post_content,
-              tags: response.data[i].post_tag.split(' '),
-              avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-              is_authenticated: response.data[i].is_organization,
-              nickname: response.data[i].nick_name,
-              comment_num: response.data[i].comment_number,
-              id: response.data[i].id
-            }
-          )
-        }
-      })
+      if(!this.isPersonal){
+        this.$axios.get('http://127.0.0.1:8000/api/post/order/comment_number/all').then(response => {
+          this.posts = []
+          console.log("response.data !!!!")
+          for (let i = 0; i < response.data.length; i++) {
+            this.posts.push(
+              {
+                title: response.data[i].post_title,
+                text: response.data[i].post_content,
+                tags: response.data[i].post_tag.split(' '),
+                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                is_authenticated: response.data[i].is_organization,
+                nickname: response.data[i].nick_name,
+                comment_num: response.data[i].comment_number,
+                id: response.data[i].id
+              }
+            )
+          }
+          console.log(this.posts)
+        })
+      }
+      else{
+        this.$axios.get('http://127.0.0.1:8000/api/post/user/' + this.user_id).then(response => {
+          console.log("response.data")
+          console.log(response.data)
+          this.posts = []
+          for (let i = 0; i < response.data.length; i++) {
+            this.posts.push(
+              {
+                id: response.data[i].id,
+                title: response.data[i].post_title,
+                text: response.data[i].post_content,
+                tags: response.data[i].post_tag.split(' '),
+                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                is_authenticated: response.data[i].is_organization,
+                nickname: response.data[i].nick_name,
+                comment_num: response.data[i].comment_number,
+              }
+            )
+          }
+          console.log(this.posts)
+        })
+      }
     },
     computed:{
       filteredPosts:function(){

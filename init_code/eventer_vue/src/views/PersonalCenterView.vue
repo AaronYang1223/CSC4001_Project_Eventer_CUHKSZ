@@ -51,18 +51,14 @@
                 :value="'tab-' + i"
               >
                 
-                <v-card v-if="i == 1 && !isPublic" flat>
-                  <CalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></CalendarCom>
-                </v-card>
-                <v-card v-if="i == 1 && isPublic" flat>
-                  <PublicCalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></PublicCalendarCom>
+                <v-card v-if="i == 1" flat>
+                  <CalendarCom></CalendarCom>
                 </v-card>
                 <v-card v-if="i == 2" flat>
-                  <PostsCom />
-                  
+                  <PostsCom v-bind:isPersonal="isPersonal"></PostsCom>
                 </v-card>
                 <v-card v-if="i == 3" flat>
-                  <EventsCom />
+                  <EventsCom v-bind:isPersonal="isPersonal"> </EventsCom>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -88,8 +84,7 @@ export default {
   data () {
     return {
       tab: null,
-      isPublic: false,
-      isPost: true,
+      isPersonal: true,
     }
   },
   methods:{
