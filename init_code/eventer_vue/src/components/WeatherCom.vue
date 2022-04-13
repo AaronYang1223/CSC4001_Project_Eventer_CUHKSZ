@@ -8,7 +8,7 @@
     <v-row dense>
       <v-col
           class="text-h2"
-          cols="12" xs="8" sm="12" md="8"
+          cols="12" xs="6" sm="12" md="6"
           align="center"
       >
         <v-card
@@ -29,7 +29,7 @@
       </v-col>
 
       <v-col
-        cols="12" xs="4" sm="12" md="4"
+        cols="12" xs="6" sm="12" md="6"
         align="center"
       >
         <v-card
@@ -70,7 +70,7 @@
         this.date = response.data['lives'][0]['reporttime'].split(' ')[0]
         this.time = response.data['lives'][0]['reporttime'].split(' ')[1]
         this.weather = response.data['lives'][0]['weather'],
-        this.city = response.data['lives'][0]['province'] + ' ' + response.data['lives'][0]['city']
+        this.city = response.data['lives'][0]['city']
         this.humidity = response.data['lives'][0]['humidity']
         this.winddirection = response.data['lives'][0]['winddirection']
         this.windpower = response.data['lives'][0]['windpower']
