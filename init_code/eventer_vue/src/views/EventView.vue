@@ -31,6 +31,7 @@
                   {{ tag }}
                 </v-chip>
               </v-chip-group>
+              <v-img :src="coverPage"/>
             </v-card-text>
             <v-divider></v-divider>
 
