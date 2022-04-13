@@ -108,6 +108,7 @@
                         half-increments
                         hover
                         size="18"
+                        :readonly="scoreReadOnly"
                       ></v-rating>
                     </div>
                   </v-col>
@@ -244,6 +245,9 @@ export default {
       //new
       isPrivate: false,
       privateID: "",
+
+      //score new change
+      scoreReadOnly: false,
     }
   },
   created: function () {
@@ -322,6 +326,7 @@ export default {
     },
     updateRating: function () {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
+      this.scoreReadOnly = true;
       this.scoreAvg = this.scoreNum - 1;
     },
     updateParticipant: function () {
