@@ -252,6 +252,9 @@ export default {
       canRating: true,
       scoreReadOnly: false,
       timeNow: "",
+      //新数据已经评分的人的id存到scoreIds
+      scoreIdList: [],
+      scoreIds: "",
     }
   },
   created: function () {
@@ -303,6 +306,14 @@ export default {
     this.timeNow = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 23);
     this.endTime = "2022-04-12T03:27:58.896683".substr(0, 23);
     this.canRating = (this.endTime<this.timeNow);
+    //
+    if (this.canRating) {
+      //用axios获得现在已经评价的人的id: this.scoreIds
+      this.scoreIdList = this.scoreIds.split(" ");
+      if (this.scoreIdList.includes(this.$store.state.userID)) {
+        this.scoreReadOnly = true;
+      }
+    }
   },
   methods:{
     calculateNum: function(){
@@ -337,6 +348,7 @@ export default {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
       this.scoreReadOnly = true;
       this.scoreAvg = this.scoreNum - 1;
+      //记得把this.$store.state.userID传到后端的已评价人id中this.scoreIds
     },
     updateParticipant: function () {
       //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据

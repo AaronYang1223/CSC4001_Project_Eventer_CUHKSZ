@@ -53,11 +53,10 @@
                   <PublicCalendarCom v-bind:isPublic="isPublic" v-on:changeCalendar = "updateCalendar($event)"></PublicCalendarCom>
                 </v-card>
                 <v-card v-if="i == 2" flat>
-                  <PostsCom />
-                  
+                  <PostsCom v-bind:isPersonal="isPersonal"></PostsCom>
                 </v-card>
                 <v-card v-if="i == 3" flat>
-                  <EventsCom />
+                  <EventsCom v-bind:isPersonal="isPersonal"> </EventsCom>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -100,6 +99,7 @@ export default {
       tab: null,
       isPublic: false,
       isPost: true,
+      isPersonal: false,
     }
   },
   methods:{
