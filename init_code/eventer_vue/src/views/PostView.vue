@@ -167,14 +167,7 @@ export default {
     //这是用户打开的post的id
     //用axios发送到后端检验一下这个post是不是存在
     //不存在就:  window.location.href = "/";
-    this.pageLength = Math.ceil(this.commentNumber/10);
-    this.lastPageComentNum = this.commentNumber%10;
-    if (this.commentNumber >= 10) {
-      this.thisPageCommentNum = 10;
-    }
-    else {
-      this.thisPageCommentNum = this.commentNumber;
-    }
+    
     //axios获取topic 正文内容 tagList
     this.$axios.get('http://127.0.0.1:8000/api/post/'+ this.$route.params.id,{
           // params:{
@@ -186,7 +179,7 @@ export default {
         this.content = response.data.post_content;
         this.tagList = response.data.post_tag;
         this.tags = this.tagList.split(" ");
-        this.commentNumber = response.data.commnet_number;
+        this.commentNumber = response.data.comment_number;
         //console.log(response.data.comments.length);
         for (let i = 0; i < response.data.comments.length; i++) {
           console.log(response.data.comments[i]['user_id']);
@@ -215,7 +208,15 @@ export default {
           console.log(this.commentsList)
         }
         
-        console.log(this.tagList)
+        console.log(this.commentNumber)
+        this.pageLength = Math.ceil(this.commentNumber/10);
+        this.lastPageComentNum = this.commentNumber%10;
+        if (this.commentNumber >= 10) {
+          this.thisPageCommentNum = 10;
+        }
+        else {
+        this.thisPageCommentNum = this.commentNumber;
+        }
       });
 
     //this.topic = "Topic Test";
@@ -230,7 +231,8 @@ export default {
     //下面这部分是测试显示的，如果注入comment之后注释掉
     // for (let index = 0; index < this.commentNumber; index++) {
     //   this.commentsList.push(this.commentItem);
-    // }
+    // 
+    
   },
   methods:{
     calculateNum: function(){
