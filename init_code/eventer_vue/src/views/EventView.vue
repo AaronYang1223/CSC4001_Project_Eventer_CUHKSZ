@@ -302,7 +302,7 @@ export default {
     //如果改了endTime记得把这部分判断移到修改endTime之前
     this.timeNow = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 23);
     this.endTime = "2022-04-12T03:27:58.896683".substr(0, 23);
-    this.canRating = (this.endTime<this.timeNow);
+    this.canRating = (this.endTime < this.timeNow);
   },
   methods:{
     calculateNum: function(){
