@@ -155,6 +155,7 @@ export default {
         dislikeNum: 9,
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
+        commentId: 1,
       },
       tip: "",
       tags: [],
@@ -203,7 +204,8 @@ export default {
               likeNum: response.data.comments[i]['like_num'],
               dislikeNum: response.data.comments[i]['dislike_num'],
               likeId: response.data.comments[i]['like_user'],
-              dislikeId: response.data.comments[i]['dislike_user']}
+              dislikeId: response.data.comments[i]['dislike_user'],
+              commentId: response.data.comments[i].id},//这里改成后端id的名称
           )
           console.log(this.commentsList)
         }
