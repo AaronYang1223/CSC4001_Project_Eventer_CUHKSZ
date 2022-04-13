@@ -82,7 +82,9 @@
                 </v-row>
               </v-card>
 
-              <v-card>
+              <v-card
+                v-if="canRating"
+              >
                 <v-row class="main-content">
                   <v-col>
                     Avarage: ({{ scoreAvg }})
@@ -108,6 +110,7 @@
                         half-increments
                         hover
                         size="18"
+                        :readonly="scoreReadOnly"
                       ></v-rating>
                     </div>
                   </v-col>
@@ -244,6 +247,11 @@ export default {
       //new
       isPrivate: false,
       privateID: "",
+
+      //score new change
+      canRating: true,
+      scoreReadOnly: false,
+      timeNow: "",
     }
   },
   created: function () {
@@ -290,6 +298,11 @@ export default {
     for (let index = 0; index < this.commentNumber; index++) {
       this.commentsList.push(this.commentItem);
     }
+    //控制rating能不能显示
+    //如果改了endTime记得把这部分判断移到修改endTime之前
+    this.timeNow = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 23);
+    this.endTime = "2022-04-12T03:27:58.896683".substr(0, 23);
+    this.canRating = (this.endTime<this.timeNow);
   },
   methods:{
     calculateNum: function(){
@@ -322,6 +335,7 @@ export default {
     },
     updateRating: function () {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
+      this.scoreReadOnly = true;
       this.scoreAvg = this.scoreNum - 1;
     },
     updateParticipant: function () {
@@ -338,7 +352,7 @@ export default {
       this.tip = "Succesee Join";
       //成功加入
       this.snackbar = true;
-    }
+    },
   }
 }
 </script>

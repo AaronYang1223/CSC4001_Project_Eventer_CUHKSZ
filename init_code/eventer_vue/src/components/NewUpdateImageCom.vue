@@ -23,8 +23,8 @@
                 style="width:150px; height:25px;" 
                 color="primary"
               >
-
-                <span>Edit avatar</span>
+                <v-icon small>mdi-pencil</v-icon>
+                <span>avatar</span>
 
                 <input
                   type="file" 
@@ -64,6 +64,7 @@
               <v-btn
                 style="width:120px; height:20px;" 
                 color="primary"
+                depressed
               >
 
                 <span>Edit avatar</span>

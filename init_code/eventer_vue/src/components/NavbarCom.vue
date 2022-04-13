@@ -2,7 +2,7 @@
   <nav>
 
     <v-toolbar app>
-
+      {{fresh()}}
       <v-menu
         bottom
         min-width="200px"
@@ -81,7 +81,6 @@
                 text
                 color="grey darken-1"
                 plain
-                router :to="'/login'"
                 @click="no"
               >
                 Logout
@@ -124,13 +123,18 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
     },
     no: function(){
-      this.islogin = this.$store.state.hasLogin;
-      this.userid = this.$store.state.msg;
       this.$store.commit("logoutUpdate");
       this.$store.commit("userIDUpdate", "");
+      this.$store.commit("userNicknameUpdate", "");
+      this.$store.commit("userAvatarUpdate", "");
+      this.$store.commit("userIsOrganizationUpdat", false);
+      this.$store.commit("userEmailUpdate", "");
       console.log(this.$store.state.hasLogin);
       window.location.href = "/";
     },
+    fresh: function(){
+      this.user.avatar = this.$store.state.avatar
+    }
   }
 
 }
