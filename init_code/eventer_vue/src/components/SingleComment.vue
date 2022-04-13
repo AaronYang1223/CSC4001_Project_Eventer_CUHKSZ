@@ -6,7 +6,7 @@
           <v-list-item-avatar color="grey darken-3">
             <v-img
               alt="头像"
-              src:="imgSrc"
+              :src="imgSrc"
             ></v-img>
             <!-- 头像地址 -->
           </v-list-item-avatar>
