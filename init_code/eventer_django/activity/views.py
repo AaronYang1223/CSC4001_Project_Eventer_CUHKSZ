@@ -19,7 +19,7 @@ from user.models import User
 from user.serializers import User_profile_serializer
 from activity_comment.models import Activity_comment, Like_activity_comment
 from activity_comment.serializers import Activity_comment_serializer
-from score_activity.models import Score
+from score_activity.models import Score, Participant_Activity
 from score_activity.serializers import Score_activity_serializer
 
 
@@ -300,4 +300,17 @@ def activity_add_comment_info(serializer):
         dislike_str = [str(i.user_id.id) for i in dislike]
         temp_data['comments'][i]['like_user'] = ' '.join(like_str)
         temp_data['comments'][i]['dislike_user'] = ' '.join(dislike_str)
+
+    if ((not temp_data['is_outdate']) and (datetime.datetime.strptime(temp_data['end_time'], "%Y-%m-%dT%H:%M:%S") < datetime.datetime.now())):
+        temp_data['is_outdate'] = True
+        activity = Activity.objects.get(pk = temp_data['id'])
+        activity.is_outdate = True
+        activity.save()
+
+    score = Score.objects.filter(activity_id = temp_data['id'],)
+    temp_data['score_list'] = [i.user_id.id for i in score]
+    part = Participant_Activity.objects.filter(activity_id = temp_data['id'],)
+    temp_data['participants_list'] = [i.user_id.id for i in part]
+    
+    
     return temp_data
