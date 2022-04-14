@@ -6,7 +6,7 @@
           <v-list-item-avatar color="grey darken-3">
             <v-img
               alt="头像"
-              src:="imgSrc"
+              :src="imgSrc"
             ></v-img>
             <!-- 头像地址 -->
           </v-list-item-avatar>
@@ -69,6 +69,7 @@ export default {
       dislikeIdList: "",
       likeArray: [],
       dislikeArray: [],
+      commentId: 1,
     }
   },
   created: function () {
@@ -81,6 +82,7 @@ export default {
     this.dislikeIdList = this.CommentItem.dislikeId;
     this.likeArray = this.likeIdList.split(" ");
     this.dislikeArray = this.dislikeIdList.split(" ");
+    this.commentId = this.CommentItem.commentId;
     if (this.likeArray.includes(this.$store.state.userID)) {
       this.likeColor = "blue lighten-1";
       this.userLike = true;
@@ -98,6 +100,15 @@ export default {
           this.likeNumber = this.likeNumber + 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
+          //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '1'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userLike = true;
         }
         else{
@@ -105,6 +116,15 @@ export default {
           this.likeNumber = this.likeNumber - 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
+          //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '2'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userLike = false;
         }
       }
@@ -116,6 +136,15 @@ export default {
           this.dislikeNumber = this.dislikeNumber + 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
+          //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '0'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userDislike = true;
         }
         else{
@@ -123,6 +152,15 @@ export default {
           this.dislikeNumber = this.dislikeNumber - 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
+          //！提交的时候对象是this.commentId
+          this.$axios.post('http://127.0.0.1:8000/api/post/comment/like/add_change',{
+              user_id:this.$store.state.userID,
+              comment_id:this.commentId,
+              is_like : '2'
+          })
+          .then((response)=>{
+            console.log(response)
+          });
           this.userDislike = false;
         }
       }

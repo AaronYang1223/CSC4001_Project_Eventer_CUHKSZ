@@ -247,6 +247,32 @@ def activity_add_user_info(serializer):
     return temp_data
 
 @csrf_exempt
+def activity_user_order_comment_num(request, user_id):
+    
+    try:
+        activities = Activity.objects.filter(organizer_id = user_id, is_delete = False).order_by('-comment_number')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+@csrf_exempt
+def activity_user_order_create_time(request, user_id):
+    
+    try:
+        activities = Activity.objects.filter(organizer_id = user_id, is_delete = False).order_by('-create_time')
+    except:
+        return HttpResponse(status = 404)
+    
+    if (request.method == 'GET'):
+        serializer = Activity_serializer(activities, many = True)
+        temp_data = activity_add_user_info(serializer)
+        return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
+
+@csrf_exempt
 def activity_user(request, user_id):
     
     try:

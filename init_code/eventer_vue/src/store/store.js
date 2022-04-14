@@ -29,7 +29,7 @@ const mutations = {
     state.userEmail = useremail
   },
   userNicknameUpdate (state, nickname){
-    state.userNickname = nickname
+    state.userNickName = nickname
   },
   userAvatarUpdate (state, avatar_url){
     state.avatar = avatar_url

@@ -192,7 +192,7 @@
       link: '',
       icon: false,
     },
-    user_id: 7,
+    user_id: this.$store.state.userID,
     }),
     created(){
       if(!this.isPersonal){
@@ -256,25 +256,48 @@
     },
     methods:{
       changeSort: function(){
-        this.sort.icon = !this.sort.icon
-        this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/post/order/create_date/all' : 'http://127.0.0.1:8000/api/post/order/comment_number/all'
-        this.$axios.get(this.sort.link).then(response => {
-          this.posts = []
-          for (let i = 0; i < response.data.length; i++) {
-            this.posts.push(
-              {
-                post_id: response.data[i].id,
-                title: response.data[i].post_title,
-                text: response.data[i].post_content,
-                tags: response.data[i].post_tag.split(' '),
-                avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-                is_authenticated: response.data[i].is_organization,
-                nickname: response.data[i].nick_name,
-                comment_num: response.data[i].comment_number,
-              }
-            )
-          }
-        })
+        if(!this.isPersonal){
+          this.sort.icon = !this.sort.icon
+          this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/post/order/create_date/all' : 'http://127.0.0.1:8000/api/post/order/comment_number/all'
+          this.$axios.get(this.sort.link).then(response => {
+            this.posts = []
+            for (let i = 0; i < response.data.length; i++) {
+              this.posts.push(
+                {
+                  post_id: response.data[i].id,
+                  title: response.data[i].post_title,
+                  text: response.data[i].post_content,
+                  tags: response.data[i].post_tag.split(' '),
+                  avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                  is_authenticated: response.data[i].is_organization,
+                  nickname: response.data[i].nick_name,
+                  comment_num: response.data[i].comment_number,
+                }
+              )
+            }
+          })
+        }else{
+          this.sort.icon = !this.sort.icon
+          this.sort.link = this.sort.icon ? ('http://127.0.0.1:8000/api/post/user/order/create_date/' + this.user_id) : ('http://127.0.0.1:8000/api/post/user/order/comment_number/' + this.user_id)
+          this.$axios.get(this.sort.link).then(response => {
+            this.posts = []
+            for (let i = 0; i < response.data.length; i++) {
+              this.posts.push(
+                {
+                  post_id: response.data[i].id,
+                  title: response.data[i].post_title,
+                  text: response.data[i].post_content,
+                  tags: response.data[i].post_tag.split(' '),
+                  avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
+                  is_authenticated: response.data[i].is_organization,
+                  nickname: response.data[i].nick_name,
+                  comment_num: response.data[i].comment_number,
+                }
+              )
+            }
+          })
+        }
+
       },
     }
 

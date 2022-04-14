@@ -1,53 +1,98 @@
+// TODO: 登录失败时增加提示框
 <template>
-  <div>
-    <div>
-      <v-layout align-center justify-center py-5>
-        <v-card class="px-2 pb-3" max-width=900px>
-          <v-card-text>
-            <h1 align="center">
-              <span style="color:blue">L</span>ogin
+  <div id="building">
+    <v-container mt-16 py-16>
+
+      <v-row justify="center" align="center" class="mt-16">
+        <v-card 
+          class="px-2 pb-3" 
+          max-width=400px 
+          flat
+          outlined
+          tile
+        >
+
+          <div class="text-center mt-4">
+            <h1 class="primary--text text-uppercase">
+              <span class="font-weight-light">E</span>
+              <span>venter</span>
             </h1>
-            <br/>
-            <v-row>
-              <v-text-field
-                id="login"
-                label="Email Address"
-                type="text"
-                v-model="email"
-                :rules="[rules.required]"
-              ></v-text-field>
-            </v-row>
-            <v-row>
-              <v-text-field
-                id="password"
-                label="Password"
-                type="password"
-                v-model="password"
-                :rules="[rules.required]"
-              ></v-text-field>
-            </v-row>
-            <v-row justify="center" align="center">
-              <v-btn block @click="submit" color="green">
-                Login/登陆
-              </v-btn>
-            </v-row>
-            <!-- 以下:注册和忘记密码 -->
-            <v-row>
-              <v-col>
-                <v-btn block @click="toSignin">
-                    Sign In/注册
+          </div>
+
+          <v-card-text>
+            <v-row justify="center" align="center" dense>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-text-field
+                  id="login"
+                  label="Email Address"
+                  type="text"
+                  v-model="email"
+                  :rules="[rules.required]"
+                  max-width=""
+                ></v-text-field>
+              </v-col>
+
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-text-field
+                  id="password"
+                  label="Password"
+                  type="password"
+                  v-model="password"
+                  :rules="[rules.required]"
+                ></v-text-field>
+              </v-col>
+
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-btn 
+                  block 
+                  tile 
+                  @click="submit" color="primary"
+                  depressed
+                >
+                  Login
                 </v-btn>
               </v-col>
-              <v-col>
-                <v-btn block @click="toForget">
-                  Forget the Password/忘记密码
+
+              <v-col 
+                cols="12" xs="12" sm="4" md="4"
+              >
+                <v-btn 
+                  block 
+                  @click="toSignin"
+                  tile
+                  depressed
+                >
+                    Sign In
                 </v-btn>
               </v-col>
+
+              <v-col
+                cols="12" xs="12" sm="8" md="8"
+              >
+                <v-btn 
+                  block
+                  @click="toForget"
+                  tile
+                  depressed
+                >
+                  Forget the Password
+                </v-btn>
+              </v-col>
+
             </v-row>
+
           </v-card-text>
         </v-card>
-      </v-layout>
-    </div>
+
+      </v-row>
+    </v-container>
+    <!-- ？？ -->
     <v-snackbar v-model="snackbar">
       {{tip}}
       <template v-slot:action="{ attrs }">
@@ -61,6 +106,7 @@
         </v-btn>
       </template>
     </v-snackbar>
+
   </div>
 </template>
 
@@ -105,35 +151,25 @@ export default {
           }
       })
       .then((response)=>{
-          if(response.data.status == "error"){
-            this.loginSuccess = false;
-            return;
-          }
-          this.loginSuccess = true;
-          this.ID = response.data.id;
-          this.email = response.data.email;
-          this.nickname = response.data.nick_name;
-          this.avatar = 'http://127.0.0.1:8000' + response.data.picture;
-          
-          
-          this.$store.commit("loginUpdate");
-          this.$store.commit("userEmailUpdate", this.email);
-          this.$store.commit("userIDUpdate", this.ID);
-          this.$store.commit("userNicknameUpdate", this.nickname);
-          this.$store.commit("userAvatarUpdate", this.avatar);
-          this.$store.commit("userIsOrganizationUpdate", response.data.is_organization);
-          console.log("success");
-          window.location.href = "/";
-          
+        if(response.data.status == "error"){
+          this.loginSuccess = false;
+          return;
+        }
+        this.loginSuccess = true;
+        this.ID = response.data.id;
+        this.email = response.data.email;
+        this.nickname = response.data.nick_name;
+        this.avatar = 'http://127.0.0.1:8000' + response.data.picture;
+        
+        this.$store.commit("loginUpdate");
+        this.$store.commit("userEmailUpdate", this.email);
+        this.$store.commit("userIDUpdate", this.ID);
+        this.$store.commit("userNicknameUpdate", this.nickname);
+        this.$store.commit("userAvatarUpdate", this.avatar);
+        this.$store.commit("userIsOrganizationUpdate", response.data.is_organization);
+        console.log("success");
+        window.location.href = "/";
       });
-      //this.loginSuccess = true;
-      // console.log(this.loginSuccess);
-      // if (this.loginSuccess) {
-      //   this.$store.commit("loginUpdate");
-      //   this.$store.commit("userIDUpdate", this.email);
-      //   console.log(this.$store.state.userID);
-      //   window.location.href = "/";
-      // }
     },
     toSignin: function(){
       window.location.href = "/signin";
@@ -145,6 +181,15 @@ export default {
 }
 </script>
 
-<style>
 
+  
+<style>
+#building{
+background:url("../assets/bg.png");
+width:100%;			
+height:100%;			
+background-size: cover; 
+position: absolute; 
+background-repeat: no-repeat;
+}
 </style>

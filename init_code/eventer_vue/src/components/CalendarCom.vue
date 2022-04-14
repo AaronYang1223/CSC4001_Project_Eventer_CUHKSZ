@@ -250,15 +250,15 @@
       }, 
       showTime (start, end) {
         this.min_1 = start.getMinutes()
-        if (this.min_1 == 0){
-          this.min_1 = "00"
+        if (this.min_1 < 10){
+          this.min_1 = "0" + this.min_1.toString()
         }else{
           this.min_1 = start.getMinutes().toString()
         }
         
         this.min_2 = end.getMinutes()
-        if (this.min_2 == 0){
-          this.min_2 = "00"
+        if (this.min_2 < 10){
+          this.min_2 = "0" + this.min_2.toString()
         }else{
           this.min_2 = end.getMinutes().toString()
         }

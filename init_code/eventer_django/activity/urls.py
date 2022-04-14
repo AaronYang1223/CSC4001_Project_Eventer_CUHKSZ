@@ -20,5 +20,7 @@ urlpatterns = [
     path('activity/order/create_date/all', views.activity_order_create_date_all),
     path('activity/order/comment_number/all', views.activity_order_comment_number_all),
     path('activity/user/<int:user_id>', views.activity_user),
+    path('activity/user/order/comment_number/<int:user_id>', views.activity_user_order_comment_num),
+    path('activity/user/order/create_date/<int:user_id>', views.activity_user_order_create_time),
     path('activity/<int:activity_id>/comment', views.activity_comment),
 ]
