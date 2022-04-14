@@ -422,22 +422,27 @@ export default {
       this.endMin = this.timeEnd.split(":")[1];
       if (this.startYear > this.endYear) {
         this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
         return false;
       }
       else if (this.startMonth > this.endMonth) {
         this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
         return false;
       }
       else if (this.startDay > this.endDay) {
         this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
         return false;
       }
       else if (this.startHour > this.endHour) {
         this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
         return false;
       }
       else if (this.startMin > this.endMin) {
         this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
         return false;
       }
       //axios 提交 tagList userid starttime(由date和time合并) endtime title comtent coverpage(还没做好) maxPartNum isPublic
