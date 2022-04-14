@@ -13,8 +13,9 @@
         >
 
           <div class="text-center mt-4">
-            <h1>
-              <span>Login</span>
+            <h1 class="primary--text text-uppercase">
+              <span class="font-weight-light">E</span>
+              <span>venter</span>
             </h1>
           </div>
 
@@ -186,9 +187,11 @@ export default {
   
 <style>
 #building{
-background:url("https://cdn.vuetifyjs.com/images/cards/docks.jpg");
+background:url("../assets/bg.png");
 width:100%;			
 height:100%;			
-position:fixed;
-background-size:100% 100%;}
+background-size: cover; 
+position: absolute; 
+background-repeat: no-repeat;
+}
 </style>
