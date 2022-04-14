@@ -41,16 +41,18 @@ def activity_create(request):
         if serializer.is_valid():
             serializer.save()
             
+            
+            
             # add public calendar
             if (serializer.data['is_public']):
                 res = public_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
                 if (not res):
                     return JsonResponse('Can not add to public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
-            elif (serializer.data['is_private']):
-                # the organizer is the owner of this activity
-                res = private_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
-                if (not res):
-                    return JsonResponse('Can not delete from public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
+            
+            # the organizer is the owner of this activity
+            res = private_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
+            if (not res):
+                return JsonResponse('Can not delete from public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
             
             return JsonResponse(serializer.data, status=201)
         return JsonResponse({'code':'101'})
