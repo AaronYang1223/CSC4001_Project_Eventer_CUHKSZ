@@ -370,6 +370,7 @@ export default {
   created: function () {
     //通过axios获得用户是不是组织用户
     this.userIsOrg = this.$store.state.userIsOrganization;//写完axios注释了
+    console.log(this.userIsOrg);
   },
 
   methods: {
@@ -445,7 +446,21 @@ export default {
         this.snackbar = true;
         return false;
       }
+      let data = new FormData();
+      let cover_page = {};
+      cover_page = this.file_info;
+      data.append("cover_page",cover_page)
+      // data.append("organizer_id",this.$store.state.userID)
+      // data.append("tag",this.tags.join(" "))
+      // data.append("start_time",this.dateStart + " " + this.timeStart)
+      // data.append("end_time",this.dateEnd + " " + this.timeEnd)
+      // data.append("title",this.topic)
+      // data.append("content",this.content)
+      // data.append("max_participant_num",this.maxPartNum)
+      // data.append("is_public",this.eventIsPublic)
+      // data.append("is_private",this.eventIsPrivate)
       //axios 提交 tagList userid starttime(由date和time合并) endtime title comtent coverpage(还没做好) maxPartNum isPublic
+      
       axios.post('api/activity/create',{
           organizer_id:this.$store.state.userID,
           tag:this.tags.join(" "),
@@ -462,15 +477,23 @@ export default {
         if(response.data['code']=='101'){
           //this.codeCorrect = true;
           console.log("error");
+          console.log(this.file_info)
         }
         else {
-          //this.codeCorrect = false;
           console.log("ok");
+          this.newPath = "/event/"+response.data.id;
+          axios.put('api/activity/update_image/' + response.data.id, data)
+          .then(response=>{
+            console.log(response)
+          });
+          window.location.href = this.newPath;
+          
           }
       });
+
       //提交之后,从服务器获得event id
       // this.newPath = "/event/"+this.eventId,
-      // window.location.href = this.newPath;
+      
 
     },
     addTheTag: function() {

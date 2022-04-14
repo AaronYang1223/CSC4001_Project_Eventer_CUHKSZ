@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <NavbarCom v-if="this.$store.state.hasLogin"></NavbarCom>
-
     <!-- load the actual code -->
     <v-content class="ma-2 pa-1">
       <router-view></router-view>
@@ -14,7 +13,7 @@
 import NavbarCom from '@/components/NavbarCom'
 
 export default {
-  components: { NavbarCom },
+  components: { NavbarCom},
   name: 'App',
   data() {
     return {
