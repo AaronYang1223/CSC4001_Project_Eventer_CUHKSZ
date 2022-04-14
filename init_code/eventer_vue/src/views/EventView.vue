@@ -76,8 +76,17 @@
                       color="yellow lighten-3"
                       block
                       @click="updateParticipant"
+                      v-if="canJoin"
                     >
                       Join In
+                    </v-btn>
+                    <v-btn
+                      color="grey lighten-3"
+                      block
+                      disabled
+                      v-if="!canJoin"
+                    >
+                      Already End
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -260,6 +269,8 @@ export default {
       //新数据已经评分的人的id存到scoreIds
       scoreIdList: [],
       scoreIds: "",
+      //参加活动日期
+      canJoin: true,
     }
   },
   created: function () {
@@ -323,6 +334,7 @@ export default {
       this.participant_list = response.data.participants_list
 
       this.canRating = response.data.is_outdate
+      this.canJoin = !response.data.is_outdate
       if (this.canRating) {
       //用axios获得现在已经评价的人的id: this.scoreIds
         this.scoreIdList = this.scoreIds.split(" ");
