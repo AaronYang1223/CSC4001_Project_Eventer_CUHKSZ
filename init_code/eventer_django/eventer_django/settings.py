@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'django_filters',
 
     'captcha',
+    
+    # auto clean
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
