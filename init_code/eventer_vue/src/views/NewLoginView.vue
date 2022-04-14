@@ -153,6 +153,8 @@ export default {
       .then((response)=>{
         if(response.data.status == "error"){
           this.loginSuccess = false;
+          this.tip = "Login Failed";
+          this.snackbar = true;
           return;
         }
         this.loginSuccess = true;

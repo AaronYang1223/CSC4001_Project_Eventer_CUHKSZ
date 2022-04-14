@@ -285,10 +285,11 @@
 
       min: '',
 
-      user_id: this.$store.state.userID,
+      user_id: "",
 
     }),
     created(){
+      this.user_id = this.$store.state.userID.toString()
       if(!this.isPersonal){
         this.$axios.get('http://127.0.0.1:8000/api/activity/order/comment_number/all').then(response => {
           this.events = []
@@ -371,6 +372,7 @@
         return (start.getMonth() + 1).toString() + "/" + start.getDate().toString() + " " + start.getHours().toString() + ":" + this.min 
       },
       changeSort: function(){
+        this.user_id = this.$store.state.userID.toString()
         if(!this.isPersonal){
           this.sort.icon = !this.sort.icon
           this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/activity/order/create_date/all' : 'http://127.0.0.1:8000/api/activity/order/comment_number/all'

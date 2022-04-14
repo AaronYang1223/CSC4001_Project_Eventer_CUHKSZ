@@ -149,6 +149,7 @@ export default {
       commentsList: [],
       commentItem: {
         commentUserID: "这是id",
+        commentUserNickname:"",
         commentUserAvatarsPath: "",
         commentText: "这是评论啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
         likeNum: 10,
@@ -156,6 +157,7 @@ export default {
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
         commentId: 1,
+        type:"post"
       },
       tip: "",
       tags: [],
@@ -199,14 +201,16 @@ export default {
           // this.commentItem['dislikeId'] = response.data.comments[i]['dislike_user'];
           this.commentsList.push(
               {commentUserID: String(response.data.comments[i]['user_id']),
+              commentUserNickname: String(response.data.comments[i]['user_nickname']),
               commentUserAvatarsPath: 'http://127.0.0.1:8000'+response.data.comments[i]['avatar'],
               commentText: response.data.comments[i]['content'],
               likeNum: response.data.comments[i]['like_num'],
               dislikeNum: response.data.comments[i]['dislike_num'],
               likeId: response.data.comments[i]['like_user'],
               dislikeId: response.data.comments[i]['dislike_user'],
-              commentId: response.data.comments[i]['id']},//这里改成后端id的名称
-          )
+              commentId: response.data.comments[i]['id'],   //这里改成后端id的名称
+              type:'post'
+              })
           console.log(this.commentsList)
         }
         

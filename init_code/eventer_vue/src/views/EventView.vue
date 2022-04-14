@@ -31,6 +31,7 @@
                   {{ tag }}
                 </v-chip>
               </v-chip-group>
+              <v-img :src="coverPage"/>
             </v-card-text>
             <v-divider></v-divider>
 
@@ -75,8 +76,17 @@
                       color="yellow lighten-3"
                       block
                       @click="updateParticipant"
+                      v-if="canJoin"
                     >
                       Join In
+                    </v-btn>
+                    <v-btn
+                      color="grey lighten-3"
+                      block
+                      disabled
+                      v-if="!canJoin"
+                    >
+                      Already End
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -223,6 +233,7 @@ export default {
       commentsList: [],
       commentItem: {
         commentUserID: "这是id",
+        commentUserNickname:"",
         commentUserAvatarsPath: "",
         commentText: "这是评论啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
         likeNum: 10,
@@ -230,6 +241,7 @@ export default {
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
         commentId: 1,
+        type:"activity"
       },
       tip: "",
       tags: [],
@@ -256,6 +268,8 @@ export default {
       //新数据已经评分的人的id存到scoreIds
       scoreIdList: [],
       scoreIds: "",
+      //参加活动日期
+      canJoin: true,
     }
   },
   created: function () {
@@ -300,6 +314,7 @@ export default {
         this.commentsList.push(
           {
             commentUserID: response.data.comments[i].user_id,
+            commentUserNickname: String(response.data.comments[i]['user_nickname']),
             commentUserAvatarsPath: 'http://127.0.0.1:8000' + response.data.comments[i].avatar,
             commentText: response.data.comments[i].content,
             likeNum: response.data.comments[i].like_num,
@@ -307,6 +322,7 @@ export default {
             likeId: response.data.comments[i].like_user,
             dislikeId: response.data.comments[i].dislike_user,
             commentId: response.data.comments[i].id,//这里改成后端id的名称
+            type:'activity'
           }
         )
       }
@@ -315,6 +331,7 @@ export default {
       this.participant_list = response.data.participants_list
 
       this.canRating = response.data.is_outdate
+      this.canJoin = !response.data.is_outdate
       if (this.canRating) {
       //用axios获得现在已经评价的人的id: this.scoreIds
         this.scoreIdList = this.scoreIds.split(" ");
@@ -385,21 +402,39 @@ export default {
         return false;
       }
       //用axios上传
+
+      this.$axios.post('http://127.0.0.1:8000/api/activity/comment/create',{
+          user_id:this.$store.state.userID,
+          activity_id:this.$route.params.id,
+          content:this.newCommentText,
+
+      })
+      .then((response)=>{
+        if(response.data['status'] == 'failed'){
+          this.tip = "Comment Failed";
+          this.snackbar = true;
+          return false;
+        }
+        console.log(response)
+        //console.log(this.taglist)
+        this.tip = "Comment Success";
+        this.snackbar = true;
+        location.reload();
+      });
       console.log(this.newCommentText);
       console.log(this.$store.state.userID);
       console.log(this.$store.state.userNickName);
       console.log(this.$route.params.id);
       // axios 上传如果成功
-      this.tip = "Comment Success";
-      this.snackbar = true;
-      location.reload();
+      //this.tip = "Comment Success";
+      //this.snackbar = true;
+      
       // 如果失败
-      this.tip = "Comment Failed";
-      this.snackbar = true;
-      return false;
+      
     },
     updateRating: function () {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
+      this.$axios.post()
       this.scoreReadOnly = true;
       this.scoreAvg = this.scoreNum - 1;
       //记得把this.$store.state.userID传到后端的已评价人id中this.scoreIds

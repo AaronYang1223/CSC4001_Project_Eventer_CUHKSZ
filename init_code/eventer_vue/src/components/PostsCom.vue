@@ -192,9 +192,10 @@
       link: '',
       icon: false,
     },
-    user_id: this.$store.state.userID,
+    user_id: "",
     }),
     created(){
+      console.log(this.$store.state.userID)
       if(!this.isPersonal){
         this.$axios.get('http://127.0.0.1:8000/api/post/order/comment_number/all').then(response => {
           this.posts = []
@@ -256,6 +257,7 @@
     },
     methods:{
       changeSort: function(){
+        console.log(this.$store.state.userID)
         if(!this.isPersonal){
           this.sort.icon = !this.sort.icon
           this.sort.link = this.sort.icon ? 'http://127.0.0.1:8000/api/post/order/create_date/all' : 'http://127.0.0.1:8000/api/post/order/comment_number/all'

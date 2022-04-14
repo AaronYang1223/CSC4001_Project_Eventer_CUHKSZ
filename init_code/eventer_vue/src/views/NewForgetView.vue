@@ -1,6 +1,8 @@
 // TODO:增加跳转按钮
 <template>
   <div>
+    <NavbarComNotLogin :Page=pageNow>
+    </NavbarComNotLogin>
     <div>
       <v-layout align-center justify-center py-5>
         <v-card  class="px-2 pb-3" max-width=900px>
@@ -121,7 +123,9 @@
 
 <script>
 import axios from 'axios'
+import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
 export default {
+  components: { NavbarComNotLogin },
   data() {
     return {
       tip: "用Email找回密码",
@@ -147,6 +151,9 @@ export default {
         emailMatch: v => /.+@+cuhk|link+.+cuhk+./.test(v) || "E-mail must be valid",
       },
       // All data needed.
+      pageNow: {
+        isPage: "forget",
+      },
     }
   },
   methods: {
