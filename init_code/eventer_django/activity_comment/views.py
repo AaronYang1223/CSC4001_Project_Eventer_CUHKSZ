@@ -23,7 +23,7 @@ def activity_comment_create(request):
             activity.save()
             
             return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = status.HTTP_201_CREATED)
-        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'status':'failed'})
 
 
 @csrf_exempt

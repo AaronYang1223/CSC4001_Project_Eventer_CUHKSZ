@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('activity/list', views.activity_list),
     path('activity/create', views.activity_create),
+    path('activity/update_image/<int:pk>', views.activity_update_coverpage),
     path('activity/<int:pk>', views.activity_pk),
     path('activity/change/<int:pk>', views.activity_change_pk),
     path('activity/upload/<int:pk>', views.activity_upload_cover),

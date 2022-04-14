@@ -56,6 +56,23 @@ def activity_create(request):
         return JsonResponse({'code':'101'})
 
 @csrf_exempt
+def activity_update_coverpage(request, pk):
+    try:
+        activity = Activity.objects.get(pk = pk)
+    except:
+        return JsonResponse(status = 404)
+    
+    print(request.FILES)
+    if (request.method == 'PUT' and request.FILES):
+        activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
+        activity.cover_page.close()
+        
+        serializers = Activity_serializer(activity)
+        return JsonResponse(serializers.data, status = 200)
+    else:
+        return JsonResponse(status = 404)
+
+@csrf_exempt
 def activity_pk(request, pk):
     
     try:
@@ -319,7 +336,7 @@ def activity_add_comment_info(serializer):
         user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
         user_serializer = User_profile_serializer(user)
         temp_data['comments'][i]['avatar'] = user_serializer.data['picture']
-        
+        temp_data['comments'][i]['user_nickname'] = user_serializer.data['nick_name']
         like = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '1')
         dislike = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '0')
         like_str = [str(i.user_id.id) for i in like]
