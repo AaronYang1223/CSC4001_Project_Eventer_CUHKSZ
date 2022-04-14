@@ -243,6 +243,7 @@ export default {
       startTime: "",
       endTime: "",
       participantNum: 0,
+      participantList:[],
       maxParticipantNum: 0,
       partOverMax: "",
       coverPage: "",
@@ -315,7 +316,9 @@ export default {
           }
         )
       }
-
+      //this.participantNum = respose.data.participant_num;
+      //this.participantList = respose.data.participants_list;
+      this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
       this.scoreIdList = response.data.score_list
       this.participant_list = response.data.participants_list
 
@@ -428,19 +431,49 @@ export default {
       //记得把this.$store.state.userID传到后端的已评价人id中this.scoreIds
     },
     updateParticipant: function () {
-      //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
+      this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+      .then(respose=>{
+        this.participantNum = respose.data.participant_num;
+        this.participantList = respose.data.participants_list;
+        //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
+        //这里加一个判断条件：如果userID存在于this.participantList中，就不能报名
+        if(this.participantList.indexOf(this.$store.state.userID)){
+          ///.......
+          ///.......
+          //让join in 按钮变暗之类的
+        }
+        //报名
+        this.$axios.post('http://127.0.0.1:8000/api/activity/participant/add',{
+            user_id: this.$store.state.userID,
+            activity_id:this.$route.params.id
+        })
+        .then(response=>{
+          console.log(response)
+          //再次更新报名人数和用户列表
+          this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+          .then(respose=>{
+            this.participantNum = respose.data.participant_num;
+            this.participantList = respose.data.participants_list;
+            this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
+            this.tip = "Event is Over";
+            //活动已结束
+            this.tip = "You already joined in";
+            //已经参加了
+            this.tip = "Event is Full";
+            //人已经满了
+            this.tip = "Succesee Join";
+            //成功加入
+            this.snackbar = true;
+          })
+        });
+      })
+      
+
+      
+
       // this.participantNum
       // this.maxParticipantNum
-      this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
-      this.tip = "Event is Over";
-      //活动已结束
-      this.tip = "You already joined in";
-      //已经参加了
-      this.tip = "Event is Full";
-      //人已经满了
-      this.tip = "Succesee Join";
-      //成功加入
-      this.snackbar = true;
+     
     },
   }
 }
