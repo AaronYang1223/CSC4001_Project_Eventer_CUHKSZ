@@ -195,6 +195,7 @@
     user_id: "",
     }),
     created(){
+      this.user_id=String(this.$store.state.userID)
       console.log(this.$store.state.userID)
       if(!this.isPersonal){
         this.$axios.get('http://127.0.0.1:8000/api/post/order/comment_number/all').then(response => {
