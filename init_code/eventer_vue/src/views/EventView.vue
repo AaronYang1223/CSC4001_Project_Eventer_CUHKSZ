@@ -339,10 +339,21 @@ export default {
       this.canJoin = !response.data.is_outdate
       if (this.canRating) {
       //用axios获得现在已经评价的人的id: this.scoreIds
-        this.scoreIdList = this.scoreIds.split(" ");
-        if (this.scoreIdList.includes(this.$store.state.userID)) {
-          this.scoreReadOnly = true;
-        }
+        this.$axios.get('http://127.0.0.1:8000/api/activity/score/'+this.$route.params.id)
+        .then(response=>{
+          if(response.data.num == 0){
+            this.scoreIdList=""
+          }
+          else{
+            this.scoreIds = response.data.scoreIds
+            this.scoreIdList = this.scoreIds.split(" ");
+          }
+          if (this.scoreIdList.includes(this.$store.state.userID)) {
+            this.scoreReadOnly = true;
+          }
+        });
+        
+        
       }
     })
 
@@ -383,13 +394,7 @@ export default {
     // this.endTime = "2022-04-12T03:27:58.896683".substr(0, 23);
     // this.canRating = (this.endTime<this.timeNow);
     // //
-    if (this.canRating) {
-      //用axios获得现在已经评价的人的id: this.scoreIds
-      this.scoreIdList = this.scoreIds.split(" ");
-      if (this.scoreIdList.includes(this.$store.state.userID)) {
-        this.scoreReadOnly = true;
-      }
-    }
+    
   },
   methods:{
     calculateNum: function(){
@@ -439,11 +444,23 @@ export default {
     },
     updateRating: function () {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
-      this.$axios.post()
-      this.scoreReadOnly = true;
-      this.scoreAvg = this.scoreNum - 1;
+      this.$axios.post('http://127.0.0.1:8000/api/activity/score/add',{
+        "user_id":this.$store.state.userID,
+        "activity_id":this.$route.params.id,
+        "score":this.scoreNum
+      })
+      .then(response=>{
+        console.log(response)
+        this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+        .then(response=>{
+          this.scoreReadOnly = true;
+          this.scoreAvg = response.data.score_avg;
+        })
+      });
       //记得把this.$store.state.userID传到后端的已评价人id中this.scoreIds
     },
+
+
     updateParticipant: function () {
       this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
       .then(respose=>{
