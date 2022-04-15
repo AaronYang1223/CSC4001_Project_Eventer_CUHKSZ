@@ -333,7 +333,13 @@ export default {
       //this.participantList = respose.data.participants_list;
       this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
       this.scoreIdList = response.data.score_list
-      this.participant_list = response.data.participants_list
+      this.participantList = response.data.participants_list
+
+      //未参加活动不能评价
+      if(this.participantList.indexOf(this.$store.state.userID)==-1){
+        this.scoreReadOnly = true;
+      }
+
 
       this.canRating = response.data.is_outdate
       this.canJoin = !response.data.is_outdate
