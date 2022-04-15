@@ -78,7 +78,7 @@
                       @click="updateParticipant"
                       v-if="canJoin"
                     >
-                      Join In
+                      {{joinInfo}}
                     </v-btn>
                     <v-btn
                       color="grey lighten-3"
@@ -271,6 +271,8 @@ export default {
       scoreIds: "",
       //参加活动日期
       canJoin: true,
+      //参加按钮信息
+      joinInfo: "Join In",
     }
   },
   created: function () {
@@ -450,9 +452,19 @@ export default {
         //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
         //这里加一个判断条件：如果userID存在于this.participantList中，就不能报名
         if(this.participantList.indexOf(this.$store.state.userID)){
+          this.tip = "You already joined in";
+          this.snackbar = true;
+          this.joinInfo = "Already Joined";
+          return false;
           ///.......
           ///.......
           //让join in 按钮变暗之类的
+        }
+        if (this.participantNum >= this.maxParticipantNum) {
+          this.tip = "Event is Full";
+          this.snackbar = true;
+          this.joinInfo = "Event Full";
+          return false;
         }
         //报名
         this.$axios.post('http://127.0.0.1:8000/api/activity/participant/add',{
@@ -467,11 +479,11 @@ export default {
             this.participantNum = respose.data.participant_num;
             this.participantList = respose.data.participants_list;
             this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
-            this.tip = "Event is Over";
+            // this.tip = "Event is Over";
             //活动已结束
-            this.tip = "You already joined in";
+            // this.tip = "You already joined in";
             //已经参加了
-            this.tip = "Event is Full";
+            // this.tip = "Event is Full";
             //人已经满了
             this.tip = "Succesee Join";
             //成功加入
