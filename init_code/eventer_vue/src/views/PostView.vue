@@ -80,13 +80,8 @@
               <div 
                 class= "text-h7 font-weight-bold"
               >
-                {{commentNumber}} Comment :
+                {{commentNumber}} Comments :
               </div>
-
-
-
-            
-
 
               <!-- 存放comments -->
               <v-card 
@@ -156,6 +151,7 @@
             <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
+        
       </v-row>
     </v-container>
     <!-- <v-btn @click="test">测试</v-btn> -->
@@ -190,7 +186,7 @@ import WeatherCom from '@/components/WeatherCom'
 import NewsCom from '@/components/NewsCom'
 
 export default {
-  components: { SingleComment, WeatherCom, NewsCom},
+  components: { SingleComment, WeatherCom, NewsCom, },
   name: 'HomepageView',
   data () {
     return {
