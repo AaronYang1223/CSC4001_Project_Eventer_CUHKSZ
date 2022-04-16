@@ -94,6 +94,7 @@
             </v-card-subtitle>
 
             <v-card-actions>
+              <!-- TODO: 和join in一致-->
               <v-btn
                 color="orange lighten-2"
                 text

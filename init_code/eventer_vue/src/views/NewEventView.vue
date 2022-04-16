@@ -1,5 +1,6 @@
 <template>
   <div class="main-text">
+    <UpdateBannerCom />
     <v-text-field
       rows = "1"
       type="text" 
@@ -312,9 +313,13 @@
 
 <script>
 import RichTextEdit from '../components/RichTextEdit.vue'
+import UpdateBannerCom from '@/components/UpdateBannerCom'
 import axios from 'axios'
+
+
+
 export default {
-  components: { RichTextEdit },
+  components: { RichTextEdit, UpdateBannerCom},
   data() {
     return {
       topic: "",
