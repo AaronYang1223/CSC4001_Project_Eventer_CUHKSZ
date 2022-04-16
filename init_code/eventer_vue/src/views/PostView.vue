@@ -80,13 +80,8 @@
               <div 
                 class= "text-h7 font-weight-bold"
               >
-                {{commentNumber}} Comment :
+                {{commentNumber}} Comments :
               </div>
-
-
-
-            
-
 
               <!-- 存放comments -->
               <v-card 

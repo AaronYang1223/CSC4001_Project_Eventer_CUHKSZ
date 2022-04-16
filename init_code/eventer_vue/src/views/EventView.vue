@@ -78,8 +78,7 @@
               </v-card>
             </div>
 
-              
-              <div class="mx-5">
+              <div class="mx-5 mb-3">
               <v-card
                 tile
                 outlined
@@ -88,7 +87,7 @@
               
                 <v-row justify="center" align="center" dense>
                   <v-col 
-                    cols="12" xs="12" sm="8" md="8"
+                    cols="12" xs="12" sm="12" md="12"
                   >
                     <v-btn
 
@@ -96,32 +95,16 @@
                       outlined
                       block
                     >
-
+                      <v-avatar left>
                         <v-icon>mdi-clock-time-four-outline</v-icon>
-
+                      </v-avatar>
                       Start Time:
                       {{startTime}}
                     </v-btn>
                   </v-col>
+                
                   <v-col 
-                    cols="12" xs="12" sm="4" md="4"
-                  >
-                      <v-btn
-                        block
-
-                        color="primary"
-                        outlined
-                      >
-
-                          <v-icon>mdi-account-group</v-icon>
-
-                        End Time:
-                        {{partOverMax}}
-                      </v-btn>
-
-                  </v-col>
-                  <v-col 
-                    cols="12" xs="12" sm="8" md="8"
+                    cols="12" xs="12" sm="12" md="12"
                   >
                     <v-btn
 
@@ -140,39 +123,52 @@
                   
                   <v-col 
                     cols="12" xs="12" sm="4" md="4"
+                    v-if="canJoin"
                   >
                     <v-btn
-                      color="yellow lighten-3"
+                      color="primary"
                       block
                       @click="updateParticipant"
-                      v-if="canJoin"
+                      
                     >
                       {{joinInfo}}
                     </v-btn>
+                  </v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="4" md="4"
+                    v-if="!canJoin"
+                  >
                     <v-btn
                       color="grey lighten-3"
                       block
                       disabled
-                      v-if="!canJoin"
                     >
                       Already End
                     </v-btn>
                   </v-col>
-                </v-row>
-                
 
-              </v-card>
-              </div>
-
-
-
-
-
-              <v-card
-                v-if="canRating"
-              >
-                <v-row class="main-content">
-                  <v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                  >
+                    <v-btn
+                      block
+                      color="primary"
+                      icon
+                    >
+                        <v-icon>mdi-account-group</v-icon>
+                      {{partOverMax}}
+                    </v-btn>
+                  </v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                    v-if="canRating"
+                  >
+                  <v-divider ></v-divider>
+                  </v-col>
+                  <v-col
+                    v-if="canRating"
+                    cols="12" xs="12" sm="6" md="6"
+                  >
                     Avarage: ({{ scoreAvg }})
                     <v-rating
                       v-model="scoreAvg"
@@ -184,7 +180,10 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-col>
+                  <v-col
+                    v-if="canRating"
+                    cols="12" xs="12" sm="6" md="6"
+                  >
                     Your: ({{ scoreNum }})
                     <div
                       @click="updateRating"
@@ -200,27 +199,61 @@
                       ></v-rating>
                     </div>
                   </v-col>
+
                 </v-row>
               </v-card>
+              </div>
 
-              <v-divider></v-divider>
-              <v-banner
-                class= "text-h5 font-weight-bold"
+            <v-divider></v-divider>
+
+          <v-card
+            class="mt-3"
+            flat
+          >
+              <div 
+                class= "text-h7 font-weight-bold"
               >
-                {{commentNumber}} Comment :
-              </v-banner>
+                {{commentNumber}} Comments :
+              </div>
+              <!-- 存放comments -->
+              <v-card 
+                flat
+                class="mx-3"
+              >
+                <div
+                  class="mt-3 mx-1"
+                >
+                <v-textarea
+                  rows="1"
+                  tile
+                  append-icon="mdi-comment"
+                  label="New Comment"
+                  auto-grow
+                  v-model="newCommentText"
+                  @click:append="SubmitNewComment"
+                  color="primary"
+                  clearable
+                  max-width="10px"
+                  outlined
+                ></v-textarea>
+                </div>
 
-              <v-card>
-                <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
+                <div 
+                  class="comment" 
+                  v-for=" n in thisPageCommentNum" 
+                  v-bind:key="n"
+                >
                   <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
                     <!-- 传数组 -->
                   </single-comment>
                 </div>
               </v-card>
 
-              <v-card flat>
+              <!-- 翻页 -->
+              <v-card flat class="mx-2">
                 <div class="text-center">
                   <v-pagination
+                    flat
                     v-model="page"
                     :length="pageLength"
                     :total-visible="7"
@@ -228,21 +261,7 @@
                   ></v-pagination>
                 </div>
               </v-card>
-
-              <v-textarea
-                name="input-7-1"
-                filled
-                label="New Comment"
-                auto-grow
-                v-model="newCommentText"
-              ></v-textarea>
-              <v-btn
-                @click="SubmitNewComment"
-              >
-                Submit New Comment!
-              </v-btn>
-
-
+          </v-card>
           </v-card>
         </v-col>
 
