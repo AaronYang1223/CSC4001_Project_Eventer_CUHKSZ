@@ -11,11 +11,10 @@
 
           <v-list-item-content class="justify-center">
 
-            <v-avatar
-              size="200"
+            <v-img
+              :src="avatar"
             >
-              <img :src="avatar">
-            </v-avatar>          
+            </v-img>          
 
             <div class="text-center mt-4">
 
@@ -24,7 +23,7 @@
                 color="primary"
               >
                 <v-icon small>mdi-pencil</v-icon>
-                <span>avatar</span>
+                <span>Banner Upload</span>
 
                 <input
                   type="file" 
@@ -37,9 +36,7 @@
                 >
 
               </v-btn>
-
             </div>
-
           </v-list-item-content>
         </v-card>
                 
@@ -53,11 +50,10 @@
 
           <v-list-item-content class="justify-center">
 
-            <v-avatar
-              size="150"
+            <v-img
+              :src="avatar"
             >
-              <img :src="avatar">
-            </v-avatar>          
+            </v-img>          
 
             <div class="text-center mt-4">
 
@@ -67,7 +63,7 @@
                 depressed
               >
 
-                <span>Edit avatar</span>
+                <span>Edit Banner</span>
 
                 <input
                   type="file" 
@@ -119,7 +115,6 @@ export default {
       if(file) {
         this.file = file
         this.upload() 
-
       }
     },
 
