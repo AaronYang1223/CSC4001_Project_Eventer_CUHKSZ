@@ -71,6 +71,7 @@
               </v-btn>
             </v-card-title>
 
+          <!-- TODO:强制提取富文本 -->
           <v-container mx-1>
             <p
             class="text-h6 font-weight-bold"
@@ -124,11 +125,6 @@
                   align="center"
                   justify="end"
                 >
-                  <v-icon class="mr-1">
-                    mdi-heart
-                  </v-icon>
-                  <span class="subheading mr-2">{{post.like_num}}</span>
-                  <span class="mr-1">·</span>
                   <v-icon class="mr-1">
                     mdi-comment-multiple
                   </v-icon>
@@ -267,7 +263,7 @@
             for (let i = 0; i < response.data.length; i++) {
               this.posts.push(
                 {
-                  post_id: response.data[i].id,
+                  id: response.data[i].id,
                   title: response.data[i].post_title,
                   text: response.data[i].post_content,
                   tags: response.data[i].post_tag.split(' '),
@@ -287,7 +283,7 @@
             for (let i = 0; i < response.data.length; i++) {
               this.posts.push(
                 {
-                  post_id: response.data[i].id,
+                  id: response.data[i].id,
                   title: response.data[i].post_title,
                   text: response.data[i].post_content,
                   tags: response.data[i].post_tag.split(' '),
