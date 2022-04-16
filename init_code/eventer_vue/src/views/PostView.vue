@@ -10,31 +10,58 @@
             outlined
             tile
           >
+
             <h1
               class="main-content"
             >
               {{topic}}
             </h1>
+
             <v-card-text>
-              <span class="subheading">Post Tags:</span>
-              <v-chip-group
-                mandatory
-                active-class="primary--text"
-              >
-                <v-chip
-                  v-for="tag in tags"
-                  :key="tag"
-                  disabled
-                  color="grey darken-3"
-                  text-color="white"
+              
+              <v-list-item class="grow">
+
+              <!-- TODO: -->
+                <v-list-item-avatar
                 >
-                  {{ tag }}
-                </v-chip>
-              </v-chip-group>
+                  <v-img
+                    class="elevation-6"
+                    src="../assets/bg.png"
+                  ></v-img>
+                </v-list-item-avatar>
+
+              <!-- TODO: -->
+                <v-badge
+                  v-if="true"
+                  color="accent"
+                  icon="mdi-hexagram"
+                  offset-x="30"
+                  offset-y="25"
+                >
+                </v-badge>      
+
+                <v-list-item-content>
+                  <v-list-item-title>TEST</v-list-item-title>
+                </v-list-item-content>
+
+                <v-chip-group
+                  active-class="primary--text"
+                >
+                  <v-chip
+                    v-for="tag in tags"
+                    :key="tag"
+                    outlined
+                    color="primary"
+                  >
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
+              </v-list-item>
             </v-card-text>
+
             <v-divider></v-divider>
 
-            <div class="main-content">
+            <div class="main-content my-5">
               <v-card flat>
                 <div>
                   <span v-html="content">
@@ -42,15 +69,27 @@
                 </div>
               </v-card>
 
-              <v-divider></v-divider>
-              <v-banner
-                class= "text-h5 font-weight-bold"
+          <v-card
+            class="mt-3"
+            outlined
+            tile
+          >
+              <div 
+                class= "text-h7 font-weight-bold"
               >
                 {{commentNumber}} Comment :
-              </v-banner>
+              </div>
 
-              <v-card flat>
-                <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
+              <v-card 
+                flat
+                class="mx-3"
+                tile
+              >
+                <div 
+                  class="comment" 
+                  v-for=" n in thisPageCommentNum" 
+                  v-bind:key="n"
+                >
                   <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
                     <!-- 传数组 -->
                   </single-comment>
@@ -75,31 +114,31 @@
                 auto-grow
                 v-model="newCommentText"
               ></v-textarea>
+              
               <v-btn
                 @click="SubmitNewComment"
               >
                 Submit New Comment!
               </v-btn>
+
+              </v-card>
             </div>
               
 
           </v-card>
         </v-col>
 
-        <!-- 确定这个part的手机端适配方式：隐藏？ -->
         <v-col 
           cols="12" xs="12" sm="4" md="4"
-          
+          class="hidden-xs-only"
         >
           <v-card
             class="pa-2 mx-1 mt-2"
             outlined
             tile
           >
-            <!-- <WeatherCom /> -->
-            <div style="background:#000; color:#FFF">第五块</div>
-            <!-- <NewsCom /> -->
-            <div style="background:#000; color:#FFF">第六块</div>
+            <WeatherCom />
+            <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
       </v-row>
@@ -132,8 +171,11 @@
 <script>
 
 import SingleComment from '../components/SingleComment.vue';
+import WeatherCom from '@/components/WeatherCom'
+import NewsCom from '@/components/NewsCom'
+
 export default {
-  components: { SingleComment },
+  components: { SingleComment, WeatherCom, NewsCom},
   name: 'HomepageView',
   data () {
     return {
