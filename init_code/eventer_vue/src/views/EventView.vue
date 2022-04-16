@@ -15,63 +15,132 @@
             >
               {{topic}}
             </h1>
+
             <v-card-text>
-              <span class="subheading">Post Tags:</span>
-              <v-chip-group
-                mandatory
-                active-class="primary--text"
-              >
-                <v-chip
-                  v-for="tag in tags"
-                  :key="tag"
-                  disabled
-                  color="grey darken-3"
-                  text-color="white"
+              
+              <v-list-item class="grow">
+
+              <!-- TODO: -->
+                <v-list-item-avatar
                 >
-                  {{ tag }}
-                </v-chip>
-              </v-chip-group>
-              <v-img :src="coverPage"/>
+                  <v-img
+                    class="elevation-6"
+                    src="../assets/bg.png"
+                  ></v-img>
+                </v-list-item-avatar>
+
+              <!-- TODO: -->
+                <v-badge
+                  v-if="true"
+                  color="accent"
+                  icon="mdi-hexagram"
+                  offset-x="30"
+                  offset-y="25"
+                >
+                </v-badge>      
+
+                <!-- TODO: -->
+                <v-list-item-content>
+                  <v-list-item-title>TEST</v-list-item-title>
+                </v-list-item-content>
+
+                <v-chip-group
+                  active-class="primary--text"
+                >
+                  <v-chip
+                    v-for="tag in tags"
+                    :key="tag"
+                    outlined
+                    color="primary"
+                  >
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
+              </v-list-item>
+              <v-divider></v-divider>
+
+              <div class="mt-5">
+                <v-img 
+                  :src="coverPage"
+                ></v-img>
+              </div>
+
             </v-card-text>
+
             <v-divider></v-divider>
 
-            <div class="main-content">
+            <div class="main-content my-5">
               <v-card flat>
                 <div>
                   <span v-html="content">
                   </span>
                 </div>
               </v-card>
+            </div>
 
-              <v-card>
-                <v-row class="main-content">
-                  <v-col>
-                    <v-text-field
-                      label="Start Time"
-                      prepend-icon="mdi-clock-time-four-outline"
-                      :value="startTime"
-                      readonly
-                    ></v-text-field>
+              
+              <div class="mx-5">
+              <v-card
+                tile
+                outlined
+                class="pa-3"
+              >
+              
+                <v-row justify="center" align="center" dense>
+                  <v-col 
+                    cols="12" xs="12" sm="8" md="8"
+                  >
+                    <v-btn
+
+                      color="primary"
+                      outlined
+                      block
+                    >
+
+                        <v-icon>mdi-clock-time-four-outline</v-icon>
+
+                      Start Time:
+                      {{startTime}}
+                    </v-btn>
                   </v-col>
-                  <v-col>
-                    <v-text-field
-                      label="End Time"
-                      prepend-icon="mdi-clock-time-four-outline"
-                      :value="endTime"
-                      readonly
-                    ></v-text-field>
+                  <v-col 
+                    cols="12" xs="12" sm="4" md="4"
+                  >
+                      <v-btn
+                        block
+
+                        color="primary"
+                        outlined
+                      >
+
+                          <v-icon>mdi-account-group</v-icon>
+
+                        End Time:
+                        {{partOverMax}}
+                      </v-btn>
+
                   </v-col>
-                </v-row>
-                <v-row class="main-content">
-                  <v-col>
-                    <v-text-field
-                      label="Participant"
-                      prepend-icon="mdi-account"
-                      :value="partOverMax"
-                      readonly
-                    ></v-text-field>
+                  <v-col 
+                    cols="12" xs="12" sm="8" md="8"
+                  >
+                    <v-btn
+
+                      color="primary"
+                      outlined
+                      block
+                    >
+                      <v-avatar left>
+                        <v-icon>mdi-clock-time-four-outline</v-icon>
+                      </v-avatar>
+                      End Time:
+                      {{endTime}}
+                    </v-btn>
                   </v-col>
-                  <v-col>
+
+                  
+                  <v-col 
+                    cols="12" xs="12" sm="4" md="4"
+                  >
                     <v-btn
                       color="yellow lighten-3"
                       block
@@ -90,7 +159,14 @@
                     </v-btn>
                   </v-col>
                 </v-row>
+                
+
               </v-card>
+              </div>
+
+
+
+
 
               <v-card
                 v-if="canRating"
@@ -165,8 +241,7 @@
               >
                 Submit New Comment!
               </v-btn>
-            </div>
-              
+
 
           </v-card>
         </v-col>
@@ -174,19 +249,18 @@
         <!-- 确定这个part的手机端适配方式：隐藏？ -->
         <v-col 
           cols="12" xs="12" sm="4" md="4"
-          
+          class="hidden-xs-only"
         >
           <v-card
             class="pa-2 mx-1 mt-2"
             outlined
             tile
           >
-            <!-- <WeatherCom /> -->
-            <div style="background:#000; color:#FFF">第五块</div>
-            <!-- <NewsCom /> -->
-            <div style="background:#000; color:#FFF">第六块</div>
+            <WeatherCom />
+            <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
+
       </v-row>
     </v-container>
     <!-- <v-btn @click="test">测试</v-btn> -->
@@ -216,8 +290,11 @@
 
 <script>
 import SingleComment from '../components/SingleComment.vue';
+import WeatherCom from '@/components/WeatherCom'
+import NewsCom from '@/components/NewsCom'
+
 export default {
-  components: { SingleComment },
+  components: { SingleComment, WeatherCom, NewsCom, },
   name: 'HomepageView',
   data () {
     return {
