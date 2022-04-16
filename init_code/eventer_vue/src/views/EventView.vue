@@ -25,13 +25,13 @@
                 >
                   <v-img
                     class="elevation-6"
-                    src="../assets/bg.png"
+                    :src="this.organizer_avatar"
                   ></v-img>
                 </v-list-item-avatar>
 
               <!-- TODO: -->
                 <v-badge
-                  v-if="true"
+                  v-if= this.organizer_is_organization
                   color="accent"
                   icon="mdi-hexagram"
                   offset-x="30"
@@ -41,7 +41,7 @@
 
                 <!-- TODO: -->
                 <v-list-item-content>
-                  <v-list-item-title>TEST</v-list-item-title>
+                  <v-list-item-title>{{this.organizer_nickname}}</v-list-item-title>
                 </v-list-item-content>
 
                 <v-chip-group
@@ -336,6 +336,7 @@ export default {
         dislikeNum: 9,
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
+        hadCommentedId: "",
         commentId: 1,
         type:"activity"
       },
@@ -369,6 +370,10 @@ export default {
       canJoin: true,
       //参加按钮信息
       joinInfo: "Join In",
+      //organizer 信息
+      organizer_nickname: "",
+      organizer_avatar:"",
+      organizer_is_organization:false,
     }
   },
   created: function () {
@@ -404,6 +409,11 @@ export default {
       this.commentNumber = response.data.comment_number
       this.pageLength = Math.ceil(this.commentNumber / 10)
       this.lastPageComentNum = this.commentNumber % 10
+
+      this.organizer_is_organization = response.data.organizer_is_organization
+      this.organizer_avatar = response.data.organizer_avatar
+      this.organizer_nickname = response.data.organizer_nickname
+
       if (this.commentNumber >= 10) {
         this.thisPageCommentNum = 10
       } else {
@@ -421,6 +431,7 @@ export default {
             likeNum: response.data.comments[i].like_num,
             dislikeNum: response.data.comments[i].dislike_num,
             likeId: response.data.comments[i].like_user,
+            hadCommentedId: response.data.comments[i].had_commented,
             dislikeId: response.data.comments[i].dislike_user,
             commentId: response.data.comments[i].id,//这里改成后端id的名称
             type:'activity'
