@@ -78,7 +78,7 @@
                       @click="updateParticipant"
                       v-if="canJoin"
                     >
-                      Join In
+                      {{joinInfo}}
                     </v-btn>
                     <v-btn
                       color="grey lighten-3"
@@ -252,6 +252,7 @@ export default {
       startTime: "",
       endTime: "",
       participantNum: 0,
+      participantList:[],
       maxParticipantNum: 0,
       partOverMax: "",
       coverPage: "",
@@ -270,6 +271,8 @@ export default {
       scoreIds: "",
       //参加活动日期
       canJoin: true,
+      //参加按钮信息
+      joinInfo: "Join In",
     }
   },
   created: function () {
@@ -326,18 +329,37 @@ export default {
           }
         )
       }
-
+      //this.participantNum = respose.data.participant_num;
+      //this.participantList = respose.data.participants_list;
+      this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
       this.scoreIdList = response.data.score_list
-      this.participant_list = response.data.participants_list
+      this.participantList = response.data.participants_list
+
+      //未参加活动不能评价
+      if(this.participantList.indexOf(this.$store.state.userID)==-1){
+        this.scoreReadOnly = true;
+      }
+
 
       this.canRating = response.data.is_outdate
       this.canJoin = !response.data.is_outdate
       if (this.canRating) {
       //用axios获得现在已经评价的人的id: this.scoreIds
-        this.scoreIdList = this.scoreIds.split(" ");
-        if (this.scoreIdList.includes(this.$store.state.userID)) {
-          this.scoreReadOnly = true;
-        }
+        this.$axios.get('http://127.0.0.1:8000/api/activity/score/'+this.$route.params.id)
+        .then(response=>{
+          if(response.data.num == 0){
+            this.scoreIdList=""
+          }
+          else{
+            this.scoreIds = response.data.scoreIds
+            this.scoreIdList = this.scoreIds.split(" ");
+          }
+          if (this.scoreIdList.includes(this.$store.state.userID)) {
+            this.scoreReadOnly = true;
+          }
+        });
+        
+        
       }
     })
 
@@ -378,13 +400,7 @@ export default {
     // this.endTime = "2022-04-12T03:27:58.896683".substr(0, 23);
     // this.canRating = (this.endTime<this.timeNow);
     // //
-    if (this.canRating) {
-      //用axios获得现在已经评价的人的id: this.scoreIds
-      this.scoreIdList = this.scoreIds.split(" ");
-      if (this.scoreIdList.includes(this.$store.state.userID)) {
-        this.scoreReadOnly = true;
-      }
-    }
+    
   },
   methods:{
     calculateNum: function(){
@@ -434,25 +450,77 @@ export default {
     },
     updateRating: function () {
       //axios提交this.scoreNum,计算后返回this.scoreAvg
-      this.$axios.post()
-      this.scoreReadOnly = true;
-      this.scoreAvg = this.scoreNum - 1;
+      this.$axios.post('http://127.0.0.1:8000/api/activity/score/add',{
+        "user_id":this.$store.state.userID,
+        "activity_id":this.$route.params.id,
+        "score":this.scoreNum
+      })
+      .then(response=>{
+        console.log(response)
+        this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+        .then(response=>{
+          this.scoreReadOnly = true;
+          this.scoreAvg = response.data.score_avg;
+        })
+      });
       //记得把this.$store.state.userID传到后端的已评价人id中this.scoreIds
     },
+
+
     updateParticipant: function () {
-      //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
+      this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+      .then(respose=>{
+        this.participantNum = respose.data.participant_num;
+        this.participantList = respose.data.participants_list;
+        //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
+        //这里加一个判断条件：如果userID存在于this.participantList中，就不能报名
+        if(this.participantList.indexOf(this.$store.state.userID)){
+          this.tip = "You already joined in";
+          this.snackbar = true;
+          this.joinInfo = "Already Joined";
+          return false;
+          ///.......
+          ///.......
+          //让join in 按钮变暗之类的
+        }
+        if (this.participantNum >= this.maxParticipantNum) {
+          this.tip = "Event is Full";
+          this.snackbar = true;
+          this.joinInfo = "Event Full";
+          return false;
+        }
+        //报名
+        this.$axios.post('http://127.0.0.1:8000/api/activity/participant/add',{
+            user_id: this.$store.state.userID,
+            activity_id:this.$route.params.id
+        })
+        .then(response=>{
+          console.log(response)
+          //再次更新报名人数和用户列表
+          this.$axios.get('http://127.0.0.1:8000/api/activity/' + this.$route.params.id + '/comment')
+          .then(respose=>{
+            this.participantNum = respose.data.participant_num;
+            this.participantList = respose.data.participants_list;
+            this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
+            // this.tip = "Event is Over";
+            //活动已结束
+            // this.tip = "You already joined in";
+            //已经参加了
+            // this.tip = "Event is Full";
+            //人已经满了
+            this.tip = "Succesee Join";
+            //成功加入
+            this.snackbar = true;
+          })
+        });
+      })
+      
+
+      
+
       // this.participantNum
       // this.maxParticipantNum
-      this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
-      this.tip = "Event is Over";
-      //活动已结束
-      this.tip = "You already joined in";
-      //已经参加了
-      this.tip = "Event is Full";
-      //人已经满了
-      this.tip = "Succesee Join";
-      //成功加入
-      this.snackbar = true;
+     
     },
   }
 }
