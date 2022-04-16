@@ -1,17 +1,29 @@
 <template>
-  <div>
-    <NavbarComNotLogin :Page=pageNow>
-    </NavbarComNotLogin>
-    <div>
-      <v-layout align-center justify-center py-5>
-        <v-card  class="px-2 pb-3" max-width=900px>
-          <v-card-text>
-            <h1 align="center">
-              <span style="color:blue">S</span>ign <span style="color:blue">I</span>n
+  <div id="building">
+    <!-- TODO:可能要优化掉这个部分 -->
+    <!-- <NavbarComNotLogin :Page=pageNow>
+    </NavbarComNotLogin> -->
+    <v-container>
+        <v-row justify="center" align="center" class="mt-1">
+        <v-card 
+          class="px-2 pb-3" 
+          max-width=500px
+          flat
+          outlined
+          tile
+        >
+
+          <div class="text-center mt-2">
+            <h1 class="primary--text">
+              <span>Sign Up</span>
             </h1>
-            <br/>
-            <v-row>
-              <v-col>
+          </div>
+
+          <v-card-text>
+            <v-row justify="center" align="center" dense>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
               <!-- 输入邮箱 -->
                 <v-text-field
                   type="text" 
@@ -23,9 +35,9 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
               <!-- 输入密码 -->
                 <v-text-field
                   type="text" 
@@ -37,9 +49,9 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
               <!-- 再次输入密码 -->
                 <v-text-field
                   type="text" 
@@ -51,10 +63,10 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
               <!-- 输入First/Last name  -->
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
                 <v-text-field
                   type="text" 
                   label="First Name"
@@ -65,7 +77,9 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
                 <v-text-field
                   type="text" 
                   label="Last Name"
@@ -76,9 +90,9 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
                 <v-text-field
                   type="text" 
                   label="Nick Name"
@@ -89,9 +103,9 @@
                 >
                 </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="8" md="8"
+              >
                 <v-text-field
                   type="text" 
                   label="Verification Code"
@@ -100,8 +114,17 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="4" md="4"
+              >
                 <v-btn
+                block 
+                  tile 
+                  color="primary"
+                  depressed
+                  textarea
+                  outlined
+                  small
                   v-bind:class="{gray:wait_timer>0}" 
                   @click="getCode() 
                   snackbar = true"
@@ -119,28 +142,56 @@
                   </span>
                 </v-btn>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
                 <v-checkbox
+                  color="primary"
                   v-model="applyForOrganization"
                   label= "Apply As Organization"
                 ></v-checkbox>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-btn
-                block
-                v-if="submitShow" 
-                @click="submitNewPassword()"
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
               >
-                Submit!
-              </v-btn>
+                <v-btn
+                  tile 
+                  color="primary"
+                  depressed
+                  block
+                  v-if="submitShow" 
+                  @click="submitNewPassword()"
+                >
+                  Submit!
+                </v-btn>
+              </v-col>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-btn
+                  tile 
+                  color="primary"
+                  depressed
+                  textarea
+                  outlined
+                  small
+                  block
+                  router :to="'/login'"
+                >
+                  <v-icon
+                    small
+                  >
+                    mdi-login-variant
+                  </v-icon>
+                  <span>back to login</span> 
+                </v-btn>
+              </v-col>
             </v-row>
           </v-card-text>
         </v-card>
-      </v-layout>
-    </div>
+        </v-row>
+    </v-container>
+
     <div>
       <v-snackbar v-model="snackbar">
         {{ tip }}
@@ -174,9 +225,9 @@
 
 <script>
 import axios from 'axios'
-import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
+// import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
 export default {
-  components: { NavbarComNotLogin },
+  // components: { NavbarComNotLogin },
   data() {
     return {
       tip: "用Email找回密码",
@@ -345,6 +396,12 @@ export default {
 </script>
 
 <style>
-
-
+#building{
+background:url("../assets/bg.png");
+width:100%;			
+height:100%;			
+background-size: cover; 
+position: absolute; 
+background-repeat: no-repeat;
+}
 </style>

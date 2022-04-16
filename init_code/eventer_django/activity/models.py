@@ -22,7 +22,7 @@ class Activity(models.Model):
     title = models.CharField(max_length = 256)
     content = models.CharField(max_length = 1024)
     comment_number = models.IntegerField(default = 0)
-    cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'activity/default.png', processors = [ResizeToFill(1920, 1080)])
+    cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'activity/default.png', processors = [ResizeToFill(300, 300)])
     participant_num = models.IntegerField(default = 0)
     max_participant_num = models.IntegerField(default = 1, 
                                                 validators = [

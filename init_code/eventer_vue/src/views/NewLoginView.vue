@@ -1,4 +1,4 @@
-// TODO: 登录失败时增加提示框
+// TODO: 处理右侧滚轮
 <template>
   <div id="building">
     <v-container mt-16 py-16>
@@ -52,8 +52,9 @@
                 <v-btn 
                   block 
                   tile 
-                  @click="submit" color="primary"
+                  color="primary"
                   depressed
+                  @click="submit" 
                 >
                   Login
                 </v-btn>
