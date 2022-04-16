@@ -50,7 +50,6 @@
       >
     <v-chip-group
       active-class="primary--text"
-      color="accent"
     >
       <v-chip
         class="font-weight-black"
