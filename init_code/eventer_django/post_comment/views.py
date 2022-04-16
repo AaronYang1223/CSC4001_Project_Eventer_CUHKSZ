@@ -59,6 +59,8 @@ def post_comment_like_add(request):
         serializers = Like_post_comment_serializer(data = data)
         
         if (serializers.is_valid()):
+            if (Like_post_comment.objects.filter(comment_id = data['comment_id'], user_id = data['user_id']).values()):
+                return HttpResponse(status = 404)
             serializers.save()
             
             post_comment = Post_comment.objects.get(id = data['comment_id'])
@@ -73,7 +75,9 @@ def post_comment_like_add(request):
         return JsonResponse(serializers.errors, status = 400)
     elif (request.method == 'PUT'):
         data = JSONParser().parse(request)
+        
         try:
+            print(Like_post_comment.objects.all().values())
             like_post = Like_post_comment.objects.get(comment_id = data['comment_id'], user_id = data['user_id'])
         except:
             return HttpResponse(status = 404)

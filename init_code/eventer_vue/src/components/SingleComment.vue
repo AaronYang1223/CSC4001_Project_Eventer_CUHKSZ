@@ -86,10 +86,12 @@ export default {
     this.dislikeIdList = this.CommentItem.dislikeId;
     this.likeArray = this.likeIdList.split(" ");
     console.log(this.likeArray);
+    console.log(this.dislikeArray);
     this.dislikeArray = this.dislikeIdList.split(" ");
     this.commentId = this.CommentItem.commentId;
     this.type = this.CommentItem.type
     if (this.likeArray.includes(String(this.$store.state.userID))) {
+      console.log("yes")
       this.likeColor = "blue lighten-1";
       this.userLike = true;
     }
@@ -123,7 +125,7 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
-          this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+          this.$axios.put('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
               user_id:this.$store.state.userID,
               comment_id:this.commentId,
               is_like : '2'
@@ -159,7 +161,7 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
-          this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+          this.$axios.put('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
               user_id:this.$store.state.userID,
               comment_id:this.commentId,
               is_like : '2'
