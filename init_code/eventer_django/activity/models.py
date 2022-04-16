@@ -20,7 +20,7 @@ class Activity(models.Model):
     start_time = models.DateTimeField(editable = True)
     end_time = models.DateTimeField(editable = True)
     title = models.CharField(max_length = 256)
-    content = models.CharField(max_length = 1024)
+    content = RichTextField()
     comment_number = models.IntegerField(default = 0)
     cover_page = ProcessedImageField(upload_to = cover_dictory, default = 'activity/default.png', processors = [ResizeToFill(300, 300)])
     participant_num = models.IntegerField(default = 0)
