@@ -67,7 +67,7 @@
             <v-card-title>
               <v-btn
               text
-              router :to="'/post/1'"
+              router :to="'/event/'+ event.activity_id"
               >
               {{event.title | snippet_event}}
               </v-btn>
@@ -94,6 +94,7 @@
             </v-card-subtitle>
 
             <v-card-actions>
+              <!-- TODO: 和join in一致-->
               <v-btn
                 color="orange lighten-2"
                 text
