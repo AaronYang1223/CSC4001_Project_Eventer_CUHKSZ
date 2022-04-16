@@ -94,7 +94,11 @@
       <v-spacer></v-spacer>
 
       <!-- 设置为按钮是为了留一个刷新键 -->
-      <v-btn class="text-uppercase primary--text" x-large text>
+      <v-btn 
+        class="text-uppercase primary--text" 
+        x-large text
+        router :to="'/'"
+      >
         <h1 class="font-weight-light">e</h1>
         <h1>venter</h1>
       </v-btn>

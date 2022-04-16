@@ -118,7 +118,7 @@
                 cols="12" xs="12" sm="4" md="4"
               >
                 <v-btn
-                block 
+                  block 
                   tile 
                   color="primary"
                   depressed

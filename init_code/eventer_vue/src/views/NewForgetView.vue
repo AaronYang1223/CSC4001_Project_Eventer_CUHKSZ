@@ -3,11 +3,11 @@
   <div id="building">
     <!-- <NavbarComNotLogin :Page=pageNow>
     </NavbarComNotLogin> -->
-    <v-container>
+    <v-container mt-16 py-16>
       <v-row justify="center" align="center" class="mt-1">
         <v-card 
           class="px-2 pb-3" 
-          max-width=500px
+          max-width=400px
           flat
           outlined
           tile
@@ -49,8 +49,9 @@
               >
               </v-text-field>
               </v-col>
-            </v-row>
-            <v-row>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
               <!-- 再次输入密码 -->
               <v-text-field
                 type="password" 
@@ -61,9 +62,10 @@
                 :rules="[rules.required, rules.min, rules.max, rules.samepassword]"
               >
               </v-text-field>
-            </v-row>
-            <v-row>
-              <v-col>
+              </v-col>
+              <v-col 
+                cols="12" xs="12" sm="6" md="6"
+              >
                 <v-text-field
                   type="text" 
                   label="Verification Code"
@@ -72,8 +74,17 @@
                 >
                 </v-text-field>
               </v-col>
-              <v-col>
+              <v-col
+                cols="12" xs="12" sm="6" md="6"
+              >
                 <v-btn
+                  block 
+                  tile 
+                  color="primary"
+                  depressed
+                  textarea
+                  outlined
+                  small
                   v-bind:class="{gray:wait_timer>0}" 
                   @click="getCode() 
                   snackbar = true"
@@ -91,15 +102,41 @@
                   </span>
                 </v-btn>
               </v-col>
-            </v-row>
-            <v-row>
+              <v-col
+                cols="12" xs="12" sm="12" md="12"
+              >
               <v-btn
+                tile 
+                color="primary"
+                depressed
                 block
                 v-if="submitShow" 
                 @click="submitNewPassword()"
               >
                 Submit!
               </v-btn>
+              </v-col>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-btn
+                  tile 
+                  color="primary"
+                  depressed
+                  textarea
+                  outlined
+                  small
+                  block
+                  router :to="'/login'"
+                >
+                  <v-icon
+                    small
+                  >
+                    mdi-login-variant
+                  </v-icon>
+                  <span>back to login</span> 
+                </v-btn>
+              </v-col>
             </v-row>
           </v-card-text>
         </v-card>
@@ -225,7 +262,7 @@ export default {
       });
       //this.emailExist = true;
       if (!this.emailExist) {
-        this.tip = "Email already be used";
+        this.tip = "Email not exist";
         return false;
       }
 

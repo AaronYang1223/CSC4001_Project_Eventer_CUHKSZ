@@ -1,93 +1,5 @@
 <template>
   <div class="main-text">
-    <UpdateBannerCom />
-      <div class="avatar">
-    <v-container>
-        <v-card
-        flat
-        outlined
-        class="hidden-sm-and-down"
-        tile
-        >
-
-          <v-list-item-content class="justify-center">
-
-            <v-avatar
-              size="200"
-            >
-              <img :src="avatar">
-            </v-avatar>          
-
-            <div class="text-center mt-4">
-
-              <v-btn
-                style="width:150px; height:25px;" 
-                color="primary"
-              >
-                <v-icon small>mdi-pencil</v-icon>
-                <span>avatar</span>
-
-                <input
-                  type="file" 
-                  class="input-file" 
-                  style="width:200px; height:20px;" 
-                  @change="changeImage($event)" 
-                  ref="avatarInput" 
-                  accept="image/gif,image/jpeg,image/jpg,image/png"
-                >
-
-              </v-btn>
-
-            </div>
-
-          </v-list-item-content>
-        </v-card>
-                
-                
-        <v-card
-        flat
-        outlined
-        class="hidden-md-and-up"
-        tile
-        >
-
-          <v-list-item-content class="justify-center">
-
-            <v-avatar
-              size="150"
-            >
-              <img :src="avatar">
-            </v-avatar>          
-
-            <div class="text-center mt-4">
-
-              <v-btn
-                style="width:120px; height:20px;" 
-                color="primary"
-                depressed
-              >
-
-                <span>Edit avatar</span>
-
-                <input
-                  type="file" 
-                  class="input-file" 
-                  style="width:200px; height:20px;" 
-
-                  ref="avatarInput" 
-                  @change="changeImage($event)" 
-                  accept="image/gif,image/jpeg,image/jpg,image/png"
-                >
-
-              </v-btn>
-
-            </div>
-
-          </v-list-item-content>
-        </v-card>
-
-    </v-container>
-  </div>  
     <v-text-field
       rows = "1"
       type="text" 
@@ -155,6 +67,9 @@
     {{endDay}}
     {{endHour}}
     {{endMin}}
+
+    {{timeFront}}
+    {{timeLast}}
 
     <v-row>
       <v-col
@@ -339,15 +254,42 @@
     </v-row>
 
 
-    <v-file-input
-      v-model="file_info"
-      label="Event Picture"
-      filled
-      dense
-      show-size
-      accept="image/*"
-      prepend-icon="mdi-camera"
-    ></v-file-input>
+    <div>  
+      <v-container>
+        <v-card
+        flat
+        outlined
+        tile
+        >
+          <v-list-item-content class="justify-center">
+            <div class="text-center mt-4">
+              <v-btn
+                color="primary"
+                @click="uploadClick"
+              >
+                <v-icon small>mdi-pencil</v-icon>
+                Upload Image
+                <input
+                  id="upload"
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+                  @change="changeImage($event)" 
+                  ref="avatarInput" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+              </v-btn>
+            </div>
+            <v-img 
+              :src="previewImg"
+              :max-height="300"
+              contain
+            >
+            </v-img>
+          </v-list-item-content>
+        </v-card>
+      </v-container>
+    </div>  
     <div>
       <v-row>
         <v-col>
@@ -400,14 +342,13 @@
 
 <script>
 import RichTextEdit from '../components/RichTextEdit.vue'
-import UpdateBannerCom from '@/components/UpdateBannerCom'
 import axios from 'axios'
 
 
 
 export default {
   props: ["uploadType", "imgWidth", "imgHeight"],
-  components: { RichTextEdit, UpdateBannerCom},
+  components: { RichTextEdit},
   data() {
     
     return {
@@ -461,6 +402,13 @@ export default {
       endDay: "",
       endHour: "",
       endMin: "",
+
+      //图片预览
+      previewImg: undefined,
+
+      //时间判断
+      timeFront: "",
+      timeLast: "",
     }
   },
 
@@ -472,12 +420,15 @@ export default {
   },
 
   methods: {
-        changeImage: function(e){
+    uploadClick: function(){
+      let uploadbtn = this.$refs.avatarInput
+      uploadbtn.click()
+    },
+    changeImage: function(e){
       let file = e.target.files[0];
       if(file) {
         this.file = file
-        this.Submit() 
-
+        this.previewImg = URL.createObjectURL(this.file)
       }
     },
     Submit: function() {
@@ -527,6 +478,14 @@ export default {
       this.endDay = this.dateEnd.split("-")[2];
       this.endHour = this.timeEnd.split(":")[0];
       this.endMin = this.timeEnd.split(":")[1];
+      this.timeFront = this.dateStart+this.timeStart;
+      this.timeLast = this.dateEnd+this.timeEnd;
+      if (this.timeFront>this.timeLast) {
+        this.tip = "Your Date and Time is invalid";
+        this.snackbar = true;
+        return false;
+      }
+      // timeLast: "",
       // if (this.startYear > this.endYear) {
       //   this.tip = "Your Date and Time is invalid";
       //   this.snackbar = true;
@@ -647,5 +606,10 @@ export default {
 <style>
 .main-text {
   margin: 20px;
+}
+#upload{
+    height: 0;
+    width: 0;
+    visibility: hidden;
 }
 </style>
