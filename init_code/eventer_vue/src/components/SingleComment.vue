@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    tile
+    outlined
+  >
     <v-card-actions>
 
       <v-row>
@@ -72,8 +75,8 @@ export default {
       commentContent: "",
       likeNumber: 0,
       dislikeNumber: 0,
-      likeColor: "grey lighten-1",
-      dislikeColor: "grey lighten-1",
+      likeColor: "grey",
+      dislikeColor: "grey",
       userLike: false,
       userDislike: false,
       likeIdList: "",
@@ -91,7 +94,7 @@ export default {
     this.userNickname = this.CommentItem.commentUserNickname;
     this.commentContent = this.CommentItem.commentText;
     this.imgSrc = this.CommentItem.commentUserAvatarsPath;
-    this.
+    this.is_authenticated = this.CommentItem.is_authenticated;
     this.likeNumber = this.CommentItem.likeNum;
     this.dislikeNumber = this.CommentItem.dislikeNum;
     this.likeIdList = this.CommentItem.likeId;
@@ -102,11 +105,11 @@ export default {
     this.commentId = this.CommentItem.commentId;
     this.type = this.CommentItem.type
     if (this.likeArray.includes(String(this.$store.state.userID))) {
-      this.likeColor = "blue lighten-1";
+      this.likeColor = "primary";
       this.userLike = true;
     }
     else if (this.dislikeArray.includes(String(this.$store.state.userID))) {
-      this.dislikeColor = "red lighten-1";
+      this.dislikeColor = "red";
       this.userDislike = true;
     }
   },
@@ -114,7 +117,7 @@ export default {
     like: function() {
       if (!this.userDislike) {
         if (!this.userLike) {
-          this.likeColor = "blue lighten-1";
+          this.likeColor = "primary";
           this.likeNumber = this.likeNumber + 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
@@ -130,7 +133,7 @@ export default {
           this.userLike = true;
         }
         else{
-          this.likeColor = "grey lighten-1";
+          this.likeColor = "grey";
           this.likeNumber = this.likeNumber - 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
@@ -150,7 +153,7 @@ export default {
     dislike: function() {
       if (!this.userLike) {
         if (!this.userDislike) {
-          this.dislikeColor = "red lighten-1";
+          this.dislikeColor = "red";
           this.dislikeNumber = this.dislikeNumber + 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
@@ -166,7 +169,7 @@ export default {
           this.userDislike = true;
         }
         else{
-          this.dislikeColor = "grey lighten-1";
+          this.dislikeColor = "grey";
           this.dislikeNumber = this.dislikeNumber - 1;
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里

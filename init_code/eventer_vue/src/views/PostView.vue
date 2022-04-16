@@ -40,6 +40,7 @@
                 >
                 </v-badge>      
 
+                <!-- TODO: -->
                 <v-list-item-content>
                   <v-list-item-title>TEST</v-list-item-title>
                 </v-list-item-content>
@@ -68,11 +69,13 @@
                   </span>
                 </div>
               </v-card>
+            </div>
+
+            <v-divider></v-divider>
 
           <v-card
             class="mt-3"
-            outlined
-            tile
+            flat
           >
               <div 
                 class= "text-h7 font-weight-bold"
@@ -80,11 +83,34 @@
                 {{commentNumber}} Comment :
               </div>
 
+
+
+            
+
+
+              <!-- 存放comments -->
               <v-card 
                 flat
                 class="mx-3"
-                tile
               >
+                <div
+                  class="mt-3 mx-1"
+                >
+                <v-textarea
+                  rows="1"
+                  tile
+                  append-icon="mdi-comment"
+                  label="New Comment"
+                  auto-grow
+                  v-model="newCommentText"
+                  @click:append="SubmitNewComment"
+                  color="primary"
+                  clearable
+                  max-width="10px"
+                  outlined
+                ></v-textarea>
+                </div>
+
                 <div 
                   class="comment" 
                   v-for=" n in thisPageCommentNum" 
@@ -96,9 +122,11 @@
                 </div>
               </v-card>
 
-              <v-card flat>
+              <!-- 翻页 -->
+              <v-card flat class="mx-2">
                 <div class="text-center">
                   <v-pagination
+                    flat
                     v-model="page"
                     :length="pageLength"
                     :total-visible="7"
@@ -107,22 +135,9 @@
                 </div>
               </v-card>
 
-              <v-textarea
-                name="input-7-1"
-                filled
-                label="New Comment"
-                auto-grow
-                v-model="newCommentText"
-              ></v-textarea>
               
-              <v-btn
-                @click="SubmitNewComment"
-              >
-                Submit New Comment!
-              </v-btn>
-
               </v-card>
-            </div>
+            
               
 
           </v-card>

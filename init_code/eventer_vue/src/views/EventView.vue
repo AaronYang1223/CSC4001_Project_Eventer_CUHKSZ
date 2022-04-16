@@ -134,7 +134,7 @@
                 {{commentNumber}} Comment :
               </v-banner>
 
-              <v-card flat>
+              <v-card>
                 <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
                   <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
                     <!-- 传数组 -->
@@ -316,6 +316,7 @@ export default {
       for (let i = 0; i < response.data.comments.length; i++) {
         this.commentsList.push(
           {
+            is_authenticated: response.data.comments[i].is_organization,
             commentUserID: response.data.comments[i].user_id,
             commentUserNickname: String(response.data.comments[i]['user_nickname']),
             commentUserAvatarsPath: 'http://127.0.0.1:8000' + response.data.comments[i].avatar,

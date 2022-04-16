@@ -338,6 +338,7 @@ def activity_add_comment_info(serializer):
     for i in range(len(temp_data['comments'])):
         user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
         user_serializer = User_profile_serializer(user)
+        temp_data['comments'][i]['is_organization'] = user_serializer.data['is_organization']
         temp_data['comments'][i]['avatar'] = user_serializer.data['picture']
         temp_data['comments'][i]['user_nickname'] = user_serializer.data['nick_name']
         like = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '1')
