@@ -13,7 +13,7 @@
           tile
         >
 
-          <div class="text-center">
+          <div class="text-center mt-2">
             <h1 class="primary--text">
               <span>Sign Up</span>
             </h1>
@@ -155,11 +155,35 @@
                 cols="12" xs="12" sm="6" md="6"
               >
                 <v-btn
+                  tile 
+                  color="primary"
+                  depressed
                   block
                   v-if="submitShow" 
                   @click="submitNewPassword()"
                 >
                   Submit!
+                </v-btn>
+              </v-col>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
+                <v-btn
+                  tile 
+                  color="primary"
+                  depressed
+                  textarea
+                  outlined
+                  small
+                  block
+                  router :to="'/login'"
+                >
+                  <v-icon
+                    small
+                  >
+                    mdi-login-variant
+                  </v-icon>
+                  <span>back to login</span> 
                 </v-btn>
               </v-col>
             </v-row>

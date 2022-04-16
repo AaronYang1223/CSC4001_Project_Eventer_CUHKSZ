@@ -173,6 +173,7 @@
                   <v-btn
                     text
                     color="secondary"
+                    router :to="'/event/'+ selectedEvent.activity_id"
                   >
                     Detail
                   </v-btn>
