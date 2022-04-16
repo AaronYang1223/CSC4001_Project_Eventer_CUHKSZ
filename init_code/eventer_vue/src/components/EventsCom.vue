@@ -67,7 +67,7 @@
             <v-card-title>
               <v-btn
               text
-              router :to="'/post/1'"
+              router :to="'/event/'+ event.activity_id"
               >
               {{event.title | snippet_event}}
               </v-btn>
