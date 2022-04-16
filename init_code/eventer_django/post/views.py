@@ -62,10 +62,18 @@ def post_pk(request,pk):
 
 def post_add_comment_info(serializer):
     temp_data = serializer.data
+
+    post_user = User.objects.get(pk=temp_data['user_id'])
+    post_user_serializer = User_profile_serializer(post_user)
+    temp_data['user_nickname'] = post_user_serializer.data['nick_name']
+    temp_data['user_avatar'] = post_user_serializer.data['picture']
+    temp_data['user_is_organization'] = post_user_serializer.data['is_organization']
+
     comments = Post_comment.objects.filter(post_id = temp_data['id'], is_delete = False)
     comment_serializer = Post_comment_serializer(comments, many = True)
     temp_data['comments_list'] = [int(i['id']) for i in comment_serializer.data]
     temp_data['comments'] = comment_serializer.data
+
     for i in range(len(temp_data['comments'])):
         user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
         user_serializer = User_profile_serializer(user)
