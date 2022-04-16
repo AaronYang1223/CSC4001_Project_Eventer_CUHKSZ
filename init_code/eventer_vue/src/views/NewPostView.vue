@@ -184,11 +184,13 @@ export default {
         else {
           
           this.postId = response.data['id']
+          this.newPath = "/post/"+this.postId;
+          window.location.href = this.newPath;
         }
       });
       //提交之后,从服务器获得post id
-      // this.newPath = "/post/"+this.postId,
-      // window.location.href = this.newPath;
+      // 
+      // 
 
 
     },

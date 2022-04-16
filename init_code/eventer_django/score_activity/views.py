@@ -1,4 +1,5 @@
 #from selectors import EpollSelector
+from telnetlib import STATUS
 from django.shortcuts import render
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
@@ -88,3 +89,16 @@ def score_add(request):
             
             return JsonResponse(serializers.data, status = 201)
         return JsonResponse(serializers.errors, status = 400)
+
+@csrf_exempt
+def score_list(request,pk):
+    if(request.method=="GET"):
+        score_list = Score.objects.filter(activity_id=pk)
+        if(score_list==[]):
+            return JsonResponse({'num':0})
+        else:
+            scoreIds=""
+            #score_list_serializer = Score_activity_serializer(score_list)
+            for i in score_list:
+                scoreIds=scoreIds+str(i.user_id.id)+" "
+            return JsonResponse({"scoreIds":scoreIds, "num":score_list.__len__()})
