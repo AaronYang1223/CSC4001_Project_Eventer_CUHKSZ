@@ -296,8 +296,9 @@ export default {
       this.tags = this.tagList.split(" ")
       
       // "2022-04-12T14:00:00"
-      this.startTime = response.data.start_time
-      this.endTime = response.data.end_time
+      this.startTime = response.data.start_time.replace(/T/,"  ")
+      console.log(this.startTime)
+      this.endTime = response.data.end_time.replace(/T/,"  ")
       this.participantNum = response.data.participant_num
       this.maxParticipantNum = response.data.max_participant_num
       this.partOverMax = response.data.part_max_num
