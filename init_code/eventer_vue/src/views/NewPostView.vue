@@ -1,5 +1,6 @@
 <template>
   <div class="main-text">
+
     <v-text-field
       rows = "1"
       type="text" 
@@ -9,8 +10,11 @@
       :rules="[rules.required]"
     >
     </v-text-field>
-    <v-row>
-      <v-col>
+    
+    <v-row justify="center" align="center" class="mt-1">
+      <v-col 
+        cols="12" xs="12" sm="3" md="3"
+      >
         <v-text-field
           rows = "1"
           type="text" 
@@ -20,25 +24,50 @@
         >
         </v-text-field>
       </v-col>
-      <v-col>
+      <v-col 
+        cols="12" xs="12" sm="1" md="1"
+      >
         <v-btn
+          block 
+          tile 
+          color="primary"
+          depressed
+          textarea
+          outlined
+          small
           @click="addTheTag"
         >
           Add Tag
         </v-btn>
       </v-col>
-    </v-row>
+        <v-col 
+        cols="12" xs="0" sm="1" md="1"
+        class="hidden-xs-only"
+      >
+        </v-col>
+      <v-col 
+        cols="12" xs="12" sm="7" md="7"
+      >
     <v-chip-group
-      mandatory
       active-class="primary--text"
+      color="accent"
     >
       <v-chip
+        class="font-weight-black"
+        outlined
         v-for="tag in tags"
         :key="tag"
+        color="primary"
+        small
       >
-        {{ tag }}
+      <v-icon left>
+        mdi-label
+      </v-icon>
+        {{ tag | to-uppercase}}
       </v-chip>
     </v-chip-group>
+    </v-col>
+    </v-row>
     <!-- <v-textarea
       rows = "6"
       counter
@@ -55,14 +84,17 @@
     </v-textarea> -->
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
-    t:{{text}}
-    c:{{content}}
+    <!-- t:{{text}}
+    c:{{content}} -->
     
-    <v-btn 
-      block
+    <v-btn
+      tile 
+      color="primary"
+      depressed
+      block 
       @click="Submit"
     >
-      提交
+      Submit
     </v-btn>
     <v-snackbar v-model="snackbar">
       {{tip}}
