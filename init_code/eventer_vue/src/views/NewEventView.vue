@@ -1,6 +1,93 @@
 <template>
   <div class="main-text">
     <UpdateBannerCom />
+      <div class="avatar">
+    <v-container>
+        <v-card
+        flat
+        outlined
+        class="hidden-sm-and-down"
+        tile
+        >
+
+          <v-list-item-content class="justify-center">
+
+            <v-avatar
+              size="200"
+            >
+              <img :src="avatar">
+            </v-avatar>          
+
+            <div class="text-center mt-4">
+
+              <v-btn
+                style="width:150px; height:25px;" 
+                color="primary"
+              >
+                <v-icon small>mdi-pencil</v-icon>
+                <span>avatar</span>
+
+                <input
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+                  @change="changeImage($event)" 
+                  ref="avatarInput" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+
+              </v-btn>
+
+            </div>
+
+          </v-list-item-content>
+        </v-card>
+                
+                
+        <v-card
+        flat
+        outlined
+        class="hidden-md-and-up"
+        tile
+        >
+
+          <v-list-item-content class="justify-center">
+
+            <v-avatar
+              size="150"
+            >
+              <img :src="avatar">
+            </v-avatar>          
+
+            <div class="text-center mt-4">
+
+              <v-btn
+                style="width:120px; height:20px;" 
+                color="primary"
+                depressed
+              >
+
+                <span>Edit avatar</span>
+
+                <input
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+
+                  ref="avatarInput" 
+                  @change="changeImage($event)" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+
+              </v-btn>
+
+            </div>
+
+          </v-list-item-content>
+        </v-card>
+
+    </v-container>
+  </div>  
     <v-text-field
       rows = "1"
       type="text" 
@@ -319,9 +406,14 @@ import axios from 'axios'
 
 
 export default {
+  props: ["uploadType", "imgWidth", "imgHeight"],
   components: { RichTextEdit, UpdateBannerCom},
   data() {
+    
     return {
+      avatar: '',
+      file: '',
+      user_id: '',
       topic: "",
       main: "",
       content: "",
@@ -376,9 +468,18 @@ export default {
     //通过axios获得用户是不是组织用户
     this.userIsOrg = this.$store.state.userIsOrganization;//写完axios注释了
     console.log(this.userIsOrg);
+    this.avatar = this.$store.state.avatar
   },
 
   methods: {
+        changeImage: function(e){
+      let file = e.target.files[0];
+      if(file) {
+        this.file = file
+        this.Submit() 
+
+      }
+    },
     Submit: function() {
       this.content = this.$refs.textEditor.content;
       // content以html形式传输
@@ -426,35 +527,50 @@ export default {
       this.endDay = this.dateEnd.split("-")[2];
       this.endHour = this.timeEnd.split(":")[0];
       this.endMin = this.timeEnd.split(":")[1];
-      if (this.startYear > this.endYear) {
-        this.tip = "Your Date and Time is invalid";
-        this.snackbar = true;
-        return false;
+      // if (this.startYear > this.endYear) {
+      //   this.tip = "Your Date and Time is invalid";
+      //   this.snackbar = true;
+      //   return false;
+      // }
+      // else if (this.startMonth > this.endMonth) {
+      //   this.tip = "Your Date and Time is invalid";
+      //   this.snackbar = true;
+      //   return false;
+      // }
+      // else if (this.startDay > this.endDay) {
+      //   this.tip = "Your Date and Time is invalid";
+      //   this.snackbar = true;
+      //   return false;
+      // }
+      // else if (this.startHour > this.endHour) {
+      //   this.tip = "Your Date and Time is invalid";
+      //   this.snackbar = true;
+      //   return false;
+      // }
+      // else if (this.startMin > this.endMin) {
+      //   this.tip = "Your Date and Time is invalid";
+      //   this.snackbar = true;
+      //   return false;
+      // }
+      // let data = new FormData();
+      // let cover_page = {};
+      // cover_page = this.file_info;
+      // data.append("cover_page",cover_page)
+
+      let files = this.$refs.avatarInput.files
+      let fileData = {}
+      //make sure only update one file
+      if(files instanceof Array) {
+        fileData = files[0]
+      } else {
+        fileData = this.file
       }
-      else if (this.startMonth > this.endMonth) {
-        this.tip = "Your Date and Time is invalid";
-        this.snackbar = true;
-        return false;
-      }
-      else if (this.startDay > this.endDay) {
-        this.tip = "Your Date and Time is invalid";
-        this.snackbar = true;
-        return false;
-      }
-      else if (this.startHour > this.endHour) {
-        this.tip = "Your Date and Time is invalid";
-        this.snackbar = true;
-        return false;
-      }
-      else if (this.startMin > this.endMin) {
-        this.tip = "Your Date and Time is invalid";
-        this.snackbar = true;
-        return false;
-      }
-      let data = new FormData();
-      let cover_page = {};
-      cover_page = this.file_info;
-      data.append("cover_page",cover_page)
+      console.log('fileData', typeof fileData, fileData)
+      let data = new FormData()
+      data.append('cover_page', fileData)
+      data.append('operaType', this.uploadType)
+      console.log('data', typeof data, data)
+
       // data.append("organizer_id",this.$store.state.userID)
       // data.append("tag",this.tags.join(" "))
       // data.append("start_time",this.dateStart + " " + this.timeStart)
@@ -487,12 +603,11 @@ export default {
         else {
           console.log("ok");
           this.newPath = "/event/"+response.data.id;
-          axios.put('api/activity/update_image/' + response.data.id, data)
+          axios.post('api/activity/update_image/' + response.data.id, data)
           .then(response=>{
             console.log(response)
           });
           window.location.href = this.newPath;
-          
           }
       });
 

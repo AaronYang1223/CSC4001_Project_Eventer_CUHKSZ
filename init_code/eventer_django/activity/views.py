@@ -65,13 +65,14 @@ def activity_update_coverpage(request, pk):
         return JsonResponse(status = 404)
     
     print(request.FILES)
-    if (request.method == 'PUT' and request.FILES):
+    if (request.method == 'POST' and request.FILES):
         activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
         activity.cover_page.close()
         
         serializers = Activity_serializer(activity)
         return JsonResponse(serializers.data, status = 200)
     else:
+    #     return JsonResponse(serializers.error, status = 404)
         return JsonResponse(status = 404)
 
 @csrf_exempt

@@ -1,17 +1,29 @@
 // TODO:增加跳转按钮
 <template>
-  <div>
-    <NavbarComNotLogin :Page=pageNow>
-    </NavbarComNotLogin>
-    <div>
-      <v-layout align-center justify-center py-5>
-        <v-card  class="px-2 pb-3" max-width=900px>
-          <v-card-text>
-            <h1 align="center">
-              <span style="color:blue">F</span>orget <span style="color:blue">P</span>assword
+  <div id="building">
+    <!-- <NavbarComNotLogin :Page=pageNow>
+    </NavbarComNotLogin> -->
+    <v-container>
+      <v-row justify="center" align="center" class="mt-1">
+        <v-card 
+          class="px-2 pb-3" 
+          max-width=500px
+          flat
+          outlined
+          tile
+        >
+
+          <div class="text-center mt-2">
+            <h1 class="primary--text">
+              <span>Forget Passward</span>
             </h1>
-            <br/>
-            <v-row>
+          </div>
+
+          <v-card-text>
+            <v-row justify="center" align="center" dense>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
               <!-- 输入邮箱 -->
               <v-text-field
                 type="text" 
@@ -22,8 +34,10 @@
                 :rules="[rules.required, rules.emailMatch]"
               >
               </v-text-field>
-            </v-row>
-            <v-row>
+              </v-col>
+              <v-col 
+                cols="12" xs="12" sm="12" md="12"
+              >
               <!-- 输入密码 -->
               <v-text-field
                 type="password" 
@@ -34,6 +48,7 @@
                 :rules="[rules.required, rules.min, rules.max,]"
               >
               </v-text-field>
+              </v-col>
             </v-row>
             <v-row>
               <!-- 再次输入密码 -->
@@ -88,8 +103,8 @@
             </v-row>
           </v-card-text>
         </v-card>
-      </v-layout>
-    </div>
+      </v-row>
+</v-container>
     <div>
       <v-snackbar v-model="snackbar">
         {{ tip }}
@@ -123,9 +138,9 @@
 
 <script>
 import axios from 'axios'
-import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
+// import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
 export default {
-  components: { NavbarComNotLogin },
+  // components: { NavbarComNotLogin },
   data() {
     return {
       tip: "用Email找回密码",
@@ -279,7 +294,14 @@ export default {
 }
 </script>
 
+// TODO:应该是只要保留一个
 <style>
-
-
+#building{
+background:url("../assets/bg.png");
+width:100%;			
+height:100%;			
+background-size: cover; 
+position: absolute; 
+background-repeat: no-repeat;
+}
 </style>

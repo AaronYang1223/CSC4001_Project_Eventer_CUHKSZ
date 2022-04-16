@@ -137,7 +137,7 @@ export default {
       data.append('picture', fileData)
       data.append('operaType', this.uploadType)
       console.log('data', typeof data, data)
-      this.$axios.post('http://127.0.0.1:8000/api/profile/upload/'+ this.$store.state.userID, data
+      this.$axios.post('http://127.0.0.1:8000/api/activity/'+ this.$store.state.userID, data
       ).then(response => {
         console.log(response.data)
         this.avatar = 'http://127.0.0.1:8000'+response.data['picture']
