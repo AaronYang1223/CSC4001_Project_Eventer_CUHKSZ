@@ -70,18 +70,26 @@
               </v-card>
 
           <v-card
-            class="px-3 mt-3"
+            class="mt-3"
             outlined
             tile
           >
-              <span
+              <div 
                 class= "text-h7 font-weight-bold"
               >
                 {{commentNumber}} Comment :
-              </span>
+              </div>
 
-              <v-card flat>
-                <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
+              <v-card 
+                flat
+                class="mx-3"
+                tile
+              >
+                <div 
+                  class="comment" 
+                  v-for=" n in thisPageCommentNum" 
+                  v-bind:key="n"
+                >
                   <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
                     <!-- 传数组 -->
                   </single-comment>
