@@ -472,9 +472,13 @@ export default {
       .then(respose=>{
         this.participantNum = respose.data.participant_num;
         this.participantList = respose.data.participants_list;
+        console.log(this.participantNum)
+        console.log(this.participantList)
         //axios提交参加活动，根据返回值修改tip，同时在后端修改参与人数，前端获取新数据
         //这里加一个判断条件：如果userID存在于this.participantList中，就不能报名
-        if(this.participantList.indexOf(this.$store.state.userID)){
+        if(this.participantList.indexOf(this.$store.state.userID)!=-1){
+          console.log("1")
+          console.log(this.participantList.indexOf(this.$store.state.userID))
           this.tip = "You already joined in";
           this.snackbar = true;
           this.joinInfo = "Already Joined";
@@ -484,12 +488,14 @@ export default {
           //让join in 按钮变暗之类的
         }
         if (this.participantNum >= this.maxParticipantNum) {
+          console.log("here b");
           this.tip = "Event is Full";
           this.snackbar = true;
           this.joinInfo = "Event Full";
           return false;
         }
         //报名
+        console.log("yes")
         this.$axios.post('http://127.0.0.1:8000/api/activity/participant/add',{
             user_id: this.$store.state.userID,
             activity_id:this.$route.params.id

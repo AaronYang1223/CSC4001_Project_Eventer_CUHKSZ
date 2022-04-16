@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-card-actions>
+
       <v-row>
         <v-list-item class="grow">
           <v-list-item-avatar color="grey darken-3">
@@ -10,8 +11,20 @@
             ></v-img>
             <!-- 头像地址 -->
           </v-list-item-avatar>
+
+          <v-badge
+            v-if="is_authenticated"
+            color="accent"
+            icon="mdi-hexagram"
+            offset-x="30"
+            offset-y="25"
+          >
+          </v-badge>  
+
           <v-list-item-content>
-            <v-list-item-title> </v-list-item-title>
+            <v-list-item-content>
+                  <v-list-item-title>{{userNickname}}</v-list-item-title>
+            </v-list-item-content>
           </v-list-item-content>
           <div >
             <v-btn
@@ -38,12 +51,9 @@
           </div>
         </v-list-item>
       </v-row>
+
     </v-card-actions>
-      <v-card-text class="font-weight-bold">
-        <v-list-item-title>
-          {{userNickname}}
-        </v-list-item-title>
-      </v-card-text>
+  
     <v-card-text>
       {{commentContent}}
     </v-card-text>
@@ -71,7 +81,8 @@ export default {
       likeArray: [],
       dislikeArray: [],
       commentId: 1,
-      type:""
+      type:"",
+      is_authenticated: false,
     }
   },
   created: function () {
@@ -80,6 +91,7 @@ export default {
     this.userNickname = this.CommentItem.commentUserNickname;
     this.commentContent = this.CommentItem.commentText;
     this.imgSrc = this.CommentItem.commentUserAvatarsPath;
+    this.
     this.likeNumber = this.CommentItem.likeNum;
     this.dislikeNumber = this.CommentItem.dislikeNum;
     this.likeIdList = this.CommentItem.likeId;
