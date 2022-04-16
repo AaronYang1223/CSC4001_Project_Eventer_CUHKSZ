@@ -414,6 +414,10 @@ export default {
       this.scoreIdList = response.data.score_list
       this.participantList = response.data.participants_list
 
+      if(this.participantList.indexOf(this.$store.state.userID)!=-1){
+        this.joinInfo = "Already Joined";
+      }
+
       //未参加活动不能评价
       if(this.participantList.indexOf(this.$store.state.userID)==-1){
         this.scoreReadOnly = true;
