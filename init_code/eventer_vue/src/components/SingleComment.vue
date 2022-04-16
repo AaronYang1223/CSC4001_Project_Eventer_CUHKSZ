@@ -79,10 +79,13 @@ export default {
       dislikeColor: "grey",
       userLike: false,
       userDislike: false,
+      userCommented: false,
       likeIdList: "",
       dislikeIdList: "",
+      hadCommentedId: "",
       likeArray: [],
       dislikeArray: [],
+      hadCommentedArray: [],
       commentId: 1,
       type:"",
       is_authenticated: false,
@@ -90,7 +93,7 @@ export default {
   },
   created: function () {
     this.userName  = this.CommentItem.commentUserID;//名字
-    console.log(this.userName);
+    //console.log(this.userName);
     this.userNickname = this.CommentItem.commentUserNickname;
     this.commentContent = this.CommentItem.commentText;
     this.imgSrc = this.CommentItem.commentUserAvatarsPath;
@@ -99,19 +102,32 @@ export default {
     this.dislikeNumber = this.CommentItem.dislikeNum;
     this.likeIdList = this.CommentItem.likeId;
     this.dislikeIdList = this.CommentItem.dislikeId;
+    this.hadCommentedId = this.CommentItem.hadCommentedId
     this.likeArray = this.likeIdList.split(" ");
-    console.log(this.likeArray);
-    console.log(this.dislikeArray);
+    //console.log(this.likeArray);
     this.dislikeArray = this.dislikeIdList.split(" ");
+    //console.log(this.dislikeArray);
+    this.hadCommentedArray = this.hadCommentedId.split(" ");
+    console.log(this.CommentItem.hadCommentedId);
     this.commentId = this.CommentItem.commentId;
     this.type = this.CommentItem.type
+    if(this.hadCommentedArray.includes(String(this.$store.state.userID))){
+      this.userCommented = true;
+      console.log("commented")
+    }
+    else{
+      this.userCommented = false;
+      console.log("not commented")
+    }
     if (this.likeArray.includes(String(this.$store.state.userID))) {
       this.likeColor = "primary";
       this.userLike = true;
+      this.userCommented = true;
     }
     else if (this.dislikeArray.includes(String(this.$store.state.userID))) {
       this.dislikeColor = "red";
       this.userDislike = true;
+      this.userCommented = true;
     }
   },
   methods: {
@@ -123,15 +139,29 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
-          this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+          if(this.userCommented){
+            this.$axios.put('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
               user_id:this.$store.state.userID,
               comment_id:this.commentId,
               is_like : '1'
-          })
-          .then((response)=>{
-            console.log(response)
-          });
-          this.userLike = true;
+            })
+            .then((response)=>{
+              console.log(response);
+              this.userLike = true;
+            });
+          }else{
+            this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+                user_id:this.$store.state.userID,
+                comment_id:this.commentId,
+                is_like : '1'
+            })
+            .then((response)=>{
+              console.log(response)
+              this.userLike = true;
+              this.userCommented = true;
+            });
+          }
+          
         }
         else{
           this.likeColor = "grey";
@@ -150,6 +180,9 @@ export default {
           this.userLike = false;
         }
       }
+
+
+
     },
     dislike: function() {
       if (!this.userLike) {
@@ -159,15 +192,29 @@ export default {
           //用axios提交，在提交前最好先获取新的数量，避免别人在这时候已经点过了
           //注意提交user的id到服务器的likeId里
           //！提交的时候对象是this.commentId
-          this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+          if(this.userCommented){
+            this.$axios.put('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
               user_id:this.$store.state.userID,
               comment_id:this.commentId,
               is_like : '0'
-          })
-          .then((response)=>{
-            console.log(response)
-          });
-          this.userDislike = true;
+            })
+            .then((response)=>{
+              console.log(response)
+              this.userDislike = true;
+            });
+          }else{
+            this.$axios.post('http://127.0.0.1:8000/api/'+this.type+'/comment/like/add_change',{
+                user_id:this.$store.state.userID,
+                comment_id:this.commentId,
+                is_like : '0'
+            })
+            .then((response)=>{
+              console.log(response)
+              this.userDislike = true;
+              this.userCommented = true;
+            });
+          }
+          
         }
         else{
           this.dislikeColor = "grey";
