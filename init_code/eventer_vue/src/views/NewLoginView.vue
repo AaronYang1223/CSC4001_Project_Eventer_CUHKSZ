@@ -1,6 +1,6 @@
 // TODO: 处理右侧滚轮
 <template>
-  <div id="building">
+  <div id="building ">
     <v-container mt-16 py-16>
 
       <v-row justify="center" align="center" class="mt-16">
