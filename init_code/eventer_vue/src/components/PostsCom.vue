@@ -55,6 +55,7 @@
           :key="i"
           cols="12"
         >
+        
           <v-card
             flat
             outlined
@@ -72,11 +73,13 @@
             </v-card-title>
 
           <!-- TODO:强制提取富文本 -->
+          
           <v-container mx-1>
             <p
             class="text-h6 font-weight-bold"
             >
               {{post.text | snippet}}
+              <!-- {{post.text}} -->
             </p>
           </v-container>
 
@@ -189,6 +192,7 @@
       icon: false,
     },
     user_id: "",
+    text: "text",
     }),
     created(){
       this.user_id=String(this.$store.state.userID)
@@ -201,7 +205,7 @@
             this.posts.push(
               {
                 title: response.data[i].post_title,
-                text: response.data[i].post_content,
+                text: this.HtmlToText(response.data[i].post_content),
                 tags: response.data[i].post_tag.split(' '),
                 avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
                 is_authenticated: response.data[i].is_organization,
@@ -224,7 +228,7 @@
               {
                 id: response.data[i].id,
                 title: response.data[i].post_title,
-                text: response.data[i].post_content,
+                text: this.HtmlToText(response.data[i].post_content),
                 tags: response.data[i].post_tag.split(' '),
                 avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
                 is_authenticated: response.data[i].is_organization,
@@ -253,6 +257,15 @@
       }
     },
     methods:{
+      HtmlToText: function(input) {
+        console.log("TESTqqqq")
+        console.log(input)
+      this.text = input;
+      this.text = this.text.replace(/<\/?.+?>/g, "");
+      this.text = this.text.replace(/&nbsp;/g, "");
+      console.log(this.text)
+      return this.text
+      },
       changeSort: function(){
         console.log(this.$store.state.userID)
         if(!this.isPersonal){
@@ -265,7 +278,7 @@
                 {
                   id: response.data[i].id,
                   title: response.data[i].post_title,
-                  text: response.data[i].post_content,
+                  text: this.HtmlToText(response.data[i].post_content),
                   tags: response.data[i].post_tag.split(' '),
                   avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
                   is_authenticated: response.data[i].is_organization,
@@ -285,7 +298,7 @@
                 {
                   id: response.data[i].id,
                   title: response.data[i].post_title,
-                  text: response.data[i].post_content,
+                  text: this.HtmlToText(response.data[i].post_content),
                   tags: response.data[i].post_tag.split(' '),
                   avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
                   is_authenticated: response.data[i].is_organization,

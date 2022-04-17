@@ -40,7 +40,7 @@
               >
               <!-- 输入密码 -->
                 <v-text-field
-                  type="text" 
+                  type="password" 
                   label="Password"
                   v-model="newpassword"
                   v-bind:disabled = "inputLock"
@@ -54,7 +54,7 @@
               >
               <!-- 再次输入密码 -->
                 <v-text-field
-                  type="text" 
+                  type="password" 
                   label="Password Repeat"
                   v-model="newpassword2"
                   v-bind:disabled = "inputLock"

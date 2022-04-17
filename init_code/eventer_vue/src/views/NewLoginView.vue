@@ -69,7 +69,7 @@
                   tile
                   depressed
                 >
-                    Sign In
+                    Sign Up
                 </v-btn>
               </v-col>
 
