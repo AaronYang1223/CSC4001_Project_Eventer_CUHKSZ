@@ -5,7 +5,7 @@ from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
-
+import datetime
 from activity import serializers
 from .serializers import User_profile_serializer
 from .models import Email_check_new, User
@@ -103,7 +103,7 @@ def profile_add(request):
         email_code = Email_check_new.objects.filter(email = email, email_type = 'register').order_by('-send_time')[:1]
         if email_code != []:
             print('exist')
-        if(email_code.values()[0]['code']==code):
+        if(email_code.values()[0]['code']==code and email_code.values()[0]['expire_time'] > datetime.datetime.now()):
             if(data.get('is_organization') == "true"):
                     check_organization(email)
             user_data = JSONParser().parse(request)

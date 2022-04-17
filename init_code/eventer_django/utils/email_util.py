@@ -33,7 +33,7 @@ def send_email(to_email, send_type='register'):
     #发送时间
     email.send_time = datetime.datetime.now()
     # 过期时间
-    email.exprie_time = datetime.datetime.now() + datetime.timedelta(days=7)
+    email.expire_time = datetime.datetime.now() + datetime.timedelta(days=7)
     # 邮件类型
     email.email_type = send_type
 
