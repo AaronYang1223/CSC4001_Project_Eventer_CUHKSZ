@@ -106,12 +106,18 @@ def profile_add(request):
         if(email_code.values()[0]['code']==code and email_code.values()[0]['expire_time'] > datetime.datetime.now()):
             if(data.get('is_organization') == "true"):
                     check_organization(email)
+                    #data['is_orginazation'] ="false"
+                    print(data.get('is_organization'))
             user_data = JSONParser().parse(request)
 
             serializers = User_profile_serializer(data = user_data)
+            
             if (serializers.is_valid()):
+                
                 serializers.save()
+                #serializers.data.is_organization = False
                 User.objects.filter(email=email).update(password=password)
+                User.objects.filter(email=email).update(is_organization=False)
                 return JsonResponse({
                     'code' : '002',
                     'message':'create userprofile success'
