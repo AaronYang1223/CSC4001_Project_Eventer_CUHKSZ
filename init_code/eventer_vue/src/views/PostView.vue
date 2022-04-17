@@ -26,13 +26,13 @@
                 >
                   <v-img
                     class="elevation-6"
-                    src="../assets/bg.png"
+                    :src="this.user_avatar"
                   ></v-img>
                 </v-list-item-avatar>
 
               <!-- TODO: -->
                 <v-badge
-                  v-if="true"
+                  v-if= this.user_is_organization
                   color="accent"
                   icon="mdi-hexagram"
                   offset-x="30"
@@ -40,8 +40,9 @@
                 >
                 </v-badge>      
 
+                <!-- TODO: -->
                 <v-list-item-content>
-                  <v-list-item-title>TEST</v-list-item-title>
+                  <v-list-item-title>{{this.user_nickname}}</v-list-item-title>
                 </v-list-item-content>
 
                 <v-chip-group
@@ -68,23 +69,43 @@
                   </span>
                 </div>
               </v-card>
+            </div>
+
+            <v-divider></v-divider>
 
           <v-card
             class="mt-3"
-            outlined
-            tile
+            flat
           >
               <div 
                 class= "text-h7 font-weight-bold"
               >
-                {{commentNumber}} Comment :
+                {{commentNumber}} Comments :
               </div>
 
+              <!-- 存放comments -->
               <v-card 
                 flat
                 class="mx-3"
-                tile
               >
+                <div
+                  class="mt-3 mx-1"
+                >
+                <v-textarea
+                  rows="1"
+                  tile
+                  append-icon="mdi-comment"
+                  label="New Comment"
+                  auto-grow
+                  v-model="newCommentText"
+                  @click:append="SubmitNewComment"
+                  color="primary"
+                  clearable
+                  max-width="10px"
+                  outlined
+                ></v-textarea>
+                </div>
+
                 <div 
                   class="comment" 
                   v-for=" n in thisPageCommentNum" 
@@ -96,9 +117,11 @@
                 </div>
               </v-card>
 
-              <v-card flat>
+              <!-- 翻页 -->
+              <v-card flat class="mx-2">
                 <div class="text-center">
                   <v-pagination
+                    flat
                     v-model="page"
                     :length="pageLength"
                     :total-visible="7"
@@ -107,22 +130,9 @@
                 </div>
               </v-card>
 
-              <v-textarea
-                name="input-7-1"
-                filled
-                label="New Comment"
-                auto-grow
-                v-model="newCommentText"
-              ></v-textarea>
               
-              <v-btn
-                @click="SubmitNewComment"
-              >
-                Submit New Comment!
-              </v-btn>
-
               </v-card>
-            </div>
+            
               
 
           </v-card>
@@ -141,6 +151,7 @@
             <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
+        
       </v-row>
     </v-container>
     <!-- <v-btn @click="test">测试</v-btn> -->
@@ -175,7 +186,7 @@ import WeatherCom from '@/components/WeatherCom'
 import NewsCom from '@/components/NewsCom'
 
 export default {
-  components: { SingleComment, WeatherCom, NewsCom},
+  components: { SingleComment, WeatherCom, NewsCom, },
   name: 'HomepageView',
   data () {
     return {
@@ -198,6 +209,7 @@ export default {
         dislikeNum: 9,
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
+        hadCommentedId: "",
         commentId: 1,
         type:"post"
       },
@@ -205,6 +217,9 @@ export default {
       tags: [],
       tagList: "",
       snackbar: false,
+      user_nickname:"",
+      user_is_organization:"",
+      user_avatar:"",
     }
   },
   created: function () {
@@ -225,15 +240,18 @@ export default {
         this.tagList = response.data.post_tag;
         this.tags = this.tagList.split(" ");
         this.commentNumber = response.data.comment_number;
+        this.user_nickname = response.data.user_nickname;
+        this.user_avatar = response.data.user_avatar;
+        this.user_is_organization = response.data.user_is_organization
         //console.log(response.data.comments.length);
         for (let i = 0; i < response.data.comments.length; i++) {
-          console.log(response.data.comments[i]['user_id']);
-          console.log('http://127.0.0.1:8000'+response.data.comments[i]['avatar']);
-          console.log(response.data.comments[i]['content']);
-          console.log(response.data.comments[i]['like_num']);
-          console.log(response.data.comments[i]['dislike_num']);
-          console.log(response.data.comments[i]['like_user']);
-          console.log(response.data.comments[i]['dislike_user']);
+          //console.log(response.data.comments[i]['user_id']);
+          //console.log('http://127.0.0.1:8000'+response.data.comments[i]['avatar']);
+          //console.log(response.data.comments[i]['content']);
+          //console.log(response.data.comments[i]['like_num']);
+          //console.log(response.data.comments[i]['dislike_num']);
+          //console.log(response.data.comments[i]['like_user']);
+          //console.log(response.data.comments[i]['dislike_user']);
           // this.commentItem['commentUserID'] = response.data.comments[i]['user_id'];
           // this.commentItem['commentUserAvatarsPath'] = response.data.comments[i]['avatar'];
           // this.commentItem['commentTexth'] = response.data.comments[i]['content'];
@@ -250,13 +268,14 @@ export default {
               dislikeNum: response.data.comments[i]['dislike_num'],
               likeId: response.data.comments[i]['like_user'],
               dislikeId: response.data.comments[i]['dislike_user'],
+              hadCommentedId: response.data.comments[i]['had_commented'],
               commentId: response.data.comments[i]['id'],   //这里改成后端id的名称
               type:'post'
               })
-          console.log(this.commentsList)
+          //console.log(this.commentsList)
         }
         
-        console.log(this.commentNumber)
+        //console.log(this.commentNumber)
         this.pageLength = Math.ceil(this.commentNumber/10);
         this.lastPageComentNum = this.commentNumber%10;
         if (this.commentNumber >= 10) {

@@ -62,10 +62,18 @@ def post_pk(request,pk):
 
 def post_add_comment_info(serializer):
     temp_data = serializer.data
+
+    post_user = User.objects.get(pk=temp_data['user_id'])
+    post_user_serializer = User_profile_serializer(post_user)
+    temp_data['user_nickname'] = post_user_serializer.data['nick_name']
+    temp_data['user_avatar'] = post_user_serializer.data['picture']
+    temp_data['user_is_organization'] = post_user_serializer.data['is_organization']
+
     comments = Post_comment.objects.filter(post_id = temp_data['id'], is_delete = False)
     comment_serializer = Post_comment_serializer(comments, many = True)
     temp_data['comments_list'] = [int(i['id']) for i in comment_serializer.data]
     temp_data['comments'] = comment_serializer.data
+
     for i in range(len(temp_data['comments'])):
         user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
         user_serializer = User_profile_serializer(user)
@@ -73,10 +81,13 @@ def post_add_comment_info(serializer):
         temp_data['comments'][i]['user_nickname'] = user_serializer.data['nick_name']
         like = Like_post_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '1')
         dislike = Like_post_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '0')
+        not_like_dislike = Like_post_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '2')
         like_str = [str(i.user_id.id) for i in like]
         dislike_str = [str(i.user_id.id) for i in dislike]
+        not_like_dislike_str = [str(i.user_id.id) for i in not_like_dislike]
         temp_data['comments'][i]['like_user'] = ' '.join(like_str)
         temp_data['comments'][i]['dislike_user'] = ' '.join(dislike_str)
+        temp_data['comments'][i]['had_commented'] = ' '.join(not_like_dislike_str)
     return temp_data
 
 # def post_add_comment_info(serializer):

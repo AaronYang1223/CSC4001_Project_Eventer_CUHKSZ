@@ -1,5 +1,6 @@
 <template>
   <div class="main-text">
+
     <v-text-field
       rows = "1"
       type="text" 
@@ -9,8 +10,11 @@
       :rules="[rules.required]"
     >
     </v-text-field>
-    <v-row>
-      <v-col>
+    
+    <v-row justify="center" align="center" class="mt-1">
+      <v-col 
+        cols="12" xs="12" sm="3" md="3"
+      >
         <v-text-field
           rows = "1"
           type="text" 
@@ -20,28 +24,93 @@
         >
         </v-text-field>
       </v-col>
-      <v-col>
+      <v-col 
+        cols="12" xs="12" sm="1" md="1"
+      >
         <v-btn
+          block 
+          tile 
+          color="primary"
+          depressed
+          textarea
+          outlined
+          small
           @click="addTheTag"
         >
           Add Tag
         </v-btn>
       </v-col>
-    </v-row>
+        <v-col 
+        cols="12" xs="0" sm="1" md="1"
+        class="hidden-xs-only"
+      >
+        </v-col>
+      <v-col 
+        cols="12" xs="12" sm="7" md="7"
+      >
     <v-chip-group
-      mandatory
       active-class="primary--text"
     >
       <v-chip
+        class="font-weight-black"
+        outlined
         v-for="tag in tags"
         :key="tag"
+        color="primary"
+        small
       >
-        {{ tag }}
+      <v-icon left>
+        mdi-label
+      </v-icon>
+        {{ tag | to-uppercase}}
       </v-chip>
     </v-chip-group>
+    </v-col>
+    </v-row>
+
+    <v-divider></v-divider>
+
+
+        <v-card
+        flat
+        >
+          <v-list-item-content class="justify-center avatar">
+            <div class="text-center mt-4">
+              <v-btn
+                color="primary"
+                outlined
+                @click="uploadClick"
+                block
+                tile
+              >
+                <v-icon small>mdi-pencil</v-icon>
+                  Upload Banner
+                <input
+                  id="upload"
+                  type="file" 
+                  class="input-file" 
+                  style="width:200px; height:20px;" 
+                  @change="changeImage($event)" 
+                  ref="avatarInput" 
+                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                >
+              </v-btn>
+            </div>
+            <v-img 
+              :src="previewImg"
+              :max-height="600"
+              contain
+            >
+            </v-img>
+          </v-list-item-content>
+        </v-card>
+
+
+
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
-    text:{{text}}<br/>
+
+    <!-- text:{{text}}<br/>
     content:{{content}}<br/>
   <div>
     <span v-html="content"/>
@@ -55,9 +124,9 @@
     end date model:{{modalEndDate}}<br/>
     start time modal:{{modalStartTime}}<br/>
     end time modal:{{modalEndTime}}<br/>
-    tags:{{tags}}<br/>
+    tags:{{tags}}<br/> -->
 
-    {{startYear}}
+    <!-- {{startYear}}
     {{startMonth}}
     {{startDay}}
     {{startHour}}
@@ -69,12 +138,11 @@
     {{endMin}}
 
     {{timeFront}}
-    {{timeLast}}
+    {{timeLast}} -->
 
-    <v-row>
-      <v-col
-        cols="11"
-        sm="5"
+    <v-row justify="center" align="center" class="mt-1">
+      <v-col 
+        cols="12" xs="12" sm="6" md="6"
       >
         <v-dialog
           ref="dialogStartDate"
@@ -115,10 +183,8 @@
           </v-date-picker>
         </v-dialog>
       </v-col>
-    <v-spacer></v-spacer>
-      <v-col
-        cols="11"
-        sm="5"
+      <v-col 
+        cols="12" xs="12" sm="6" md="6"
       >
         <v-dialog
           ref="dialogEndDate"
@@ -159,12 +225,8 @@
           </v-date-picker>
         </v-dialog>
       </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col
-        cols="11"
-        sm="5"
+      <v-col 
+        cols="12" xs="12" sm="6" md="6"
       >
         <v-dialog
           ref="dialogStartTime"
@@ -206,10 +268,8 @@
           </v-time-picker>
         </v-dialog>
       </v-col>
-    <v-spacer></v-spacer>
-      <v-col
-        cols="11"
-        sm="5"
+      <v-col 
+        cols="12" xs="12" sm="6" md="6"
       >
         <v-dialog
           ref="dialogEndTime"
@@ -251,76 +311,44 @@
           </v-time-picker>
         </v-dialog>
       </v-col>
-    </v-row>
-
-
-    <div>  
-      <v-container>
-        <v-card
-        flat
-        outlined
-        tile
-        >
-          <v-list-item-content class="justify-center">
-            <div class="text-center mt-4">
-              <v-btn
-                color="primary"
-                @click="uploadClick"
-              >
-                <v-icon small>mdi-pencil</v-icon>
-                Upload Image
-                <input
-                  id="upload"
-                  type="file" 
-                  class="input-file" 
-                  style="width:200px; height:20px;" 
-                  @change="changeImage($event)" 
-                  ref="avatarInput" 
-                  accept="image/gif,image/jpeg,image/jpg,image/png"
-                >
-              </v-btn>
-            </div>
-            <v-img 
-              :src="previewImg"
-              :max-height="300"
-              contain
-            >
-            </v-img>
-          </v-list-item-content>
-        </v-card>
-      </v-container>
-    </div>  
-    <div>
-      <v-row>
-        <v-col>
+      <v-col 
+        cols="12" xs="12" sm="3" md="3"
+      >
           <v-text-field
             label="Participant"
             prepend-icon="mdi-account"
             v-model="maxPartNum"
           ></v-text-field>
         </v-col>
-        <v-col>
+
+        <v-col 
+          cols="12" xs="12" sm="3" md="3"
+        >
           <v-checkbox
             v-model="eventIsPrivate"
             :label="`Set This Event Private`"
           ></v-checkbox>
         </v-col>
-        <v-col>
-          <div v-if="userIsOrg == true">
-            <v-checkbox
-              v-model="eventIsPublic"
-              :label="`Set This Event Public`"
-            ></v-checkbox>
-          </div>
+
+        <v-col 
+          cols="12" xs="12" sm="3" md="3"
+          v-if="userIsOrg == true"
+        >
+          <v-checkbox
+            v-model="eventIsPublic"
+            :label="`Set This Event Public`"
+          ></v-checkbox>
         </v-col>
-      </v-row>
-    </div>
+</v-row>
     
     <v-btn 
-      block
+      tile 
+      color="primary"
+      depressed
+      block 
       @click="Submit"
     >
-      提交
+      Submit
     </v-btn>
     <v-snackbar v-model="snackbar">
       {{tip}}
@@ -611,5 +639,21 @@ export default {
     height: 0;
     width: 0;
     visibility: hidden;
+}
+</style>
+
+<style lang="less" scope>
+.avatar {
+    position: relative;
+    .input-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .v-btn__content {
+      white-space: normal;
+    }
 }
 </style>

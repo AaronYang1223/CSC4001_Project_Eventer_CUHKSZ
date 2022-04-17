@@ -15,88 +15,160 @@
             >
               {{topic}}
             </h1>
+
             <v-card-text>
-              <span class="subheading">Post Tags:</span>
-              <v-chip-group
-                mandatory
-                active-class="primary--text"
-              >
-                <v-chip
-                  v-for="tag in tags"
-                  :key="tag"
-                  disabled
-                  color="grey darken-3"
-                  text-color="white"
+              
+              <v-list-item class="grow">
+
+              <!-- TODO: -->
+                <v-list-item-avatar
                 >
-                  {{ tag }}
-                </v-chip>
-              </v-chip-group>
-              <v-img :src="coverPage"/>
+                  <v-img
+                    class="elevation-6"
+                    :src="this.organizer_avatar"
+                  ></v-img>
+                </v-list-item-avatar>
+
+              <!-- TODO: -->
+                <v-badge
+                  v-if= this.organizer_is_organization
+                  color="accent"
+                  icon="mdi-hexagram"
+                  offset-x="30"
+                  offset-y="25"
+                >
+                </v-badge>      
+
+                <!-- TODO: -->
+                <v-list-item-content>
+                  <v-list-item-title>{{this.organizer_nickname}}</v-list-item-title>
+                </v-list-item-content>
+
+                <v-chip-group
+                  active-class="primary--text"
+                >
+                  <v-chip
+                    v-for="tag in tags"
+                    :key="tag"
+                    outlined
+                    color="primary"
+                  >
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
+              </v-list-item>
+              <v-divider></v-divider>
+
+              <div class="mt-5">
+                <v-img 
+                  :src="coverPage"
+                ></v-img>
+              </div>
+
             </v-card-text>
+
             <v-divider></v-divider>
 
-            <div class="main-content">
+            <div class="main-content my-5">
               <v-card flat>
                 <div>
                   <span v-html="content">
                   </span>
                 </div>
               </v-card>
+            </div>
 
-              <v-card>
-                <v-row class="main-content">
-                  <v-col>
-                    <v-text-field
-                      label="Start Time"
-                      prepend-icon="mdi-clock-time-four-outline"
-                      :value="startTime"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
-                  <v-col>
-                    <v-text-field
-                      label="End Time"
-                      prepend-icon="mdi-clock-time-four-outline"
-                      :value="endTime"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row class="main-content">
-                  <v-col>
-                    <v-text-field
-                      label="Participant"
-                      prepend-icon="mdi-account"
-                      :value="partOverMax"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
-                  <v-col>
+              <div class="mx-5 mb-3">
+              <v-card
+                tile
+                outlined
+                class="pa-3"
+              >
+              
+                <v-row justify="center" align="center" dense>
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                  >
                     <v-btn
-                      color="yellow lighten-3"
+
+                      color="primary"
+                      outlined
+                      block
+                    >
+                      <v-avatar left>
+                        <v-icon>mdi-clock-time-four-outline</v-icon>
+                      </v-avatar>
+                      Start Time:
+                      {{startTime}}
+                    </v-btn>
+                  </v-col>
+                
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                  >
+                    <v-btn
+
+                      color="primary"
+                      outlined
+                      block
+                    >
+                      <v-avatar left>
+                        <v-icon>mdi-clock-time-four-outline</v-icon>
+                      </v-avatar>
+                      End Time:
+                      {{endTime}}
+                    </v-btn>
+                  </v-col>
+
+                  
+                  <v-col 
+                    cols="12" xs="12" sm="4" md="4"
+                    v-if="canJoin"
+                  >
+                    <v-btn
+                      color="primary"
                       block
                       @click="updateParticipant"
-                      v-if="canJoin"
+                      
                     >
                       {{joinInfo}}
                     </v-btn>
+                  </v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="4" md="4"
+                    v-if="!canJoin"
+                  >
                     <v-btn
                       color="grey lighten-3"
                       block
                       disabled
-                      v-if="!canJoin"
                     >
                       Already End
                     </v-btn>
                   </v-col>
-                </v-row>
-              </v-card>
 
-              <v-card
-                v-if="canRating"
-              >
-                <v-row class="main-content">
-                  <v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                  >
+                    <v-btn
+                      block
+                      color="primary"
+                      icon
+                    >
+                        <v-icon>mdi-account-group</v-icon>
+                      {{partOverMax}}
+                    </v-btn>
+                  </v-col>
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                    v-if="canRating"
+                  >
+                  <v-divider ></v-divider>
+                  </v-col>
+                  <v-col
+                    v-if="canRating"
+                    cols="12" xs="12" sm="6" md="6"
+                  >
                     Avarage: ({{ scoreAvg }})
                     <v-rating
                       v-model="scoreAvg"
@@ -108,7 +180,10 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-col>
+                  <v-col
+                    v-if="canRating"
+                    cols="12" xs="12" sm="6" md="6"
+                  >
                     Your: ({{ scoreNum }})
                     <div
                       @click="updateRating"
@@ -124,27 +199,61 @@
                       ></v-rating>
                     </div>
                   </v-col>
+
                 </v-row>
               </v-card>
+              </div>
 
-              <v-divider></v-divider>
-              <v-banner
-                class= "text-h5 font-weight-bold"
+            <v-divider></v-divider>
+
+          <v-card
+            class="mt-3"
+            flat
+          >
+              <div 
+                class= "text-h7 font-weight-bold"
               >
-                {{commentNumber}} Comment :
-              </v-banner>
+                {{commentNumber}} Comments :
+              </div>
+              <!-- 存放comments -->
+              <v-card 
+                flat
+                class="mx-3"
+              >
+                <div
+                  class="mt-3 mx-1"
+                >
+                <v-textarea
+                  rows="1"
+                  tile
+                  append-icon="mdi-comment"
+                  label="New Comment"
+                  auto-grow
+                  v-model="newCommentText"
+                  @click:append="SubmitNewComment"
+                  color="primary"
+                  clearable
+                  max-width="10px"
+                  outlined
+                ></v-textarea>
+                </div>
 
-              <v-card flat>
-                <div class="comment" v-for=" n in thisPageCommentNum" v-bind:key="n">
+                <div 
+                  class="comment" 
+                  v-for=" n in thisPageCommentNum" 
+                  v-bind:key="n"
+                >
                   <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
                     <!-- 传数组 -->
                   </single-comment>
                 </div>
               </v-card>
 
-              <v-card flat>
+              <!-- 翻页 -->
+              <v-card flat class="mx-2">
                 <div class="text-center">
                   <v-pagination
+                    flat
                     v-model="page"
                     :length="pageLength"
                     :total-visible="7"
@@ -152,41 +261,25 @@
                   ></v-pagination>
                 </div>
               </v-card>
-
-              <v-textarea
-                name="input-7-1"
-                filled
-                label="New Comment"
-                auto-grow
-                v-model="newCommentText"
-              ></v-textarea>
-              <v-btn
-                @click="SubmitNewComment"
-              >
-                Submit New Comment!
-              </v-btn>
-            </div>
-              
-
+          </v-card>
           </v-card>
         </v-col>
 
         <!-- 确定这个part的手机端适配方式：隐藏？ -->
         <v-col 
           cols="12" xs="12" sm="4" md="4"
-          
+          class="hidden-xs-only"
         >
           <v-card
             class="pa-2 mx-1 mt-2"
             outlined
             tile
           >
-            <!-- <WeatherCom /> -->
-            <div style="background:#000; color:#FFF">第五块</div>
-            <!-- <NewsCom /> -->
-            <div style="background:#000; color:#FFF">第六块</div>
+            <WeatherCom />
+            <NewsCom v-bind:isPost="isPost"></NewsCom>
           </v-card>
         </v-col>
+
       </v-row>
     </v-container>
     <!-- <v-btn @click="test">测试</v-btn> -->
@@ -216,8 +309,11 @@
 
 <script>
 import SingleComment from '../components/SingleComment.vue';
+import WeatherCom from '@/components/WeatherCom'
+import NewsCom from '@/components/NewsCom'
+
 export default {
-  components: { SingleComment },
+  components: { SingleComment, WeatherCom, NewsCom, },
   name: 'HomepageView',
   data () {
     return {
@@ -240,6 +336,7 @@ export default {
         dislikeNum: 9,
         likeId: "1 2 3 4",
         dislikeId: "7 8 9",
+        hadCommentedId: "",
         commentId: 1,
         type:"activity"
       },
@@ -273,6 +370,10 @@ export default {
       canJoin: true,
       //参加按钮信息
       joinInfo: "Join In",
+      //organizer 信息
+      organizer_nickname: "",
+      organizer_avatar:"",
+      organizer_is_organization:false,
     }
   },
   created: function () {
@@ -296,8 +397,9 @@ export default {
       this.tags = this.tagList.split(" ")
       
       // "2022-04-12T14:00:00"
-      this.startTime = response.data.start_time
-      this.endTime = response.data.end_time
+      this.startTime = response.data.start_time.replace(/T/,"  ")
+      console.log(this.startTime)
+      this.endTime = response.data.end_time.replace(/T/,"  ")
       this.participantNum = response.data.participant_num
       this.maxParticipantNum = response.data.max_participant_num
       this.partOverMax = response.data.part_max_num
@@ -307,6 +409,11 @@ export default {
       this.commentNumber = response.data.comment_number
       this.pageLength = Math.ceil(this.commentNumber / 10)
       this.lastPageComentNum = this.commentNumber % 10
+
+      this.organizer_is_organization = response.data.organizer_is_organization
+      this.organizer_avatar = response.data.organizer_avatar
+      this.organizer_nickname = response.data.organizer_nickname
+
       if (this.commentNumber >= 10) {
         this.thisPageCommentNum = 10
       } else {
@@ -316,6 +423,7 @@ export default {
       for (let i = 0; i < response.data.comments.length; i++) {
         this.commentsList.push(
           {
+            is_authenticated: response.data.comments[i].is_organization,
             commentUserID: response.data.comments[i].user_id,
             commentUserNickname: String(response.data.comments[i]['user_nickname']),
             commentUserAvatarsPath: 'http://127.0.0.1:8000' + response.data.comments[i].avatar,
@@ -323,6 +431,7 @@ export default {
             likeNum: response.data.comments[i].like_num,
             dislikeNum: response.data.comments[i].dislike_num,
             likeId: response.data.comments[i].like_user,
+            hadCommentedId: response.data.comments[i].had_commented,
             dislikeId: response.data.comments[i].dislike_user,
             commentId: response.data.comments[i].id,//这里改成后端id的名称
             type:'activity'
@@ -334,6 +443,10 @@ export default {
       this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
       this.scoreIdList = response.data.score_list
       this.participantList = response.data.participants_list
+
+      if(this.participantList.indexOf(this.$store.state.userID)!=-1){
+        this.joinInfo = "Already Joined";
+      }
 
       //未参加活动不能评价
       if(this.participantList.indexOf(this.$store.state.userID)==-1){

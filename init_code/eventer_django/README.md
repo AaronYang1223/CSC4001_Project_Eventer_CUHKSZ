@@ -17,5 +17,7 @@ pip install -r requirements.txt
 # 启动服务
 ```bash
 cd eventer_django
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
 ```

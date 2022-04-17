@@ -98,8 +98,9 @@
               <v-btn
                 color="orange lighten-2"
                 text
+                router :to="'/event/'+ event.activity_id"
               >
-                Register
+                Detail
               </v-btn>
 
               <v-chip
@@ -434,16 +435,16 @@
           })
         }
       },
-      register: function(user_id, activity_id){
-        this.sort.link = 'http://127.0.0.1:8000/api/activity/participant/add'
-        this.$axios.post(this.sort.link, {
-          activity_id: activity_id,
-          user_id: user_id,
-        }).then(response => {
-          console.log(response.data)
+      // register: function(user_id, activity_id){
+      //   this.sort.link = 'http://127.0.0.1:8000/api/activity/participant/add'
+      //   this.$axios.post(this.sort.link, {
+      //     activity_id: activity_id,
+      //     user_id: user_id,
+      //   }).then(response => {
+      //     console.log(response.data)
       
-        })
-      },
+      //   })
+      // },
     },
   }
 </script>
