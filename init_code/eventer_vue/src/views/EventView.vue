@@ -243,7 +243,7 @@
                   v-for=" n in thisPageCommentNum" 
                   v-bind:key="n"
                 >
-                  <single-comment :CommentItem = commentsList[n+(page-1)*10-1]>
+                  <single-comment :CommentItem = commentsList[n+(page-1)*10-1] v-if="commentRe">
                     <!-- 传数组 -->
                   </single-comment>
                 </div>
@@ -374,6 +374,8 @@ export default {
       organizer_nickname: "",
       organizer_avatar:"",
       organizer_is_organization:false,
+
+      commentRe: true,
     }
   },
   created: function () {
@@ -523,6 +525,10 @@ export default {
       else {
         this.thisPageCommentNum = 10;
       }
+      this.commentRe = false;
+			this.$nextTick(function () {
+        this.commentRe = true;
+      })
     },
     SubmitNewComment: function(){
       if (this.newCommentText == "") {
