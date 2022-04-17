@@ -316,14 +316,15 @@ export default {
         }
         else if(response.data['code']=='101'){
           this.emailExist = true;
+          if (this.emailExist) {
+          this.tip = "Email already be used";
+          return false;
+      }
           console.log("true");}
       });
 
       //this.emailExist = false;
-      if (this.emailExist) {
-        this.tip = "Email already be used";
-        return false;
-      }
+      
 
       this.tip = "Already send, please wait";
       this.inputLock = true;
@@ -374,21 +375,23 @@ export default {
         if(response.data['code']=='002'){
           this.codeCorrect = true;
           //console.log("false");
+          window.location.href = "/login";
         }
         else if(response.data['code']=='102'){
           this.codeCorrect = false;
           //console.log("true");
+          if (!this.codeCorrect) {
+          console.log("error")
+          this.snackbar2 = true;
+          return false;
+          }
           }
       });
       console.log(this.newpassword)
-      if (!this.codeCorrect) {
-        console.log("error")
-        this.snackbar2 = true;
-        return false;
-      }
+      
       console.log(this.email, this.newpassword);
 
-      window.location.href = "/login";
+      
 
     },
   },
