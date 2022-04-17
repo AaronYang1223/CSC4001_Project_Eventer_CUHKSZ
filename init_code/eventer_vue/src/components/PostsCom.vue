@@ -72,11 +72,12 @@
             </v-card-title>
 
           <!-- TODO:强制提取富文本 -->
+          {{HtmlToText(post.text)}}
           <v-container mx-1>
             <p
             class="text-h6 font-weight-bold"
             >
-              {{post.text | snippet}}
+              {{this.text | snippet}}
             </p>
           </v-container>
 
@@ -189,6 +190,7 @@
       icon: false,
     },
     user_id: "",
+    text: "text",
     }),
     created(){
       this.user_id=String(this.$store.state.userID)
@@ -253,6 +255,11 @@
       }
     },
     methods:{
+      HtmlToText: function(input) {
+      this.text = input;
+      this.text = this.text.replace(/<\/?.+?>/g, "");
+      this.text = this.text.replace(/&nbsp;/g, "");
+      },
       changeSort: function(){
         console.log(this.$store.state.userID)
         if(!this.isPersonal){
