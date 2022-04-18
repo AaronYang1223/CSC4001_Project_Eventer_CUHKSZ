@@ -286,15 +286,19 @@
         }
         return event.color
       },
+      // Set the date to today
       setToday () {
         this.focus = ''
       },
+      // Change page backward
       prev () {
         this.$refs.calendar.prev()
       },
+      // Change page forward
       next () {
         this.$refs.calendar.next()
       },
+      // Show the detail of each event
       showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event

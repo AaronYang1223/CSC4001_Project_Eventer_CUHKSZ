@@ -209,7 +209,6 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      //TODO:更改主题色!!!
       colors: ['#FFA22F', '#0C4CCA', '#4551E6', '#34A1E1',],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       truth:[true, false],
