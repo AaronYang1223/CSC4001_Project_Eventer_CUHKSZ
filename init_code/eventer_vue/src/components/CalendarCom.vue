@@ -218,6 +218,7 @@
     }),
     // 起始时间和结束时间不能一致或者超前
     created(){
+      this.user_id=String(this.$store.state.userID)
       this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/' + this.$store.state.userID).then(response => {
         this.events = []
         console.log(response.data)
