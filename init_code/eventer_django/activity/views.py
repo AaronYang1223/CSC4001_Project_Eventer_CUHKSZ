@@ -337,7 +337,7 @@ def activity_add_comment_info(serializer):
     temp_data['organizer_nickname'] = post_user_serializer.data['nick_name']
     temp_data['organizer_avatar'] = post_user_serializer.data['picture']
     temp_data['organizer_is_organization'] = post_user_serializer.data['is_organization']
-
+    temp_data['organizer_id'] = post_user_serializer.data['id']
     comments = Activity_comment.objects.filter(activity_id = temp_data['id'], is_delete = False)
     comment_serializer = Activity_comment_serializer(comments, many = True)
     temp_data['comments_list'] = [int(i['id']) for i in comment_serializer.data]
