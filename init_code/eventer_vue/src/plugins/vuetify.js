@@ -11,4 +11,7 @@ export default new Vuetify({
   icons: {
     iconfont: 'mdi', // 默认值 - 仅用于展示目的
   },
+  breakpoint: {
+    mobileBreakpoint: 'sm' // 这个值等于960
+  },
 });

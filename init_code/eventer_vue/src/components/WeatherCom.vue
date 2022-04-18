@@ -63,6 +63,7 @@
       weather_img: "https://cdn.vuetifyjs.com/images/cards/sun.png",
       city: "Shenzhen",
     }),
+    //Update weather info
     mounted() {
       this.weather_link = 'https://restapi.amap.com/v3/weather/weatherInfo?city=440307&key=4e5aad6906d160b50e6018ea4891b29c'
       this.$axios.get(this.weather_link).then(response => {

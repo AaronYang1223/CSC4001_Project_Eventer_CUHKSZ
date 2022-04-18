@@ -9,9 +9,9 @@
         >
           <v-btn
             outlined
-            class="mr-4"
             color="grey darken-2"
             @click="setToday"
+            class="mr-4 hidden-xs-only"
           >
             Today
           </v-btn>
@@ -85,10 +85,10 @@
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <v-list-item class="hidden-xs-only" @click="type = 'week'">
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item class="hidden-xs-only" @click="type = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = '4day'">
@@ -218,6 +218,9 @@
 
     }),
     created(){
+      if(this.$vuetify.breakpoint.mobile){
+          this.type = "4day"
+      }
       this.$axios.get('http://127.0.0.1:8000/api/public_calendar/all').then(response => {
         this.events = []
         console.log(response.data)

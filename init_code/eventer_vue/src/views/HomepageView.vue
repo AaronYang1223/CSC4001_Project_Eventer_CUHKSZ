@@ -103,9 +103,11 @@ export default {
     }
   },
   methods:{
+    // Work as Filter
     updateCalendar: function(updatedCalendar){
       this.isPublic = updatedCalendar
     },
+    // Work as Filter
     updateNews: function(tab){
       if(tab == "tab-2"){
         this.isPost = true

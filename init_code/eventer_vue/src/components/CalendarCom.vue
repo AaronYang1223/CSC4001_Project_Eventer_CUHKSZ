@@ -7,7 +7,7 @@
         >
           <v-btn
             outlined
-            class="mr-4"
+            class="mr-4 hidden-xs-only"
             color="grey darken-2"
             @click="setToday"
           >
@@ -83,10 +83,10 @@
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <v-list-item class="hidden-xs-only" @click="type = 'week'">
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item class="hidden-xs-only" @click="type = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = '4day'">
@@ -216,8 +216,11 @@
       user_id: '7',
 
     }),
-    // 起始时间和结束时间不能一致或者超前
+    // Get private events info
     created(){
+      if(this.$vuetify.breakpoint.mobile){
+          this.type = "4day"
+      }
       this.user_id=String(this.$store.state.userID)
       this.$axios.get('http://127.0.0.1:8000/api/private_calendar/all/' + this.$store.state.userID).then(response => {
         this.events = []
@@ -247,10 +250,12 @@
       this.$refs.calendar.checkChange()
     },
     methods: {
+      // Change between two calendar
       changeCalendar: function(){
         this.$emit('changeCalendar', !this.isPublic)
       }, 
-      showTime (start, end) {
+      // Change the form of time from database
+      showTime: function(start, end) {
         this.min_1 = start.getMinutes()
         if (this.min_1 < 10){
           this.min_1 = "0" + this.min_1.toString()
@@ -266,6 +271,7 @@
         }
         return start.getHours().toString() + ":" + this.min_1 + "~" + end.getHours().toString() + ":" + this.min_2
       },
+      // Change the focus of the calendar (to day)
       viewDay ({ date }) {
         this.focus = date
         this.type = 'day'

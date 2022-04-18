@@ -162,8 +162,8 @@
         type:Boolean
       }
     },
+    //Get top five events and posts from database
     created(){
-
       this.posts_link = 'http://127.0.0.1:8000/api/post/order/comment_number/5'
       this.$axios.get(this.posts_link).then(response => {
         this.posts = []
