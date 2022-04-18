@@ -83,8 +83,8 @@
     </v-textarea> -->
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
-    t:{{text}}
-    c:{{content}}
+    <!-- t:{{text}}
+    c:{{content}} -->
     
 
 
