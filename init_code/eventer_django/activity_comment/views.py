@@ -58,9 +58,10 @@ def activity_comment_like_add(request):
         serializers = Like_activity_comment_serializer(data = data)
         
         if (serializers.is_valid()):
+            
+            if (Like_activity_comment.objects.filter(comment_id = data['comment_id'], user_id = data['user_id']).values()):
+                return HttpResponse(status = 500)
             serializers.save()
-            if (Activity_comment.objects.filter(comment_id = data['comment_id'], user_id = data['user_id']).values()):
-                return HttpResponse(status = 404)
             activity_comment = Activity_comment.objects.get(id = data['comment_id'])
             if (serializers.data['is_like'] == '1'):
                 activity_comment.like_num += 1
