@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ```bash
 cd eventer_django
-py makemigrationspython manage.
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
