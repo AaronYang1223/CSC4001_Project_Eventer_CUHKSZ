@@ -9,19 +9,27 @@ from .serializers import Participant_Activity_serializer, Score_activity_seriali
 from .models import Participant_Activity, Score
 from activity.models import Activity
 from private_calendar.views import calendar_add
-
+from user.serializers import User_profile_serializer
+from user.models import User
 
 @csrf_exempt
 def participant_activity(request, activity_id):
-    
+    print("0")
     if (request.method == 'GET'):
+        print("1")
         try:
+            print("2")
             participant_activity_list1 = Participant_Activity.objects.filter(activity_id = activity_id).select_related()
-            print(participant_activity_list1.values())
-            participant_activity_list2 = [{'id': participant_activity.id, 'user_id': participant_activity.user_id.id, 
+            participant_serializer = 
+            print("3")
+            user = User.objects.get(id=participant_activity.user_id.id)
+            
+            participant_activity_list2 = [{'id': participant_activity.id, 'user_id': participant_activity.user_id.id, 'avatar': User_profile_serializer(User.objects.get(id=participant_activity.user_id.id)).data['picture'],
                                             'activity_id': participant_activity.activity_id.id, 'first_name': participant_activity.user_id.first_name,
                                             'last_name': participant_activity.user_id.last_name, 'email': participant_activity.user_id.email} 
                                             for participant_activity in participant_activity_list1]
+
+            for(item in participant_activity_list1)
             return JsonResponse(participant_activity_list2, json_dumps_params = {'ensure_ascii': False}, safe = False)
         except:
             return HttpResponse(status = 404)
