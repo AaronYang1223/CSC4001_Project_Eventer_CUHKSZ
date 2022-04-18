@@ -350,7 +350,7 @@ def activity_add_comment_info(serializer):
         temp_data['comments'][i]['user_nickname'] = user_serializer.data['nick_name']
         like = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '1')
         dislike = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '0')
-        not_like_dislike = dislike = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '2')
+        not_like_dislike = Like_activity_comment.objects.filter(comment_id = temp_data['comments'][i]['id'], is_like = '2')
         like_str = [str(i.user_id.id) for i in like]
         dislike_str = [str(i.user_id.id) for i in dislike]
         not_like_dislike_str =  [str(i.user_id.id) for i in not_like_dislike]
