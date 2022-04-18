@@ -376,7 +376,7 @@ export default {
       organizer_nickname: "",
       organizer_avatar:"",
       organizer_is_organization:false,
-
+      organizar_id:1,
       commentRe: true,
       isPost: true,
     }
@@ -418,7 +418,7 @@ export default {
       this.organizer_is_organization = response.data.organizer_is_organization
       this.organizer_avatar = response.data.organizer_avatar
       this.organizer_nickname = response.data.organizer_nickname
-
+      this.organizar_id = response.data.organizar_id
       if (this.commentNumber >= 10) {
         this.thisPageCommentNum = 10
       } else {
