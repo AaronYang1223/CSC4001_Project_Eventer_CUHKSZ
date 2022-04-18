@@ -161,12 +161,58 @@
                       {{partOverMax}}
                     </v-btn>
                   </v-col>
+
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                    v-if="true"
+                  >
+                  <v-card
+                    outlined
+                    tile
+                  >
+                    <v-expansion-panels
+                      flat
+                      hover
+                      tile
+                    >
+                    <v-expansion-panel
+                    >
+                      <v-expansion-panel-header>
+                        <h3 class="primary--text">Registration List</h3>
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-list>
+                          <v-list-item
+                            v-for="member in members"
+                            :key="member.name"
+                          >
+
+                            <v-list-item-content>
+                              <v-list-item-title v-text="member.name"></v-list-item-title>
+                            </v-list-item-content>
+
+                            <v-list-item-avatar>
+                              <v-img :src="member.avatar"></v-img>
+                            </v-list-item-avatar>
+                          </v-list-item>
+                        </v-list>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    </v-expansion-panels>
+                  </v-card>
+                  </v-col>
+
+
+
+
+
                   <v-col 
                     cols="12" xs="12" sm="12" md="12"
                     v-if="canRating"
                   >
                   <v-divider ></v-divider>
                   </v-col>
+
                   <v-col
                     v-if="canRating"
                     cols="12" xs="12" sm="6" md="6"
@@ -319,6 +365,13 @@ export default {
   name: 'HomepageView',
   data () {
     return {
+      members: [
+          { name: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
+          { name: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
+          { name: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
+          { name: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
+        ],
+
       tab: null,
       page: 1,
       commentNumber: 77,
