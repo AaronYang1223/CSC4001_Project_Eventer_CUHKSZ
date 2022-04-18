@@ -170,7 +170,7 @@ export default {
         this.$store.commit("userNicknameUpdate", this.nickname);
         this.$store.commit("userAvatarUpdate", this.avatar);
         this.$store.commit("userIsOrganizationUpdate", response.data.is_organization);
-        console.log("success");
+        console.log(this.$store.state.userID);
         window.location.href = "/";
       });
     },
