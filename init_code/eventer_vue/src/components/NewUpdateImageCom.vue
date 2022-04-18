@@ -76,7 +76,7 @@
 
                   ref="avatarInput" 
                   @change="changeImage($event)" 
-                  accept="image/gif,image/jpeg,image/jpg,image/png"
+                  accept="image/jpg,image/png"
                 >
 
               </v-btn>

@@ -47,11 +47,43 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{event.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{event.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{event.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="event.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="event.content"></v-list-item-subtitle>
+            <v-list-item-title v-if="i==0" >
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="red"
+              >
+              {{event.title | snippet_event}}
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==1" >
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="orange"
+              >
+              {{event.title | snippet_event}}
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==2">
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="amber"
+                >
+                {{event.title | snippet_event}}
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else v-html="event.title">
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                >
+                {{event.title | snippet_event}}
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-subtitle v-html="event.content">
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
     </v-list>
