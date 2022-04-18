@@ -440,7 +440,7 @@ export default {
     //这是用户打开的post的id
     //用axios发送到后端检验一下这个post是不是存在
     //不存在就:  window.location.href = "/";
-
+    
     //用axios获取isPrivate,把userid存到this.privateID
     if (this.isPrivate) {
       if (this.$store.state.userID != this.privateID) {
@@ -512,13 +512,16 @@ export default {
       this.participantList = response.data.participants_list
       
       this.$axios.get('http://127.0.0.1:8000/api/activity/'+ this.$route.params.id+ '/participant')
-        .then(respose=>{
-          console.log(response.data[0])
+
+        .then((response)=>{
+          console.log('http://127.0.0.1:8000/api/activity/'+ this.$route.params.id+ '/participant')
+          console.log(response.data)
+          this.members = []
           for (let i = 0; i < response.data.length; i++){
             this.members.push({
               name: response.data[i].last_name + response.data[i].first_name,
-              avatar: respose.data[i].avatar,
-              email: respose.data[i].email
+              avatar: response.data[i].avatar,
+              email: response.data[i].email
             })
           }
         })
