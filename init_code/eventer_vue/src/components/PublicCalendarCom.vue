@@ -224,6 +224,7 @@
         for (let i = 0; i < response.data.length; i++) {
           this.events.push(
             {
+              activity_id:response.data[i].activity_id,
               name: response.data[i].activity_title,
               start: new Date(response.data[i].activity_start_date),
               end: new Date(response.data[i].activity_end_date),
