@@ -376,6 +376,7 @@ export default {
       organizer_is_organization:false,
 
       commentRe: true,
+      isPost: true,
     }
   },
   created: function () {

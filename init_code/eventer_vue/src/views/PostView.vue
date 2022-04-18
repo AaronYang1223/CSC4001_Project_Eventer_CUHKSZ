@@ -222,6 +222,7 @@ export default {
       user_avatar:"",
       
       commentRe: true,
+      isPost: false,
     }
   },
   created: function () {

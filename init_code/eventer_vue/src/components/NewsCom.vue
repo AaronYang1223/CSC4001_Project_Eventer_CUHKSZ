@@ -53,7 +53,7 @@
                 router :to="'/event/'+ event.activity_id"
                 color="red"
               >
-              {{event.title | snippet_event}}
+              <h3>{{event.title | snippet_event}}</h3>
               </v-btn>
             </v-list-item-title>
             <v-list-item-title v-else-if="i==1" >
@@ -62,7 +62,7 @@
                 router :to="'/event/'+ event.activity_id"
                 color="orange"
               >
-              {{event.title | snippet_event}}
+              <h3>{{event.title | snippet_event}}</h3>
               </v-btn>
             </v-list-item-title>
             <v-list-item-title v-else-if="i==2">
@@ -71,7 +71,7 @@
                 router :to="'/event/'+ event.activity_id"
                 color="amber"
                 >
-                {{event.title | snippet_event}}
+                <h3>{{event.title | snippet_event}}</h3>
               </v-btn>
             </v-list-item-title>
             <v-list-item-title v-else v-html="event.title">
@@ -79,7 +79,7 @@
                 text
                 router :to="'/event/'+ event.activity_id"
                 >
-                {{event.title | snippet_event}}
+                <h3>{{event.title | snippet_event}}</h3>
               </v-btn>
             </v-list-item-title>
             <v-list-item-subtitle v-html="event.content">
@@ -112,10 +112,42 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{post.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="post.title"></v-list-item-title>
+            <v-list-item-title v-if="i==0" >
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="red"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==1">
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="orange"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==2">
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="amber"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else >
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            
             <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
