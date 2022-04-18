@@ -276,6 +276,7 @@
         this.focus = date
         this.type = 'day'
       },
+      // Get the color of each event
       getEventColor (event) {
         if(event.is_personal){
           return 'grey'
