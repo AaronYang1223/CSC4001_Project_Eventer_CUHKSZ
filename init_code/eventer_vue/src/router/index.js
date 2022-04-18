@@ -18,7 +18,7 @@ import store from '../store/store.js'
 Vue.use(VueRouter)
 Vue.use(Vuex)
 
-const whiteList = ["/login", "/forget", "/signin"]; // 定义一个白名单列表
+const whiteList = ["/login", "/forget", "/signin", "/change"]; // 定义一个白名单列表
 
 // console.log(store.state.hasLogin)
 // router.beforeEach(async (to, from, next) => {

@@ -161,12 +161,58 @@
                       {{partOverMax}}
                     </v-btn>
                   </v-col>
+
+                  <v-col 
+                    cols="12" xs="12" sm="12" md="12"
+                    v-if="this.this_is_organizer"
+                  >
+                  <v-card
+                    outlined
+                    tile
+                  >
+                    <v-expansion-panels
+                      flat
+                      hover
+                      tile
+                    >
+                    <v-expansion-panel
+                    >
+                      <v-expansion-panel-header>
+                        <h3 class="primary--text">Registration List</h3>
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-list>
+                          <v-list-item
+                            v-for="member in members"
+                            :key="member.name"
+                          >
+
+                            <v-list-item-content>
+                              <v-list-item-title v-text="member.name"></v-list-item-title>
+                            </v-list-item-content>
+
+                            <v-list-item-avatar>
+                              <v-img :src="member.avatar"></v-img>
+                            </v-list-item-avatar>
+                          </v-list-item>
+                        </v-list>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    </v-expansion-panels>
+                  </v-card>
+                  </v-col>
+
+
+
+
+
                   <v-col 
                     cols="12" xs="12" sm="12" md="12"
                     v-if="canRating"
                   >
                   <v-divider ></v-divider>
                   </v-col>
+
                   <v-col
                     v-if="canRating"
                     cols="12" xs="12" sm="6" md="6"
@@ -319,6 +365,13 @@ export default {
   name: 'HomepageView',
   data () {
     return {
+      members: [
+          { name: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' ,email:""},
+          { name: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' ,email:""},
+          { name: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' ,email:""},
+          { name: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' ,email:""},
+        ],
+
       tab: null,
       page: 1,
       commentNumber: 77,
@@ -376,9 +429,10 @@ export default {
       organizer_nickname: "",
       organizer_avatar:"",
       organizer_is_organization:false,
-
+      organizer_id:1,
       commentRe: true,
       isPost: true,
+      this_is_organizer: false
     }
   },
   created: function () {
@@ -418,7 +472,15 @@ export default {
       this.organizer_is_organization = response.data.organizer_is_organization
       this.organizer_avatar = response.data.organizer_avatar
       this.organizer_nickname = response.data.organizer_nickname
-
+      this.organizer_id = response.data.organizer_id
+      if(this.organizer_id == this.$store.state.userID){
+        this.this_is_organizer = true;
+      }
+      else{
+        this.this_is_organizer = false;
+        console.log(this.$store.state.userID+ "   "+this.organizer_id)
+      }
+      console.log("this_is_organizer"+this.this_is_organizer)
       if (this.commentNumber >= 10) {
         this.thisPageCommentNum = 10
       } else {
@@ -448,7 +510,19 @@ export default {
       this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
       this.scoreIdList = response.data.score_list
       this.participantList = response.data.participants_list
-
+      
+      this.$axios.get('http://127.0.0.1:8000/api/activity/'+ this.$route.params.id+ '/participant')
+        .then(respose=>{
+          console.log(response.data[0])
+          for (let i = 0; i < response.data.length; i++){
+            this.members.push({
+              name: response.data[i].last_name + response.data[i].first_name,
+              avatar: respose.data[i].avatar,
+              email: respose.data[i].email
+            })
+          }
+        })
+        
       if(this.participantList.indexOf(this.$store.state.userID)!=-1){
         this.joinInfo = "Already Joined";
       }
@@ -476,6 +550,8 @@ export default {
             this.scoreReadOnly = true;
           }
         });
+        
+        
         
         
       }

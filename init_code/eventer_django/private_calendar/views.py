@@ -79,4 +79,5 @@ def calendar_private_add_info(calendars):
         temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
         temp_data[i]['picture'] = temp_user_serializer.data['picture']
         temp_data[i]['is_private'] = activity.is_private
+        temp_data[i]['is_public'] = activity.is_public
     return temp_data
