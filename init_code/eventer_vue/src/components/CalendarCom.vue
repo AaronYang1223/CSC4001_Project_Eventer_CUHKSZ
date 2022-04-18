@@ -108,7 +108,6 @@
           @click:event="showEvent"
           @click:more="viewDay"
           @click:date="viewDay"
-
         ></v-calendar>
         <v-menu
           v-model="selectedOpen"
