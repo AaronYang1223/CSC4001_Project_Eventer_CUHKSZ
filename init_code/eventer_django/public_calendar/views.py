@@ -67,4 +67,5 @@ def calendar_public_add_info(calendars):
         temp_data[i]['is_organization'] = temp_user_serializer.data['is_organization']
         temp_data[i]['nick_name'] = temp_user_serializer.data['nick_name']
         temp_data[i]['picture'] = temp_user_serializer.data['picture']
+        temp_data[i]['is_public'] = temp_activity_serializer.data['is_public']
     return temp_data

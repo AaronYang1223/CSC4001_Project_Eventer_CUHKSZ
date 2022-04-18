@@ -235,9 +235,9 @@
               end: new Date(response.data[i].activity_end_date),
               DTime: this.showTime(new Date(response.data[i].activity_start_date), new Date(response.data[i].activity_end_date)), 
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-              is_authenticated: response.data[i].is_organization,
+              is_authenticated: response.data[i]['is_public'],
               nickname: response.data[i].nick_name,
-              is_personal: response.data[i].is_personal,
+              is_personal: response.data[i].is_private,
               color: this.colors[this.rnd(0, this.colors.length - 1)],
               timed: new Date(response.data[i].activity_start_date),
             }
@@ -278,7 +278,9 @@
       },
       // Get the color of each event
       getEventColor (event) {
+        console.log(event.is_authenticated)
         if(event.is_personal){
+          
           return 'grey'
         }
         else if(event.is_authenticated){
