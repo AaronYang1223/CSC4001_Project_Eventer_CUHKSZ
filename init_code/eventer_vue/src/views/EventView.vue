@@ -62,6 +62,8 @@
               <div class="mt-5">
                 <v-img 
                   :src="coverPage"
+                  contain
+                  max-height="500"
                 ></v-img>
               </div>
 
@@ -376,6 +378,7 @@ export default {
       organizer_is_organization:false,
 
       commentRe: true,
+      isPost: true,
     }
   },
   created: function () {

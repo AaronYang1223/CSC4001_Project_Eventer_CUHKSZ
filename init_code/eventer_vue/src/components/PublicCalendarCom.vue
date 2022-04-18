@@ -9,9 +9,9 @@
         >
           <v-btn
             outlined
-            class="mr-4"
             color="grey darken-2"
             @click="setToday"
+            class="mr-4 hidden-xs-only"
           >
             Today
           </v-btn>
@@ -85,10 +85,10 @@
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'week'">
+              <v-list-item class="hidden-xs-only" @click="type = 'week'">
                 <v-list-item-title>Week</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = 'month'">
+              <v-list-item class="hidden-xs-only" @click="type = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = '4day'">
@@ -209,8 +209,7 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      //TODO:更改主题色!!!
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'orange'],
+      colors: ['#FFA22F', '#0C4CCA', '#4551E6', '#34A1E1',],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       truth:[true, false],
       min_1: '',
@@ -218,12 +217,16 @@
 
     }),
     created(){
+      if(this.$vuetify.breakpoint.mobile){
+          this.type = "4day"
+      }
       this.$axios.get('http://127.0.0.1:8000/api/public_calendar/all').then(response => {
         this.events = []
         console.log(response.data)
         for (let i = 0; i < response.data.length; i++) {
           this.events.push(
             {
+              activity_id:response.data[i].activity_id,
               name: response.data[i].activity_title,
               start: new Date(response.data[i].activity_start_date),
               end: new Date(response.data[i].activity_end_date),

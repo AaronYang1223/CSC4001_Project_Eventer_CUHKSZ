@@ -194,6 +194,7 @@
     user_id: "",
     text: "text",
     }),
+    // return private posts or all the posts
     created(){
       this.user_id=String(this.$store.state.userID)
       console.log(this.$store.state.userID)
@@ -242,6 +243,7 @@
       }
     },
     computed:{
+      // Realize search 
       filteredPosts:function(){
         if (!this.search) return this.posts
 
@@ -257,15 +259,17 @@
       }
     },
     methods:{
+      // Change html to text
       HtmlToText: function(input) {
         console.log("TESTqqqq")
         console.log(input)
-      this.text = input;
-      this.text = this.text.replace(/<\/?.+?>/g, "");
-      this.text = this.text.replace(/&nbsp;/g, "");
-      console.log(this.text)
-      return this.text
+        this.text = input;
+        this.text = this.text.replace(/<\/?.+?>/g, "");
+        this.text = this.text.replace(/&nbsp;/g, "");
+        console.log(this.text)
+        return this.text
       },
+      // Change the sort of the posts
       changeSort: function(){
         console.log(this.$store.state.userID)
         if(!this.isPersonal){

@@ -47,11 +47,43 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{event.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{event.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{event.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="event.title"></v-list-item-title>
-            <v-list-item-subtitle v-html="event.content"></v-list-item-subtitle>
+            <v-list-item-title v-if="i==0" >
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="red"
+              >
+              <h3>{{event.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==1" >
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="orange"
+              >
+              <h3>{{event.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==2">
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                color="amber"
+                >
+                <h3>{{event.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else v-html="event.title">
+              <v-btn
+                text
+                router :to="'/event/'+ event.activity_id"
+                >
+                <h3>{{event.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-subtitle v-html="event.content">
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
     </v-list>
@@ -80,10 +112,42 @@
           </v-badge>  
 
           <v-list-item-content>
-            <v-list-item-title class="accent-4 red--text" v-if="i==0" >{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 orange--text" v-else-if="i==1">{{post.title}}</v-list-item-title>
-            <v-list-item-title class="accent-4 amber--text" v-else-if="i==2">{{post.title}}</v-list-item-title>
-            <v-list-item-title v-else v-html="post.title"></v-list-item-title>
+            <v-list-item-title v-if="i==0" >
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="red"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==1">
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="orange"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else-if="i==2">
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+                color="amber"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else >
+              <v-btn
+                text
+                router :to="'/post/'+ post.post_id"
+              >
+              <h3>{{post.title | snippet_event}}</h3>
+              </v-btn>
+            </v-list-item-title>
+            
             <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -98,17 +162,19 @@
         type:Boolean
       }
     },
+    //Get top five events and posts from database
     created(){
-
       this.posts_link = 'http://127.0.0.1:8000/api/post/order/comment_number/5'
       this.$axios.get(this.posts_link).then(response => {
         this.posts = []
         for (let i = 0; i < response.data.length; i++) {
+          this.text = response.data[i].post_content
+          this.HtmlToText()
           this.posts.push(
             {
               post_id: response.data[i].id,
               title: response.data[i].post_title,
-              content: response.data[i].post_content,
+              content: this.text,
               tags: response.data[i].post_tag.split(' '),
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
               is_authenticated: response.data[i].is_organization,
@@ -125,12 +191,14 @@
         console.log("hot events")
         console.log(response.data)
         for (let i = 0; i < response.data.length; i++) {
+          this.text = response.data[i].content
+          this.HtmlToText()
           this.events.push(
             {
               activity_id: response.data[i].id,
               banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
               title: response.data[i].title,
-              content: response.data[i].content,
+              content: this.text,
               tags: response.data[i].tag.split(' '),
               avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
               is_authenticated: response.data[i].is_organization,
@@ -197,6 +265,7 @@
       
     },
     data: () => ({
+      text: "",
       posts: [
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
@@ -262,5 +331,11 @@
         },
       ],
     }),
+    methods: {
+      HtmlToText: function() {
+        this.text = this.text.replace(/<\/?.+?>/g, "");
+        this.text = this.text.replace(/&nbsp;/g, "");
+      },
+    },
   }
 </script>

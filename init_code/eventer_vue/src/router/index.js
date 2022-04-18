@@ -10,6 +10,7 @@ import NewPostView from '../views/NewPostView.vue'
 import NewEventView from '../views/NewEventView.vue'
 import PostView from '../views/PostView.vue'
 import EventView from '../views/EventView.vue'
+import ChangePasswardView from '../views/ChangePasswardView.vue'
 import store from '../store/store.js'
 
 
@@ -91,6 +92,11 @@ const routes = [
     path: '/event/:id',
     name: 'event',
     component: EventView,
+  },
+  {
+    path: '/change',
+    name: 'change',
+    component: ChangePasswardView,
   },
 ]
 

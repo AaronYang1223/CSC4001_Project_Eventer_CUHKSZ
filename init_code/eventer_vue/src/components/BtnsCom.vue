@@ -107,7 +107,7 @@ export default {
       this.$store.commit("logoutUpdate");
       this.$store.commit("userIDUpdate", "");
       console.log(this.$store.state.hasLogin);
-      window.location.href = "/forget";
+      window.location.href = "/change";
     },
   }
 
