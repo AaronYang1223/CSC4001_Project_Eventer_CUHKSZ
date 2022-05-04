@@ -22,6 +22,7 @@
               <v-btn
                 style="width:150px; height:25px;" 
                 color="primary"
+                tile
               >
                 <v-icon small>mdi-pencil</v-icon>
                 <span>avatar</span>
@@ -62,11 +63,13 @@
             <div class="text-center mt-4">
 
               <v-btn
-                style="width:120px; height:20px;" 
+                style="width:120px; height:25px;" 
                 color="primary"
                 depressed
+                tile
               >
 
+                <v-icon small>mdi-pencil</v-icon>
                 <span>Edit avatar</span>
 
                 <input
