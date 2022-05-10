@@ -70,7 +70,7 @@ def profile_change(request):
                 'message':'update password failed'
             })
 
-# 
+# retrieve user information
 @csrf_exempt
 def profile_retrieve(request):
     if (request.method == 'PUT'):
