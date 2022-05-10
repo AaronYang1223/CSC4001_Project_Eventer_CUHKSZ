@@ -286,3 +286,12 @@ Content-Type: multipart/form-data
 < /home/ylin/Pictures/2.png
 --MultipartBoundry
 --MultipartBoundry
+
+###
+GET http://127.0.0.1:8000/api/public_calendar/all
+
+###
+GET http://127.0.0.1:8000/api/private_calendar/all/1
+
+###
+GET http://127.0.0.1:8000/api/private_calendar/all/5
