@@ -31,7 +31,7 @@ def profile_upload_picture(request, pk):
     try:
         user = User.objects.get(pk = pk)
     except:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
     
     print(request.FILES)
     if (request.method == 'POST' and request.FILES):
@@ -41,7 +41,7 @@ def profile_upload_picture(request, pk):
         serializers = User_profile_serializer(user)
         return JsonResponse(serializers.data, status = 200)
     else:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
 
 # for put method, need to include all fields without default values
 @csrf_exempt

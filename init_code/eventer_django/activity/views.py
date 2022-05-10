@@ -36,9 +36,12 @@ def activity_create(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = Activity_serializer(data = data)
-        print(serializer)
+        
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except:
+                return HttpResponse(status = 404)
             
             # add public calendar
             if (serializer.data['is_public']):
@@ -51,7 +54,7 @@ def activity_create(request):
             if (not res):
                 return JsonResponse('Can not delete from public calendar, activity_id: {}, organizer_id: {}'.format(serializer.data['id'], serializer.data['organizer_id']), status = 400)
             
-            return JsonResponse(serializer.data, status=201)
+            return JsonResponse(serializer.data, status = 201)
         return JsonResponse({'code':'101'})
 
 # upload the coverpage
@@ -60,7 +63,7 @@ def activity_update_coverpage(request, pk):
     try:
         activity = Activity.objects.get(pk = pk)
     except:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
     
     if (request.method == 'POST' and request.FILES):
         activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
@@ -69,7 +72,7 @@ def activity_update_coverpage(request, pk):
         serializers = Activity_serializer(activity)
         return JsonResponse(serializers.data, status = 200)
     else:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
 
 # return specific activity information
 @csrf_exempt
@@ -117,7 +120,7 @@ def activity_upload_cover(request, pk):
         serializers = Activity_serializer(activity)
         return JsonResponse(serializers.data, status = 200)
     else:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
 
 # return the activity which tag contains some words
 @csrf_exempt
