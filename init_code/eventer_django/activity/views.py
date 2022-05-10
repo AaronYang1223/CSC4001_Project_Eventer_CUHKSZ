@@ -41,8 +41,6 @@ def activity_create(request):
         if serializer.is_valid():
             serializer.save()
             
-            
-            
             # add public calendar
             if (serializer.data['is_public']):
                 res = public_calendar.views.calendar_add(serializer.data['id'], serializer.data['organizer_id'])
@@ -64,7 +62,6 @@ def activity_update_coverpage(request, pk):
     except:
         return JsonResponse(status = 404)
     
-    print(request.FILES)
     if (request.method == 'POST' and request.FILES):
         activity.cover_page.save(request.FILES['cover_page'].name, request.FILES['cover_page'])
         activity.cover_page.close()
@@ -206,7 +203,8 @@ def activity_order_create_date(request, num):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return all activities that are not deleted, not private, and not outdate according to the create_time
 @csrf_exempt
 def activity_order_create_date_all(request):
     
@@ -236,7 +234,8 @@ def activity_order_comment_number(request, num):
         serializer = Activity_serializer(activities, many = True)
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return all activities that are not deleted, not private, and not outdate according to the comment number
 @csrf_exempt
 def activity_order_comment_number_all(request):
     
@@ -249,7 +248,8 @@ def activity_order_comment_number_all(request):
         serializer = Activity_serializer(activities, many = True)
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# add organizer's information to the activity
 def activity_add_user_info(serializer):
     temp_data = serializer.data
     for i in range(len(temp_data)):
@@ -264,6 +264,9 @@ def activity_add_user_info(serializer):
             activity = Activity.objects.get(pk = temp_data[i]['id'])
             activity.is_outdate = True
             activity.save()
+    for i in reversed(range(len(temp_data))):
+        if (temp_data[i]['is_outdate']):
+            del temp_data[i]
     return temp_data
 
 @csrf_exempt
