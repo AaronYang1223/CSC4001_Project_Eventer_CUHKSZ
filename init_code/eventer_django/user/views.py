@@ -92,6 +92,7 @@ def profile_retrieve(request):
             'message':'update password failed'
         })
 
+# add user
 @csrf_exempt
 def profile_add(request):
     if (request.method == 'POST'):
@@ -133,6 +134,7 @@ def profile_add(request):
 def check_organization(email):
     send_check_organization_email(email)
 
+# email verification for registration, password modification
 @csrf_exempt
 def email_verification(request):
     json_data = request.body.decode("utf-8")
@@ -173,6 +175,7 @@ def email_verification(request):
                     'message': 'user doesn\'t exist' 
                 })
 
+# login
 @csrf_exempt
 def verify_password(request):
     if(request.method == "GET"):

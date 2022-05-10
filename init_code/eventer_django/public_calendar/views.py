@@ -12,6 +12,7 @@ from user.models import User
 from user.serializers import User_profile_serializer
 from activity.serializers import Activity_serializer
 
+# return calendar events between start date and end date
 def calendar(request, start_date, end_date):
     
     _start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
@@ -26,7 +27,7 @@ def calendar(request, start_date, end_date):
         serializer = Public_calendar_serializer(activities, many = True)
         return JsonResponse(serializer.data, safe = False)
     
-    
+# add activity to public calendar
 def calendar_add(activity_id, user_id) -> bool:
     
     activity = Activity.objects.get(id = activity_id)
@@ -44,6 +45,7 @@ def calendar_add(activity_id, user_id) -> bool:
         return True
     return False
 
+# return all public calendar events
 @csrf_exempt
 def calendar_public_all(request):
     
@@ -57,6 +59,7 @@ def calendar_public_all(request):
         temp_data = calendar_public_add_info(serializer)
         return JsonResponse(temp_data, safe = False)
     
+# add some information to the event of pulic calendar
 def calendar_public_add_info(calendars):
     temp_data = calendars.data
     for i in range(len(temp_data)):
