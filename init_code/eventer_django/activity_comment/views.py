@@ -8,6 +8,7 @@ from .models import Activity_comment, Like_activity_comment
 from rest_framework import status
 from activity.models import Activity
 
+# create comment for an activity
 @csrf_exempt
 def activity_comment_create(request):
     if(request.method == 'POST'):
@@ -15,7 +16,10 @@ def activity_comment_create(request):
         serializer = Activity_comment_serializer(data = data)
         
         if serializer.is_valid():
-            serializer.save()
+            try:
+                serializer.save()
+            except:
+                return HttpResponse(status = 404)
             
             # update activity comment num
             activity = Activity.objects.get(id = serializer.data['activity_id'])
@@ -25,7 +29,7 @@ def activity_comment_create(request):
             return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = status.HTTP_201_CREATED)
         return JsonResponse({'status':'failed'})
 
-
+# return all comments for an activity
 @csrf_exempt
 def activity_comment(request, activity_id):
     try:
@@ -37,7 +41,8 @@ def activity_comment(request, activity_id):
         serializer = Activity_comment_serializer(comment, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
-    
+
+# retuan all comments for an activity ordered by like number
 @csrf_exempt
 def activity_comment_like(request, activity_id):
     
@@ -49,7 +54,8 @@ def activity_comment_like(request, activity_id):
     if (request.method == 'GET'):
         serializer = Activity_comment_serializer(comment, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# add like or dislike for an activity comment
 @csrf_exempt
 def activity_comment_like_add(request):
     
@@ -104,6 +110,7 @@ def activity_comment_like_add(request):
         return JsonResponse('Change like status to {}.'.format(like_activity.is_like), status = 201, safe = False)
     
 # if do not exit, add a default
+# return like status for an specific user activity comment
 @csrf_exempt
 def activity_comment_like_get(request, comment, user):
     

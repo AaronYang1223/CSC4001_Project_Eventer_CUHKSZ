@@ -13,6 +13,7 @@ from user.models import User
 from user.serializers import User_profile_serializer
 import datetime
 
+# create post
 @csrf_exempt
 def post_create(request):
     if (request.method == 'POST'):
@@ -26,12 +27,8 @@ def post_create(request):
             "code":"101",
             "message":"post failed"
         })
-# user_id = models.ForeignKey(User, related_name = "post", on_delete = models.CASCADE)
-# post_tag = models.CharField(max_length = 32)
-# post_title = models.CharField(max_length = 256)
-# post_content = RichTextField()
-# comment_number = models.IntegerField(default = 0)
-    
+
+# change post info
 @csrf_exempt
 def post_change(request, pk):
     try:
@@ -46,10 +43,9 @@ def post_change(request, pk):
             return JsonResponse(serializer.data, status = 201)
         return JsonResponse(serializer.errors, status = 400)
 
-
+# return all post information, including post information, comments, commenters, likers, dislikers
 @csrf_exempt
-def post_pk(request,pk):
-    #id = request.GET.get("id")
+def post_pk(request, pk):
     try:
         post = Post.objects.get(pk = pk, is_delete = False)
     except:
@@ -60,6 +56,7 @@ def post_pk(request,pk):
         temp_data = post_add_comment_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
+# add comment information to post
 def post_add_comment_info(serializer):
     temp_data = serializer.data
 
@@ -90,56 +87,7 @@ def post_add_comment_info(serializer):
         temp_data['comments'][i]['had_commented'] = ' '.join(not_like_dislike_str)
     return temp_data
 
-# def post_add_comment_info(serializer):
-#     temp_data = serializer.data
-#     #print(temp_data)
-#     all_comments = Post_comment.objects.filter(post_id = temp_data['id'])
-#     all_comments_serializer = Post_comment_serializer(all_comments, many=True)
-#     #print(all_comment_serializer)
-    
-#     temp_data['comment'] = [{"user": {
-#                 "user_id": '',
-#                 "nick_name": "",
-#                 "avatar": ""
-#             },
-#             "content": "",
-#             "likeNum": '',
-#             "likeId": "",
-#             "dislikeId": ""}]*len(all_comments_serializer.data)
-    
-#     for i in range(len(all_comments_serializer.data)):
-#         print(i)
-#         #print(all_comments_serializer.data[i]['user_id'])
-#         user_info = User.objects.get(id = all_comments_serializer.data[i]['user_id'])
-        
-#         user_info_serializer = User_profile_serializer(user_info)
-#         comment_like_info = Like_post_comment.objects.filter(comment_id=all_comments_serializer.data[i]['id'], is_like='1')
-#         comment_dislike_info = Like_post_comment.objects.filter(comment_id=all_comments_serializer.data[i]['id'], is_like='0')
-#         likeId = ""
-#         dislikeId = ""
-#         for item in comment_like_info:
-#             likeId = likeId + str(item.user_id.id) + " "
-#         for item in comment_dislike_info:
-#             dislikeId = dislikeId + str(item.user_id.id) + " "
-#         temp_data['comment'][i]['user'] = {
-#                                             "user_id": all_comments_serializer.data[i]['user_id'],
-#                                             "nick_name" : user_info_serializer.data['nick_name'],
-#                                             "avatar": "http://127.0.0.1:8000"+user_info_serializer.data['picture'],
-#                                             #"likeNum": all_comments[i].like_num,
-#                                             #"dislikeNum": all_comments[i].dislike_num,
-#                                             #"likeId": likeId,
-#                                             #"dislikeId": dislikeId
-#                                         }
-#         temp_data['comment'][i]['content'] = all_comments[i].content
-#         #print(temp_data['comment'][i]['content'],i)
-#         temp_data['comment'][i]['likeNum'] = all_comments[i].like_num
-#         temp_data['comment'][i]['likeId'] = likeId
-#         temp_data['comment'][i]['dislikeId'] = dislikeId
-#         print(temp_data['comment'][0])
-        
-#     print (temp_data['comment'])
-#     return temp_data
-    
+# return all posts which tags contain the keyword
 @csrf_exempt
 def post_tag(request, tag):
     try:
@@ -152,6 +100,7 @@ def post_tag(request, tag):
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
 
+# reutrn all posts which title contains the keyword
 @csrf_exempt
 def post_title(request, title):
     try:
@@ -162,7 +111,8 @@ def post_title(request, title):
     if (request.method == 'GET'):
         serializer = Post_serializer(posts, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return the fixed number of posts, which are sorted by create time
 @csrf_exempt
 def post_order_create_date(request, num):
     
@@ -177,7 +127,8 @@ def post_order_create_date(request, num):
     if (request.method == 'GET'):
         serializer = Post_serializer(posts, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return all posts which are sorted by create time
 @csrf_exempt
 def post_order_create_date_all(request):
     
@@ -192,6 +143,7 @@ def post_order_create_date_all(request):
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
 
+# return the fixed number of posts which are sorted by comment number
 @csrf_exempt
 def post_order_comment_number(request, num):
     
@@ -206,7 +158,8 @@ def post_order_comment_number(request, num):
         serializer = Post_serializer(posts, many = True)
         temp_data = post_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return all posts which are sorted by comment number
 @csrf_exempt
 def post_order_comment_number_all(request):
     
@@ -220,7 +173,7 @@ def post_order_comment_number_all(request):
         temp_data = post_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
-
+# return specific usre's posts which are sorted by create time
 @csrf_exempt
 def post_user_order_comment_num(request, user_id):
 
@@ -234,7 +187,7 @@ def post_user_order_comment_num(request, user_id):
         temp_data = post_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
-
+# return specific usre's posts which are sorted by comment number
 @csrf_exempt
 def post_user_order_create_date(request, user_id):
 
@@ -248,7 +201,7 @@ def post_user_order_create_date(request, user_id):
         temp_data = post_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
-
+# add user info to the post
 def post_add_user_info(serializer):
     temp_data = serializer.data
     for i in range(len(temp_data)):
@@ -260,7 +213,7 @@ def post_add_user_info(serializer):
         temp_data[i]['picture'] = temp_user_serializer.data['picture']
     return temp_data
 
-
+# return specific usre's posts which are sorted by create time, deprecated
 @csrf_exempt
 def post_user(request, user_id):
     try:

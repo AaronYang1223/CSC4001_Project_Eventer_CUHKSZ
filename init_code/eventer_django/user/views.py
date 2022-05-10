@@ -14,6 +14,7 @@ from .forms import RegisterForm
 from django.contrib.auth.hashers import make_password
 from utils.email_util import send_email, send_check_organization_email
 
+# return user information
 @csrf_exempt
 def profile(request, pk):
     
@@ -25,13 +26,14 @@ def profile(request, pk):
     if (request.method == 'GET'):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
-    
+
+# edit user avatar
 @csrf_exempt
 def profile_upload_picture(request, pk):
     try:
         user = User.objects.get(pk = pk)
     except:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
     
     print(request.FILES)
     if (request.method == 'POST' and request.FILES):
@@ -41,9 +43,10 @@ def profile_upload_picture(request, pk):
         serializers = User_profile_serializer(user)
         return JsonResponse(serializers.data, status = 200)
     else:
-        return JsonResponse(status = 404)
+        return HttpResponse(status = 404)
 
 # for put method, need to include all fields without default values
+# edit user information including password
 @csrf_exempt
 def profile_change(request):
     
@@ -67,7 +70,7 @@ def profile_change(request):
                 'message':'update password failed'
             })
 
-
+# 
 @csrf_exempt
 def profile_retrieve(request):
     if (request.method == 'PUT'):
@@ -89,6 +92,7 @@ def profile_retrieve(request):
             'message':'update password failed'
         })
 
+# add user
 @csrf_exempt
 def profile_add(request):
     if (request.method == 'POST'):
@@ -129,7 +133,8 @@ def profile_add(request):
 
 def check_organization(email):
     send_check_organization_email(email)
-    
+
+# email verification for registration, password modification
 @csrf_exempt
 def email_verification(request):
     json_data = request.body.decode("utf-8")
@@ -169,6 +174,8 @@ def email_verification(request):
                     'code':'103', #103 == email doesn't get registered
                     'message': 'user doesn\'t exist' 
                 })
+
+# login
 @csrf_exempt
 def verify_password(request):
     if(request.method == "GET"):
@@ -185,5 +192,3 @@ def verify_password(request):
             'message':'login failed',
             'id':''
         })
-
-        

@@ -8,15 +8,14 @@ from rest_framework import status
 from .models import Post_comment, Like_post_comment
 from post.models import Post
 
+# create comment for a post
 @csrf_exempt
 def post_comment_create(request):
     if (request.method=='POST'):
         data = JSONParser().parse(request)
         serializer = Post_comment_serializer(data = data)
-        print(data)
         if serializer.is_valid():
             serializer.save()
-            print("success")
             # update post comment num
             post = Post.objects.get(id = serializer.data['post_id'])
             post.comment_number += 1
@@ -25,10 +24,9 @@ def post_comment_create(request):
             return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# return all comments of a post which are sorted by created time
 @csrf_exempt
 def post_comment(request, post_id):
-    
-    # may return [], do not change for now
     try:
         comment = Post_comment.objects.filter(post_id = post_id, is_delete = False).order_by('-create_time')
     except:
@@ -38,7 +36,7 @@ def post_comment(request, post_id):
         serializer = Post_comment_serializer(comment, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
-    
+# return all comments of a post which are sorted by like number
 @csrf_exempt
 def post_comment_like(request, post_id):
     
@@ -51,6 +49,7 @@ def post_comment_like(request, post_id):
         serializer = Post_comment_serializer(comment, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
+# change or add like or dislike for a post comment 
 @csrf_exempt
 def post_comment_like_add(request):
     
@@ -106,6 +105,7 @@ def post_comment_like_add(request):
     
     
 # if do not exit, add a default
+# get comment like status
 @csrf_exempt
 def post_comment_like_get(request, comment, user):
     

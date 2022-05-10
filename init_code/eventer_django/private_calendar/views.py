@@ -13,6 +13,7 @@ import datetime
 from user.models import User
 from user.serializers import User_profile_serializer
 
+# return calendar events between start date and end date
 def calendar(request, user, start_date, end_date):
     
     _start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d")
@@ -26,6 +27,7 @@ def calendar(request, user, start_date, end_date):
         serializer = Private_calendar_serializer(activities, many = True)
         return JsonResponse(serializer.data, safe = False)
 
+# get calendar events according to user id
 def calendar_get_user(request, user):
     
     try:
@@ -36,7 +38,8 @@ def calendar_get_user(request, user):
     if (request.method == 'GET'):
         serializer = Private_calendar_serializer(activities, many = True)
         return JsonResponse(serializer.data, safe = False)
-    
+
+# add activity to private calendar
 def calendar_add(activity_id, user_id) -> bool:
     
     # user_id is owner of this private calendar
@@ -55,6 +58,7 @@ def calendar_add(activity_id, user_id) -> bool:
         return True
     return False
 
+# return all calendar events according to user id
 @csrf_exempt
 def calendar_private_all(request, user):
     
@@ -67,7 +71,8 @@ def calendar_private_all(request, user):
         serializer = Private_calendar_serializer(calendars, many = True)
         temp_data = calendar_private_add_info(serializer)
         return JsonResponse(temp_data, safe = False)
-    
+
+# add information to calendar event
 def calendar_private_add_info(calendars):
     temp_data = calendars.data
     for i in range(len(temp_data)):
