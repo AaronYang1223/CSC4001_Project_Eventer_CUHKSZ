@@ -27,8 +27,6 @@ def post_comment_create(request):
 
 @csrf_exempt
 def post_comment(request, post_id):
-    
-    # may return [], do not change for now
     try:
         comment = Post_comment.objects.filter(post_id = post_id, is_delete = False).order_by('-create_time')
     except:
