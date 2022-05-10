@@ -22,9 +22,7 @@ from activity_comment.serializers import Activity_comment_serializer
 from score_activity.models import Score, Participant_Activity
 from score_activity.serializers import Score_activity_serializer
 
-
-# TODO: Change post function for uploading a cover page when create an activity
-
+# return all activity, deprecated
 @csrf_exempt
 def activity_list(request):
     if request.method == 'GET':
@@ -32,6 +30,7 @@ def activity_list(request):
         serializer = Activity_serializer(activities, many=True)
         return JsonResponse(serializer.data, safe = False)
 
+# create an activity, and put it in coresponding calendar
 @csrf_exempt
 def activity_create(request):
     if request.method == 'POST':
@@ -55,6 +54,7 @@ def activity_create(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse({'code':'101'})
 
+# upload the coverpage
 @csrf_exempt
 def activity_update_coverpage(request, pk):
     try:
@@ -69,9 +69,9 @@ def activity_update_coverpage(request, pk):
         serializers = Activity_serializer(activity)
         return JsonResponse(serializers.data, status = 200)
     else:
-    #     return JsonResponse(serializers.error, status = 404)
         return JsonResponse(status = 404)
 
+# return specific activity information
 @csrf_exempt
 def activity_pk(request, pk):
     
@@ -102,7 +102,7 @@ def activity_change_pk(request, pk):
             return JsonResponse(serializers.data, status = 201)
         return JsonResponse(serializers.errors, status = 400)
 
-# TODO: complete this function
+# upload cover page of activity, deprecated
 @csrf_exempt
 def activity_upload_cover(request, pk):
     try:
@@ -119,6 +119,7 @@ def activity_upload_cover(request, pk):
     else:
         return JsonResponse(status = 404)
 
+# return the activity which tag contains some words
 @csrf_exempt
 def activity_tag(request, tag):
     
@@ -130,7 +131,8 @@ def activity_tag(request, tag):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return the activity which title contains some words
 @csrf_exempt
 def activity_title(request, title):
     
@@ -142,7 +144,8 @@ def activity_title(request, title):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return the fixed num of activities that are not deleted, not private, and not outdate according to the participant ratio of the activity
 @csrf_exempt
 def activity_order_part_max(request, num):
     
@@ -157,7 +160,8 @@ def activity_order_part_max(request, num):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return the fixed num of activities that are not deleted, not private, and not outdate according to the average score of the activity
 @csrf_exempt
 def activity_order_score(request, num):
     
@@ -172,7 +176,8 @@ def activity_order_score(request, num):
     if (request.method == 'GET'):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
-    
+
+# return the fixed num of activities that are not deleted, not private, and not outdate according to the start time of the activity
 @csrf_exempt
 def activity_order_start_date(request, num):
     
@@ -188,7 +193,7 @@ def activity_order_start_date(request, num):
         serializer = Activity_serializer(activities, many = True)
         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
-    
+# return the fixed num of activities that are not deleted, not private, and not outdate according to the created time
 @csrf_exempt
 def activity_order_create_date(request, num):
     
@@ -218,7 +223,7 @@ def activity_order_create_date_all(request):
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
     
-    
+# return the fixed num of activities that are not deleted, not private, and not outdate according to the comment_num
 @csrf_exempt
 def activity_order_comment_number(request, num):
     
@@ -269,6 +274,7 @@ def activity_add_user_info(serializer):
             del temp_data[i]
     return temp_data
 
+# return all activities that are not deleted according to the comment number and the user's id
 @csrf_exempt
 def activity_user_order_comment_num(request, user_id):
     
@@ -282,6 +288,7 @@ def activity_user_order_comment_num(request, user_id):
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
+# return all activities that are not deleted according to the create_time and the user's id
 @csrf_exempt
 def activity_user_order_create_time(request, user_id):
     
@@ -295,6 +302,7 @@ def activity_user_order_create_time(request, user_id):
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
+# return all activities that are not deleted according to the user's id, the order is default
 @csrf_exempt
 def activity_user(request, user_id):
     
@@ -308,7 +316,7 @@ def activity_user(request, user_id):
         temp_data = activity_add_user_info(serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
-
+# return all information of an activity, including organizer's information, activity's commenter information, score information, and participation information
 @csrf_exempt
 def activity_comment(request, activity_id):
     
@@ -322,15 +330,7 @@ def activity_comment(request, activity_id):
         temp_data = activity_add_comment_info(activity_serializer)
         return JsonResponse(temp_data, json_dumps_params = {'ensure_ascii': False}, safe = False)
 
-    
-    # if (request.method == 'POST'):
-    #     data = JSONParser().parse(request)
-    #     serializer = Comment_serializer(data = data)
-    #     if (serializer.is_valid()):
-    #         serializer.save()
-    #         return JsonResponse(serializer.data, json_dumps_params = {'ensure_ascii': False}, status = 201)
-    #     return JsonResponse(serializer.errors, status = 400)
-    
+# add comment, participant, and score information to the returned value
 @csrf_exempt
 def activity_add_comment_info(serializer):
     temp_data = serializer.data
@@ -345,6 +345,7 @@ def activity_add_comment_info(serializer):
     comment_serializer = Activity_comment_serializer(comments, many = True)
     temp_data['comments_list'] = [int(i['id']) for i in comment_serializer.data]
     temp_data['comments'] = comment_serializer.data
+    
     for i in range(len(temp_data['comments'])):
         user = User.objects.get(pk = temp_data['comments'][i]['user_id'])
         user_serializer = User_profile_serializer(user)
