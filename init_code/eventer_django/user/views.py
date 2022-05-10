@@ -14,6 +14,7 @@ from .forms import RegisterForm
 from django.contrib.auth.hashers import make_password
 from utils.email_util import send_email, send_check_organization_email
 
+# return user information
 @csrf_exempt
 def profile(request, pk):
     
@@ -25,7 +26,8 @@ def profile(request, pk):
     if (request.method == 'GET'):
         serializer = User_profile_serializer(user)
         return JsonResponse(serializer.data, safe = False)
-    
+
+# edit user avatar
 @csrf_exempt
 def profile_upload_picture(request, pk):
     try:
@@ -44,6 +46,7 @@ def profile_upload_picture(request, pk):
         return HttpResponse(status = 404)
 
 # for put method, need to include all fields without default values
+# edit user information including password
 @csrf_exempt
 def profile_change(request):
     
@@ -67,7 +70,7 @@ def profile_change(request):
                 'message':'update password failed'
             })
 
-
+# 
 @csrf_exempt
 def profile_retrieve(request):
     if (request.method == 'PUT'):
@@ -129,7 +132,7 @@ def profile_add(request):
 
 def check_organization(email):
     send_check_organization_email(email)
-    
+
 @csrf_exempt
 def email_verification(request):
     json_data = request.body.decode("utf-8")
@@ -169,6 +172,7 @@ def email_verification(request):
                     'code':'103', #103 == email doesn't get registered
                     'message': 'user doesn\'t exist' 
                 })
+
 @csrf_exempt
 def verify_password(request):
     if(request.method == "GET"):
@@ -185,5 +189,3 @@ def verify_password(request):
             'message':'login failed',
             'id':''
         })
-
-        
