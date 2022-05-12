@@ -1,4 +1,3 @@
-// TODO:读懂代码并修改，承担发帖子和发event的作用
 <template>
   <v-card
     class="mx-auto"
@@ -27,130 +26,132 @@
       v-if="!isPost"
       three-line
     >
+      <!-- 显示前五热度的events -->
+      <v-list-item
+        v-for="(event, i) in events"
+        :key="i"
+      >
+        
+        <v-list-item-avatar>
+          <v-img :src="event.avatar"></v-img>
+        </v-list-item-avatar>
 
-        <v-list-item
-          v-for="(event, i) in events"
-          :key="i"
-        >
-          
-          <v-list-item-avatar>
-            <v-img :src="event.avatar"></v-img>
-          </v-list-item-avatar>
+        <v-badge
+            v-if="event.is_authenticated"
+            color="accent"
+            icon="mdi-hexagram"
+            offset-x="30"
+            offset-y="20"
+          >
+        </v-badge>  
 
-          <v-badge
-              v-if="event.is_authenticated"
-              color="accent"
-              icon="mdi-hexagram"
-              offset-x="30"
-              offset-y="20"
+        <v-list-item-content>
+          <v-list-item-title v-if="i==0" >
+            <v-btn
+              text
+              router :to="'/event/'+ event.activity_id"
+              color="red"
             >
-          </v-badge>  
+            <h3>{{event.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else-if="i==1" >
+            <v-btn
+              text
+              router :to="'/event/'+ event.activity_id"
+              color="orange"
+            >
+            <h3>{{event.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else-if="i==2">
+            <v-btn
+              text
+              router :to="'/event/'+ event.activity_id"
+              color="amber"
+              >
+              <h3>{{event.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else v-html="event.title">
+            <v-btn
+              text
+              router :to="'/event/'+ event.activity_id"
+              >
+              <h3>{{event.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-subtitle v-html="event.content">
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title v-if="i==0" >
-              <v-btn
-                text
-                router :to="'/event/'+ event.activity_id"
-                color="red"
-              >
-              <h3>{{event.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else-if="i==1" >
-              <v-btn
-                text
-                router :to="'/event/'+ event.activity_id"
-                color="orange"
-              >
-              <h3>{{event.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else-if="i==2">
-              <v-btn
-                text
-                router :to="'/event/'+ event.activity_id"
-                color="amber"
-                >
-                <h3>{{event.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else v-html="event.title">
-              <v-btn
-                text
-                router :to="'/event/'+ event.activity_id"
-                >
-                <h3>{{event.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-subtitle v-html="event.content">
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
     </v-list>
 
     <v-list 
       v-if="isPost"
       three-line
     >
+      <!-- 显示前五热度的post -->
+      <v-list-item
+        v-for="(post, i) in posts"
+        :key="i"
+      >
+        
+        <v-list-item-avatar>
+          <v-img :src="post.avatar"></v-img>
+        </v-list-item-avatar>
 
-        <v-list-item
-          v-for="(post, i) in posts"
-          :key="i"
-        >
-          
-          <v-list-item-avatar>
-            <v-img :src="post.avatar"></v-img>
-          </v-list-item-avatar>
+        <v-badge
+            v-if="post.is_authenticated"
+            color="accent"
+            icon="mdi-hexagram"
+            offset-x="30"
+            offset-y="20"
+          >
+        </v-badge>  
 
-          <v-badge
-              v-if="post.is_authenticated"
-              color="accent"
-              icon="mdi-hexagram"
-              offset-x="30"
-              offset-y="20"
+        <v-list-item-content>
+          <v-list-item-title v-if="i==0" >
+            <v-btn
+              text
+              router :to="'/post/'+ post.post_id"
+              color="red"
             >
-          </v-badge>  
+            <h3>{{post.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else-if="i==1">
+            <v-btn
+              text
+              router :to="'/post/'+ post.post_id"
+              color="orange"
+            >
+            <h3>{{post.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else-if="i==2">
+            <v-btn
+              text
+              router :to="'/post/'+ post.post_id"
+              color="amber"
+            >
+            <h3>{{post.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          <v-list-item-title v-else >
+            <v-btn
+              text
+              router :to="'/post/'+ post.post_id"
+            >
+            <h3>{{post.title | snippet_event}}</h3>
+            </v-btn>
+          </v-list-item-title>
+          
+          <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title v-if="i==0" >
-              <v-btn
-                text
-                router :to="'/post/'+ post.post_id"
-                color="red"
-              >
-              <h3>{{post.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else-if="i==1">
-              <v-btn
-                text
-                router :to="'/post/'+ post.post_id"
-                color="orange"
-              >
-              <h3>{{post.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else-if="i==2">
-              <v-btn
-                text
-                router :to="'/post/'+ post.post_id"
-                color="amber"
-              >
-              <h3>{{post.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            <v-list-item-title v-else >
-              <v-btn
-                text
-                router :to="'/post/'+ post.post_id"
-              >
-              <h3>{{post.title | snippet_event}}</h3>
-              </v-btn>
-            </v-list-item-title>
-            
-            <v-list-item-subtitle v-html="post.content"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
     </v-list>
   </v-card>
 </template>
@@ -213,56 +214,6 @@
           )
         }
       })
-
-      // get_post_user(user_id) {
-      //   this.posts_link = 'http://127.0.0.1:8000/api/post/user/' + user_id
-      //   this.$axios.get(this.posts_link).then(response => {
-      //     this.posts = []
-      //     for (let i = 0; i < response.data.length; i++) {
-      //       this.posts.push(
-      //         {
-      //           post_id: response.data[i].id,
-      //           title: response.data[i].post_title,
-      //           content: response.data[i].post_content,
-      //           tags: response.data[i].post_tag.split(' '),
-      //           avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-      //           is_authenticated: response.data[i].is_organization,
-      //           nickname: response.data[i].nick_name,
-      //           comment_num: response.data[i].comment_number,
-      //         }
-      //       )
-      //     }
-      //   })
-      // }
-
-      // get_activity_user(user_id) {
-      //   this.activity_link = 'http://127.0.0.1:8000/api/activity/user/' + user_id
-      //   this.$axios.get(this.activity_link).then(response => {
-      //     this.events = []
-      //     console.log(response.data)
-      //     for (let i = 0; i < response.data.length; i++) {
-      //       this.events.push(
-      //         {
-      //           activity_id: response.data[i].id,
-      //           banner: 'http://127.0.0.1:8000' + response.data[i].cover_page,
-      //           title: response.data[i].title,
-      //           content: response.data[i].content,
-      //           tags: response.data[i].tag.split(' '),
-      //           avatar: 'http://127.0.0.1:8000' + response.data[i].picture,
-      //           is_authenticated: response.data[i].is_organization,
-      //           nickname: response.data[i].nick_name,
-      //           upper_num: response.data[i].max_participant_num,
-      //           attend_num: response.data[i].participant_num,
-      //           start_time: response.data[i].start_time,
-      //           end_time: response.data[i].end_time,
-      //           selection: 0,
-      //           show: false,
-      //         }
-      //       )
-      //     }
-      //   })
-      // }
-      
     },
     data: () => ({
       text: "",
