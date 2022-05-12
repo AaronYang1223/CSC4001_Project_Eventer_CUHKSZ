@@ -45,7 +45,8 @@
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-col>
-
+              <!-- 登陆与其他跳转 -->
+              <!-- login and some other page -->
               <v-col 
                 cols="12" xs="12" sm="12" md="12"
               >

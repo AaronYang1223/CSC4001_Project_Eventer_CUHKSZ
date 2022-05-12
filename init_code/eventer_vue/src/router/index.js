@@ -20,32 +20,7 @@ Vue.use(Vuex)
 
 const whiteList = ["/login", "/forget", "/signin", "/change"]; // 定义一个白名单列表
 
-// console.log(store.state.hasLogin)
-// router.beforeEach(async (to, from, next) => {
-//   if (whiteList.includes(to.path)) { // 如果是访问的白名单中的页面
-//     return next(); // 不需要校验，直接返回继续访问该页面
-//   }
-//   console.log("111")
-//   var isTokenAvailable;
-//   isTokenAvailable = false;
-//   isTokenAvailable = this.$store.state.hasLogin; // 校验token是否失效
-//   if (isTokenAvailable) { // 如果token未失效
-//     if(to.path === "/login") { // 如果访问的是login页面，则回到首页
-//       next("/");
-//     } else { // 如果访问的不是login页面，则继续访问当前要访问的页面
-//       next();
-//     }
-//   } else { // 如果token失效了
-//     const needLogin = to.matched.some(item => item.meta.needLogin); // 检测要访问的页面是否需要登录才能访问
-//     if(needLogin) { // 如果访问的页面是需要登录的
-//       next("/login"); // 跳转到登录页面
-//     } else { // 如果访问的页面是不需要登录的，则直接继续访问
-//       next();
-//     }
-//   }
-// });
-
-
+// 主要网页的路由地址
 const routes = [
   {
     path: '/',
@@ -88,6 +63,7 @@ const routes = [
     name: 'post',
     component: PostView,
   },
+  // 生成不同id的post与event
   {
     path: '/event/:id',
     name: 'event',
@@ -106,25 +82,21 @@ const router = new VueRouter({
   routes
 })
 
-
+// 路由守卫
 router.beforeEach(async (to, from, next) => {
   var isTokenAvailable;
-  isTokenAvailable = store.state.hasLogin; // 校验token是否失效
+  isTokenAvailable = store.state.hasLogin; // 校验是否登陆
   if (!isTokenAvailable && whiteList.includes(to.path)) { // 如果是访问的白名单中的页面
     return next(); // 不需要校验，直接返回继续访问该页面
   }
-  if (isTokenAvailable) { // 如果token未失效
+  if (isTokenAvailable) { // 如果已经登陆
     if(whiteList.includes(to.path)) { // 如果访问的是login页面，则回到首页
       next("/");
     } else { // 如果访问的不是login页面，则继续访问当前要访问的页面
       next();
     }
-  } else { // 如果token失效了
-    // const needLogin = to.matched.some(item => item.meta.needLogin); // 检测要访问的页面是否需要登录才能访问
-    // if(needLogin) { // 如果访问的页面是需要登录的
-    //   next("/login"); // 跳转到登录页面
-    // } else { // 如果访问的页面是不需要登录的，则直接继续访问
-    //   next();
+  } else { 
+    //如果没有登陆，进入登陆页面
     next("/login");
     // }
   }

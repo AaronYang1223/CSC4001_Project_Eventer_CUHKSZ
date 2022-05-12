@@ -3,6 +3,8 @@
     tile
     outlined
   >
+  <!-- 单个评论的展示 -->
+  <!-- show single comment -->
     <v-card-actions>
 
       <v-row>
@@ -30,6 +32,7 @@
             </v-list-item-content>
           </v-list-item-content>
           <div >
+            <!-- 点赞与点踩按钮，并且展示数字 -->
             <v-btn
               class="ma-2"
               text

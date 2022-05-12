@@ -1,8 +1,8 @@
 // TODO:增加跳转按钮
 <template>
   <div id="building">
-    <!-- <NavbarComNotLogin :Page=pageNow>
-    </NavbarComNotLogin> -->
+    <!-- This Part will make the web adopt to phone and different page size -->
+    <!-- 适应不同大小屏幕与手机 -->
     <v-container mt-16 py-16>
       <v-row justify="center" align="center" class="mt-1">
         <v-card 
@@ -12,7 +12,7 @@
           outlined
           tile
         >
-
+          <!-- Main Info -->
           <div class="text-center mt-2">
             <h1 class="primary--text">
               <span>Change Passward</span>
@@ -24,6 +24,7 @@
               <v-col 
                 cols="12" xs="12" sm="12" md="12"
               >
+              <!-- Email Input Box -->
               <!-- 输入邮箱 -->
               <v-text-field
                 type="text" 
@@ -66,6 +67,8 @@
               <v-col 
                 cols="12" xs="12" sm="6" md="6"
               >
+              <!-- Verification Code -->
+              <!-- 验证码输入框 -->
                 <v-text-field
                   type="text" 
                   label="Verification Code"
@@ -77,6 +80,8 @@
               <v-col
                 cols="12" xs="12" sm="6" md="6"
               >
+                <!-- Verification Code Get btn and Also the re-Send time -->
+                <!-- 获取验证码，并且提示重新发送时间 -->
                 <v-btn
                   block 
                   tile 
@@ -105,6 +110,7 @@
               <v-col
                 cols="12" xs="12" sm="12" md="12"
               >
+              <!-- submit btn 提交按钮 -->
               <v-btn
                 tile 
                 color="primary"
@@ -143,6 +149,8 @@
       </v-row>
 </v-container>
     <div>
+      <!-- jump info for some error tips -->
+      <!-- 错误信息提示框 -->
       <v-snackbar v-model="snackbar">
         {{ tip }}
         <template v-slot:action="{ attrs }">
@@ -209,7 +217,8 @@ export default {
     }
   },
   methods: {
-
+    // Check whether the info is ok, and get the Verification Code
+    // 检查信息输入，并且发送验证码
     getCode: function() {
       if (this.wait_timer > 0) {
         return false;
@@ -283,9 +292,7 @@ export default {
         console.log(this.email, "请求验证码");
         this.codeTime = false;
       }
-      //在这里调取你获取验证码的ajax
     },
-
     getCodeText: function() {
       if (this.wait_timer > 0) {
         return "Already send";
@@ -299,7 +306,7 @@ export default {
         return "Send Verify Code";
       }
     },
-
+    // Submit the new password if the Verification Code is correct
     submitNewPassword: function() {
       console.log(this.codeIn);
       axios.put('api/profile/retrieve',{
@@ -321,8 +328,6 @@ export default {
       }
         }
       });
-      //this.codeCorrect = true;
-      //从服务器获得
       
       console.log(this.email, this.newpassword);
       window.location.href = "/login";

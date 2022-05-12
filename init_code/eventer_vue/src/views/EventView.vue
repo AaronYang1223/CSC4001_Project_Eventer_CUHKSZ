@@ -553,10 +553,7 @@ export default {
             this.scoreReadOnly = true;
           }
         });
-        
-        
-        
-        
+
       }
     })
 
@@ -709,12 +706,6 @@ export default {
             this.participantNum = respose.data.participant_num;
             this.participantList = respose.data.participants_list;
             this.partOverMax = this.participantNum + " / " + this.maxParticipantNum;
-            // this.tip = "Event is Over";
-            //活动已结束
-            // this.tip = "You already joined in";
-            //已经参加了
-            // this.tip = "Event is Full";
-            //人已经满了
             this.tip = "Succesee Join";
             //成功加入
             this.snackbar = true;
@@ -722,9 +713,6 @@ export default {
         });
       })
       
-
-      
-
       // this.participantNum
       // this.maxParticipantNum
      
