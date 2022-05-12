@@ -23,6 +23,7 @@
           </v-btn>
         </template>
 
+        <!-- 导航栏 -->
         <v-card>
           <v-list-item-content class="justify-center">
             <div class="mx-auto text-center">
@@ -93,7 +94,7 @@
 
       <v-spacer></v-spacer>
 
-      <!-- 设置为按钮是为了留一个刷新键 -->
+      <!-- 回到主页按钮 -->
       <v-btn 
         class="text-uppercase primary--text" 
         x-large text
