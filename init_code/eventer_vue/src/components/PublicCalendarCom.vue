@@ -1,5 +1,4 @@
-// TODO:在功能上考虑和event的结合程度，更改适配
-
+// 整体结构与CalendarCom相近，区别主要在于后台数据的读取和颜色design的不同，故不加赘述
 <template>
   <v-row class="fill-height">
     <v-col>
@@ -99,7 +98,6 @@
         </v-toolbar>
       </v-sheet>
 
-<!-- //TODO:更GAI CHANGE!!! -->
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
