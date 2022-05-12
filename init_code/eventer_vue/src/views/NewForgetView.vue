@@ -1,8 +1,5 @@
-// TODO:增加跳转按钮
 <template>
   <div id="building">
-    <!-- <NavbarComNotLogin :Page=pageNow>
-    </NavbarComNotLogin> -->
     <v-container mt-16 py-16>
       <v-row justify="center" align="center" class="mt-1">
         <v-card 
@@ -38,10 +35,10 @@
               <v-col 
                 cols="12" xs="12" sm="12" md="12"
               >
-              <!-- 输入密码 -->
+              <!-- 输入新密码 -->
               <v-text-field
                 type="password" 
-                label="Password"
+                label="New Password"
                 v-model="newpassword"
                 v-bind:disabled = "inputLock"
                 id="inputNewPassword"
@@ -175,9 +172,7 @@
 
 <script>
 import axios from 'axios'
-// import NavbarComNotLogin from '../components/NavbarComNotLogin.vue'
 export default {
-  // components: { NavbarComNotLogin },
   data() {
     return {
       tip: "用Email找回密码",
