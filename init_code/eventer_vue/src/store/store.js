@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex)
 
+// 储存状态信息，在多个组件和页面中共享
 const state = {
   userID: "",
   userEmail:"",
@@ -14,7 +15,7 @@ const state = {
 	msg: '123456',
   hasLogin: false,
 }
-
+// 定义更改状态的方法
 const mutations = {
 	loginUpdate (state) {
     state.hasLogin = true

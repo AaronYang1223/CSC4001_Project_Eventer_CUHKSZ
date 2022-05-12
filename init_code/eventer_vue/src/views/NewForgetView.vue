@@ -74,6 +74,8 @@
               <v-col
                 cols="12" xs="12" sm="6" md="6"
               >
+              <!-- Verification Code Get -->
+              <!-- 获取验证码，并且提示再获取时间 -->
                 <v-btn
                   block 
                   tile 
@@ -140,6 +142,7 @@
       </v-row>
 </v-container>
     <div>
+      <!-- 提示错误信息 -->
       <v-snackbar v-model="snackbar">
         {{ tip }}
         <template v-slot:action="{ attrs }">
@@ -204,7 +207,8 @@ export default {
     }
   },
   methods: {
-
+    // 验证输入，并发送验证码
+    // Send Verification Code
     getCode: function() {
       if (this.wait_timer > 0) {
         return false;
@@ -278,7 +282,6 @@ export default {
         console.log(this.email, "请求验证码");
         this.codeTime = false;
       }
-      //在这里调取你获取验证码的ajax
     },
 
     getCodeText: function() {
@@ -294,7 +297,8 @@ export default {
         return "Send Verify Code";
       }
     },
-
+    // Submit the password
+    // 提交新的密码
     submitNewPassword: function() {
       console.log(this.codeIn);
       axios.put('api/profile/retrieve',{

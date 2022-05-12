@@ -81,6 +81,9 @@
       :rules="[rules.required]"
     >
     </v-textarea> -->
+
+    <!-- 富文本编辑器，如果将上面代码反注释，则能获取纯文本的输入框 -->
+    <!-- rich test input box -->
     <rich-text-edit ref="textEditor">
     </rich-text-edit>
     <!-- t:{{text}}

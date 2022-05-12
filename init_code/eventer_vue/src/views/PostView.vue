@@ -61,7 +61,8 @@
             </v-card-text>
 
             <v-divider></v-divider>
-
+            <!-- show the main content -->
+            <!-- 展示正文 -->
             <div class="main-content my-5">
               <v-card flat>
                 <div>
@@ -77,6 +78,8 @@
             class="mt-3"
             flat
           >
+          <!-- show the comments -->
+          <!-- 展示评论 -->
               <div 
                 class= "text-h7 font-weight-bold"
               >
@@ -339,6 +342,8 @@ export default {
         location.reload();
       });
       //用axios上传
+
+      
       // console.log(this.newCommentText);
       // console.log(this.$store.state.userID);
       // console.log(this.$store.state.userNickName);

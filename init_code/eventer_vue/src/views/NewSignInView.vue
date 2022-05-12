@@ -343,7 +343,6 @@ export default {
         console.log(this.email, "请求验证码");
         this.codeTime = false;
       }
-      //在这里调取你获取验证码的ajax
     },
 
     getCodeText: function() {

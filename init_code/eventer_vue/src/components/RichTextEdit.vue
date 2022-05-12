@@ -1,4 +1,5 @@
 <template>
+<!-- 一个富文本编辑器组件，以html格式输出text -->
   <div>
     <div class="tinymce-editor">
       <div id="tinymceToolbar"></div>

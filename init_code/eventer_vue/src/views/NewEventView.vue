@@ -27,6 +27,7 @@
       <v-col 
         cols="12" xs="12" sm="1" md="1"
       >
+      <!-- Add and Show the tags -->
         <v-btn
           block 
           tile 
@@ -69,11 +70,10 @@
     </v-row>
 
     <v-divider></v-divider>
-
-
         <v-card
         flat
         >
+        <!-- Upload the Banner picture to back end -->
           <v-list-item-content class="justify-center avatar">
             <div class="text-center mt-4">
               <v-btn
@@ -126,6 +126,7 @@
     end time modal:{{modalEndTime}}<br/>
     tags:{{tags}}<br/> -->
 
+<!-- 一些调试信息，打印出所有信息 -->
     <!-- {{startYear}}
     {{startMonth}}
     {{startDay}}
@@ -140,6 +141,8 @@
     {{timeFront}}
     {{timeLast}} -->
 
+  <!-- choose the dialog and date -->
+  <!-- 选择日期和时间 -->
     <v-row justify="center" align="center" class="mt-1">
       <v-col 
         cols="12" xs="12" sm="6" md="6"
@@ -314,13 +317,16 @@
       <v-col 
         cols="12" xs="12" sm="3" md="3"
       >
+      <!-- input the Participant number -->
+      <!-- 输入参与人数 -->
           <v-text-field
             label="Participant"
             prepend-icon="mdi-account"
             v-model="maxPartNum"
           ></v-text-field>
         </v-col>
-
+      <!-- Set the event private or public -->
+      <!-- 设置活动私人或者公共活动 -->
         <v-col 
           cols="12" xs="12" sm="3" md="3"
         >
@@ -513,36 +519,6 @@ export default {
         this.snackbar = true;
         return false;
       }
-      // timeLast: "",
-      // if (this.startYear > this.endYear) {
-      //   this.tip = "Your Date and Time is invalid";
-      //   this.snackbar = true;
-      //   return false;
-      // }
-      // else if (this.startMonth > this.endMonth) {
-      //   this.tip = "Your Date and Time is invalid";
-      //   this.snackbar = true;
-      //   return false;
-      // }
-      // else if (this.startDay > this.endDay) {
-      //   this.tip = "Your Date and Time is invalid";
-      //   this.snackbar = true;
-      //   return false;
-      // }
-      // else if (this.startHour > this.endHour) {
-      //   this.tip = "Your Date and Time is invalid";
-      //   this.snackbar = true;
-      //   return false;
-      // }
-      // else if (this.startMin > this.endMin) {
-      //   this.tip = "Your Date and Time is invalid";
-      //   this.snackbar = true;
-      //   return false;
-      // }
-      // let data = new FormData();
-      // let cover_page = {};
-      // cover_page = this.file_info;
-      // data.append("cover_page",cover_page)
 
       let files = this.$refs.avatarInput.files
       let fileData = {}
