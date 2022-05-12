@@ -2,9 +2,11 @@
   <v-row class="fill-height">
     <v-col>
       <v-sheet height="64">
+
         <v-toolbar
           flat
         >
+          <!-- Botton: Today -->
           <v-btn
             outlined
             class="mr-4 hidden-xs-only"
@@ -13,6 +15,8 @@
           >
             Today
           </v-btn>
+
+          <!-- Botton: Page turning -->
           <v-btn
             fab
             text
@@ -35,10 +39,12 @@
               mdi-chevron-right
             </v-icon>
           </v-btn>
+
           <v-toolbar-title v-if="$refs.calendar">
             {{ $refs.calendar.title }}
           </v-toolbar-title>
 
+          <!-- Botton: Change calendar type -->
           <v-btn
             tile
             icon
@@ -60,7 +66,10 @@
             </v-icon>
           </v-btn>
 
+          
           <v-spacer></v-spacer>
+
+          <!-- Botton: Change display type -->
           <v-menu
             bottom
             right
@@ -94,10 +103,13 @@
               </v-list-item>
             </v-list>
           </v-menu>
+
         </v-toolbar>
       </v-sheet>
 
       <v-sheet height="600">
+        
+        <!-- 调用v-calendar组件 -->
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -109,12 +121,15 @@
           @click:more="viewDay"
           @click:date="viewDay"
         ></v-calendar>
+
+        <!-- 事件详情弹窗 -->
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
           offset-x
         >
+
         <!-- 更新显示，增加超链接 -->
           <v-card
             min-width="350px"
@@ -142,6 +157,7 @@
             <v-card-actions>
               <v-list-item class="grow">
 
+                <!-- 显示事件发布用户信息 -->
                 <v-list-item-avatar
                 >
                   <v-img
@@ -167,6 +183,7 @@
                   align="center"
                   justify="end"
                 >
+                <!-- 跳转按钮 -->
                   <v-btn
                     text
                     color="secondary"
