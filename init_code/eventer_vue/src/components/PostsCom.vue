@@ -1,13 +1,11 @@
-<!-- TODO:增加超链接 -->
+// 整体结构与EventsCom相近，故不加赘述
 <template>
 
   <v-card
     class="mx-auto"
   >
-    <!-- TODO:热点tag推送功能，见chip的例子 -->
 
     <v-container>
-  
       <v-row dense justify="center">
         <v-col
         cols="10"
@@ -72,14 +70,12 @@
               </v-btn>
             </v-card-title>
 
-          <!-- TODO:强制提取富文本 -->
-          
+          <!-- 强制提取富文本 -->
           <v-container mx-1>
             <p
             class="text-h6 font-weight-bold"
             >
               {{post.text | snippet}}
-              <!-- {{post.text}} -->
             </p>
           </v-container>
 
@@ -154,36 +150,6 @@
     },
     data: () => ({
       posts: [
-        // {
-        //   title: 'Supermodel',
-        //   text: "Turns out semicolon-less style is easier and safer in. 11111 11111 111111 11 111 111111 111 111111 111111 11111 1111111 11111111111111 111111111111",
-        //   tags: ['Work', 'Home Improvement',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   is_authenticated: false,
-        //   nickname: 'Foster the People',
-        //   like_num: 111,
-        //   comment_num: 11,
-        // },
-        // {
-        //   title: 'Halcyon Days',
-        //   text: "Turns out semicolon-less style is easier and safer in.22 222222222 22222 222222 2222 222 2222 2222 22222 222 2222222222 2222 22 222222 2222222 2222222 2222222 222222 2222 2222222 22222 22222222 222222 222222 2222",
-        //   tags: ['Art', 'Tech', 'Creative Writing',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        //   is_authenticated: true,
-        //   nickname: 'Ellie Goulding',
-        //   like_num: 222,
-        //   comment_num: 22,
-        // },
-        //   {
-        //   title: 'Title',
-        //   text: "Turns out semicolon-less style is easier and safer in .333 3333333 3333 3333333 33 33",
-        //   tags: ['Art', 'Creative Writing',] ,
-        //   avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
-        //   is_authenticated: false,
-        //   nickname: 'Evan You',
-        //   like_num: 333,
-        //   comment_num: 33,
-        // },
       ],
     search:'',
     isTag : false,
@@ -313,7 +279,6 @@
             }
           })
         }
-
       },
     }
 
