@@ -6,6 +6,7 @@
     <v-container> 
 
       <v-row dense justify="center">
+        <!-- 搜索框 -->
         <v-col
         cols="10"
         >
@@ -18,6 +19,7 @@
           ></v-text-field>
         </v-col>
 
+        <!-- 排序按钮 -->
         <v-col
         cols="1"
         align-end>
@@ -46,6 +48,7 @@
       </v-row>
 
       <v-row>
+        <!-- 显示所有event -->
         <v-col
           v-for="event in filteredEvents"
           :key="event"
@@ -53,17 +56,20 @@
           sm="12"
           md="6"
         >
+          <!-- 显示单个card -->
           <v-card
             flat
             outlined
           >
 
+            <!-- 显示banner -->
             <v-img
               :src="event.banner"
               height="200px"
             >
             </v-img>
 
+            <!-- 显示event信息简介 -->
             <v-card-title>
               <v-btn
               text
@@ -74,9 +80,7 @@
             </v-card-title>
 
             <v-card-subtitle>
-              <!-- 存在显示不全的问题 -->
-              <v-chip-group
-              >
+              <v-chip-group>
                 <v-chip
                   class="font-weight-light"
                   outlined
@@ -88,13 +92,13 @@
                 <v-icon left>
                   mdi-label
                 </v-icon>
-                  {{ tag | to-uppercase}}
+                  {{ tag | to-uppercase }}
                 </v-chip>
               </v-chip-group>
             </v-card-subtitle>
 
             <v-card-actions>
-              <!-- TODO: 和join in一致-->
+              <!-- 详情跳转按钮 -->
               <v-btn
                 color="orange lighten-2"
                 text
@@ -123,6 +127,7 @@
               </v-btn>
             </v-card-actions>
 
+            <!-- 显示报名人数，活动发起方头像 -->
             <v-expand-transition>
               <div v-show="event.show">
                 <v-divider></v-divider>
@@ -153,7 +158,6 @@
                     align="center"
                     justify="end"
                   >
-                    <!-- 外观考虑修改 -->
                     <v-icon class="mr-1">
                       mdi-account-group
                     </v-icon>
@@ -162,21 +166,6 @@
                     <span class="subheading mr-2">{{event.upper_num}}</span>
                   </v-row>
                 </v-list-item>
-
-                <!-- <v-card-text>
-                <v-chip-group
-                  v-model="event.selection"
-                  active-class="primary--text text--accent-4"
-                  mandatory
-                >
-                <v-chip
-                  v-for="time in event.available_time"
-                  :key="time"
-                >
-                  {{ event.start_time }}
-                </v-chip>
-                </v-chip-group>
-                </v-card-text> -->
               </div>
             </v-expand-transition>
 
@@ -197,84 +186,6 @@
 
     data: () => ({
       events: [
-        // {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        //   title: 'Supermodel',
-        //   tags: ['Work', 'Home Improvement',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   is_authenticated: false,
-        //   nickname: 'Foster the People',
-        //   upper_num: 111,
-        //   attend_num: 11,
-        //   available_time:['5:30PM','7:30PM','8:00PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
-        // {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   title: 'Halcyon Days',
-        //   tags: ['Art', 'Tech', 'Creative Writing',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        //   is_authenticated: true,
-        //   nickname: 'Ellie Goulding',
-        //   upper_num: 222,
-        //   attend_num: 22,
-        //   available_time:['5:30PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
-        //   {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   title: 'Title',
-        //   tags: ['Art', 'Creative Writing',] ,
-        //   avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
-        //   is_authenticated: false,
-        //   nickname: 'Evan You',
-        //   upper_num: 333,
-        //   attend_num: 33,
-        //   available_time:['8:00PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
-        // {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        //   title: 'Supermodel',
-        //   tags: ['Work', 'Home Improvement',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   is_authenticated: false,
-        //   nickname: 'Foster the People',
-        //   upper_num: 111,
-        //   attend_num: 11,
-        //   available_time:['5:30PM','7:30PM','8:00PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
-        // {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   title: 'Halcyon Days',
-        //   tags: ['Art', 'Tech', 'Creative Writing',] ,
-        //   avatar: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        //   is_authenticated: true,
-        //   nickname: 'Ellie Goulding',
-        //   upper_num: 222,
-        //   attend_num: 22,
-        //   available_time:['5:30PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
-        //   {
-        //   banner:'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        //   title: 'Title',
-        //   tags: ['Art', 'Creative Writing',] ,
-        //   avatar: 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light',
-        //   is_authenticated: false,
-        //   nickname: 'Evan You',
-        //   upper_num: 333,
-        //   attend_num: 33,
-        //   available_time:['8:00PM','9:00PM'],
-        //   selection: 0,
-        //   show: false,
-        // },
       ],
 
       search:'',
@@ -435,16 +346,6 @@
           })
         }
       },
-      // register: function(user_id, activity_id){
-      //   this.sort.link = 'http://127.0.0.1:8000/api/activity/participant/add'
-      //   this.$axios.post(this.sort.link, {
-      //     activity_id: activity_id,
-      //     user_id: user_id,
-      //   }).then(response => {
-      //     console.log(response.data)
-      
-      //   })
-      // },
     },
   }
 </script>
