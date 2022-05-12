@@ -1,98 +1,96 @@
-//upload组件里的代码
 <template>
   <div class="avatar">
     <v-container>
-        <v-card
+      <!-- 这个组件同时创建了两个更改头像的卡片，但是根据屏幕尺寸选择一个隐藏 -->
+      <v-card
         flat
         outlined
         class="hidden-sm-and-down"
         tile
-        >
+      >
 
-          <v-list-item-content class="justify-center">
+        <v-list-item-content class="justify-center">
 
-            <v-avatar
-              size="200"
+          <v-avatar
+            size="200"
+          >
+            <img :src="avatar">
+          </v-avatar>          
+
+          <div class="text-center mt-4">
+
+            <v-btn
+              style="width:150px; height:25px;" 
+              color="primary"
+              tile
             >
-              <img :src="avatar">
-            </v-avatar>          
 
-            <div class="text-center mt-4">
+              <v-icon small>mdi-pencil</v-icon>
+              <span>avatar</span>
 
-              <v-btn
-                style="width:150px; height:25px;" 
-                color="primary"
-                tile
+              <!-- 上传图片的组件 -->
+              <input
+                type="file" 
+                class="input-file" 
+                style="width:200px; height:20px;" 
+
+                ref="avatarInput" 
+                @change="changeImage($event)" 
+                accept="image/gif,image/jpeg,image/jpg,image/png"
               >
-                <v-icon small>mdi-pencil</v-icon>
-                <span>avatar</span>
 
-                <input
-                  type="file" 
-                  class="input-file" 
-                  style="width:200px; height:20px;" 
+            </v-btn>
 
-                  ref="avatarInput" 
-                  @change="changeImage($event)" 
-                  accept="image/gif,image/jpeg,image/jpg,image/png"
-                >
+          </div>
 
-              </v-btn>
-
-            </div>
-
-          </v-list-item-content>
-        </v-card>
+        </v-list-item-content>
+      </v-card>
                 
-                
-        <v-card
+
+      <v-card
         flat
         outlined
         class="hidden-md-and-up"
         tile
-        >
+      >
 
-          <v-list-item-content class="justify-center">
+        <v-list-item-content class="justify-center">
 
-            <v-avatar
-              size="150"
+          <v-avatar
+            size="150"
+          >
+            <img :src="avatar">
+          </v-avatar>          
+
+          <div class="text-center mt-4">
+
+            <v-btn
+              style="width:120px; height:25px;" 
+              color="primary"
+              depressed
+              tile
             >
-              <img :src="avatar">
-            </v-avatar>          
 
-            <div class="text-center mt-4">
+              <v-icon small>mdi-pencil</v-icon>
+              <span>Edit avatar</span>
 
-              <v-btn
-                style="width:120px; height:25px;" 
-                color="primary"
-                depressed
-                tile
+              <!-- 上传图片的组件 -->
+              <input
+                type="file" 
+                class="input-file" 
+                style="width:200px; height:20px;" 
+
+                ref="avatarInput" 
+                @change="changeImage($event)" 
+                accept="image/jpg,image/png"
               >
 
-                <v-icon small>mdi-pencil</v-icon>
-                <span>Edit avatar</span>
-
-                <input
-                  type="file" 
-                  class="input-file" 
-                  style="width:200px; height:20px;" 
-
-                  ref="avatarInput" 
-                  @change="changeImage($event)" 
-                  accept="image/jpg,image/png"
-                >
-
-              </v-btn>
-
-            </div>
-
-          </v-list-item-content>
-        </v-card>
-
+            </v-btn>
+          </div>
+        </v-list-item-content>
+      </v-card>
     </v-container>
   </div>  
-
-
 
 </template>
 
