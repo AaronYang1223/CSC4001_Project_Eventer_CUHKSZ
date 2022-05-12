@@ -1,0 +1,297 @@
+###
+GET  http://127.0.0.1:8000/api/activity/order/create_date/all
+
+###
+GET http://127.0.0.1:8000/api/activity/order/comment_number/all
+
+
+###
+GET http://127.0.0.1:8000/api/activity/user/order/comment_number/1
+
+###
+GET http://127.0.0.1:8000/api/activity/user/order/create_date/1
+
+###
+GET http://127.0.0.1:8000/api/activity/61/comment
+
+###
+GET http://127.0.0.1:8000/api/activity/1/comment
+
+
+###
+POST http://127.0.0.1:8000/api/activity/update_image/61 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="cover_page"; filename="2.png"
+Content-Type: multipart/form-data
+
+< /home/ylin/Pictures/2.png
+--MultipartBoundry
+--MultipartBoundry
+
+###
+POST http://127.0.0.1:8000/api/activity/update_image/61 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="cover_page"; filename="2.png"
+Content-Type: multipart/form-data
+
+###
+POST http://127.0.0.1:8000/api/activity/update_image/1 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="cover_page"; filename="2.png"
+Content-Type: multipart/form-data
+
+< /home/ylin/Pictures/2.png
+--MultipartBoundry
+--MultipartBoundry
+
+
+###
+POST http://127.0.0.1:8000/api/activity/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "tag": "test 123 123123 123213",
+    "organizer_id": 7,
+    "title": "test",
+    "content": "test",
+    "start_time": "2022-05-30T14:44:27",
+    "end_time": "2022-05-30T16:44:27",
+    "max_participant_num": 100,
+    "is_public": true,
+    "is_private": false
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "tag": "test 123 123123 123213",
+    "organizer_id": "7.5",
+    "title": "test",
+    "content": "test",
+    "start_time": "2022-05-30T14:44:27",
+    "end_time": "2022-05-30T16:44:27",
+    "max_participant_num": 100,
+    "is_public": true,
+    "is_private": false
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "tag": "test 123 123123 123213",
+    "content": "test",
+    "start_time": "2022-05-30T14:44:27",
+    "end_time": "2022-05-30T16:44:27",
+    "max_participant_num": 100,
+    "is_public": true,
+    "is_private": false
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "activity_id": 61,
+    "content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": "7.5",
+    "activity_id": 61,
+    "content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "activity_id": 61,
+    "content": "test"
+}
+
+
+###
+POST http://127.0.0.1:8000/api/activity/participant/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "activity_id": 63
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/participant/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "activity_id": 61
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/participant/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "activity_id": 65
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/score/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "activity_id": 65,
+    "score": 8
+}
+
+###
+POST http://127.0.0.1:8000/api/activity/score/add HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 8,
+    "score": 8
+}
+
+###
+GET  http://127.0.0.1:8000/api/post/order/create_date/all
+
+###
+GET http://127.0.0.1:8000/api/post/order/comment_number/all
+
+
+###
+GET http://127.0.0.1:8000/api/post/user/order/comment_number/1
+
+###
+GET http://127.0.0.1:8000/api/post/user/order/create_date/1
+
+###
+GET http://127.0.0.1:8000/api/post/5
+
+###
+GET http://127.0.0.1:8000/api/post/1
+
+###
+POST http://127.0.0.1:8000/api/post/create/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "post_tag": "test 123 123123 123213",
+    "user_id": 7,
+    "post_title": "test",
+    "post_content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/post/create/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "post_tag": "test 123 123123 123213",
+    "user_id": "7.5",
+    "post_title": "test",
+    "post_content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/post/create/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "post_tag": "test 123 123123 123213",
+    "post_title": "test",
+    "post_content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/post/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": 7,
+    "post_id": 10,
+    "content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/post/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "user_id": "7.5",
+    "post_id": 10,
+    "content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/post/comment/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "activity_id": 61,
+    "content": "test"
+}
+
+###
+POST http://127.0.0.1:8000/api/profile/upload/7 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="picture"; filename="2.png"
+Content-Type: multipart/form-data
+
+< /home/ylin/Pictures/2.png
+--MultipartBoundry
+--MultipartBoundry
+
+###
+POST http://127.0.0.1:8000/api/profile/upload/7 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="picture"; filename="2.png"
+Content-Type: multipart/form-data
+
+
+
+###
+POST http://127.0.0.1:8000/api/profile/upload/1 HTTP/1.1
+Content-Type: multipart/form-data; boundary=MultipartBoundry
+
+--MultipartBoundry
+Content-Disposition: form-data; name="picture"; filename="2.png"
+Content-Type: multipart/form-data
+
+< /home/ylin/Pictures/2.png
+--MultipartBoundry
+--MultipartBoundry
+
+###
+GET http://127.0.0.1:8000/api/public_calendar/all
+
+###
+GET http://127.0.0.1:8000/api/private_calendar/all/1
+
+###
+GET http://127.0.0.1:8000/api/private_calendar/all/5
