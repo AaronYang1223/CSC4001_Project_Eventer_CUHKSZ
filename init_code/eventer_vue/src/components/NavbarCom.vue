@@ -34,6 +34,7 @@
 
               <v-divider class="my-3"></v-divider>
 
+              <!-- HomePage -->
               <v-btn
                 text
                 color="grey darken-1"
@@ -45,6 +46,7 @@
 
               <v-divider class="my-3"></v-divider>
 
+              <!-- Personal center -->
               <v-btn
                 text
                 color="grey darken-1"
@@ -56,6 +58,7 @@
 
               <v-divider class="my-3"></v-divider>
 
+              <!-- New Post -->
               <v-btn
                 text
                 color="grey darken-1"
@@ -67,6 +70,7 @@
 
               <v-divider class="my-3"></v-divider>
 
+              <!-- New event -->
               <v-btn
                 text
                 color="grey darken-1"
@@ -78,6 +82,7 @@
 
               <v-divider class="my-3"></v-divider>
 
+              <!-- Logout -->
               <v-btn
                 text
                 color="grey darken-1"
