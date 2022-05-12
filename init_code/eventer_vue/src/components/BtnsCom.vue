@@ -1,3 +1,4 @@
+// buttons bar
 <template>
   <v-container>
     <v-card
@@ -11,12 +12,14 @@
         align="center"
         justify="space-around"
       >
+        <!-- Jump to new post page: use several card to better display the buttons-->
         <v-card
           flat
           tile
           max-height="80px"
           min-width="40px"
         >
+          
           <v-list-item-content class="justify-center">
 
             <v-btn
@@ -37,6 +40,8 @@
 
           </v-list-item-content>
         </v-card>
+
+        <!-- Jump to new event page -->
         <v-card
           flat
           tile
@@ -63,6 +68,8 @@
 
           </v-list-item-content>
         </v-card>
+
+        <!-- Jump to change passward page -->
         <v-card
           flat
           tile
