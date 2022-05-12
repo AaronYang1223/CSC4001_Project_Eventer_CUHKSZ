@@ -84,11 +84,11 @@ def profile_retrieve(request):
         if(email_code.values()[0]['code']==code):
             User.objects.filter(email = email).update(password = newpassword)
             return JsonResponse({
-                'code' : '004',
+                'code' : '004', #update success
                 'message':'password updated'
             })
         return JsonResponse({
-            'code' : '104',
+            'code' : '104', #update failed
             'message':'update password failed'
         })
 
@@ -123,11 +123,11 @@ def profile_add(request):
                 User.objects.filter(email=email).update(password=password)
                 User.objects.filter(email=email).update(is_organization=False)
                 return JsonResponse({
-                    'code' : '002',
+                    'code' : '002', #registry success
                     'message':'create userprofile success'
                     })
         return JsonResponse({
-            'code' : '102',
+            'code' : '102', # registry failed
             'message':'create userprofile failed'
         })
 
